@@ -1,0 +1,104 @@
+/*
+| Lapisan tema di atas Bootstrap.
+| Bootstrap dimuat lebih dulu, file ini hanya menimpa seperlunya.
+*/
+
+:root {
+    --brand: #c2410c;
+    --brand-dark: #9a3412;
+    --brand-subtle: #fff7ed;
+}
+
+body {
+    font-size: 15.5px;
+}
+
+/* Logo kotak di navbar */
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--brand);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* Tombol warna khas Batara */
+.btn-brand {
+    background-color: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+}
+
+.btn-brand:hover,
+.btn-brand:focus,
+.btn-brand:active {
+    background-color: var(--brand-dark);
+    border-color: var(--brand-dark);
+    color: #fff;
+}
+
+.btn-outline-brand {
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.btn-outline-brand:hover {
+    background-color: var(--brand);
+    color: #fff;
+}
+
+.text-brand   { color: var(--brand) !important; }
+.bg-brand-subtle { background-color: var(--brand-subtle) !important; }
+
+.badge-brand {
+    background-color: var(--brand-subtle);
+    color: var(--brand-dark);
+    font-weight: 600;
+}
+
+/* Blok kode */
+pre.code {
+    margin: 0;
+    padding: 16px;
+    border-radius: 10px;
+    background: #0f172a;
+    color: #e2e8f0;
+    font: 12.5px/1.7 ui-monospace, Consolas, "Courier New", monospace;
+    overflow-x: auto;
+}
+
+pre.code .cmt { color: #64748b; }
+
+code.inline {
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: #eef0f2;
+    color: #0f172a;
+    font-size: 0.875em;
+}
+
+/* Nomor langkah */
+.step-number {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--brand-subtle);
+    color: var(--brand-dark);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Halaman error */
+.error-code {
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--brand);
+}
