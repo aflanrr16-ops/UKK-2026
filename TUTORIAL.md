@@ -259,6 +259,41 @@ class Buku extends Model
 > **Kenapa perlu `$fillable`?** Supaya pengunjung nakal tidak bisa mengisi kolom
 > yang tidak Anda izinkan lewat form. Kolom di luar daftar ini akan diabaikan.
 
+### Jalan pintas: model + migrasi sekaligus
+
+Tambahkan `-m` supaya berkas migrasinya ikut dibuatkan, jadi langkah 4 dan 5 di
+atas cukup satu perintah:
+
+```bash
+php batara make:model Buku -m
+```
+
+```
+  ✔ Model dibuat: app/Models/Buku.php
+    Tabel yang diasumsikan: bukus
+
+  ✔ Migrasi dibuat: database/migrations/2026_08_19_101500_create_bukus_table.sql
+    Sintaks mysql, tabel: bukus
+
+    Berikutnya: sesuaikan kolom di berkas itu, lalu jalankan
+    php batara migrate
+```
+
+Nama tabel ditebak dari nama model dalam bentuk jamak sederhana:
+`User` → `users`, `Kategori` → `kategoris`, `Buku` → `bukus`.
+
+Tebakannya memakai aturan bahasa Inggris, jadi untuk kata Indonesia hasilnya
+kadang terasa janggal seperti `bukus` di atas. Tidak masalah — Anda bebas
+menggantinya, asalkan **dua tempat ini isinya sama**:
+
+1. nama tabel di dalam berkas migrasi, dan
+2. `protected static ?string $table` di dalam model.
+
+Untuk tutorial ini kita pakai `buku`, jadi ubah keduanya menjadi `buku`.
+
+Urutannya tetap sama: sesuaikan kolom di berkas migrasi, lalu
+`php batara migrate`.
+
 ### Mencoba model
 
 Sekarang model sudah bisa dipakai. Perintah-perintah yang tersedia:
@@ -811,6 +846,7 @@ php batara migrate:fresh            # hapus semua tabel
 php batara route:list               # lihat semua route
 php batara make:migration nama      # buat file migrasi
 php batara make:model Nama          # buat model
+php batara make:model Nama -m       # buat model + migrasinya sekaligus
 php batara make:controller Nama     # buat controller
 php batara make:view nama.view      # buat view
 php batara view:clear               # bersihkan cache view
@@ -820,7 +856,7 @@ php batara view:clear               # bersihkan cache view
 
 ```
 1. Tabel   →  make:migration  →  edit file .sql  →  migrate
-2. Model   →  make:model      →  isi $table dan $fillable
+2. Model   →  make:model -m   →  model + migrasi sekaligus
 3. Route   →  edit routes/web.php
 4. Control →  make:controller →  ambil data, kirim ke view
 5. View    →  make:view       →  tampilkan datanya

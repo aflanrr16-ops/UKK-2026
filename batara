@@ -70,9 +70,81 @@ function bootConfig(Application $app): void
     $booted = true;
 }
 
+/**
+ * Pisahkan opsi (-m, --migration) dari argumen biasa.
+ * Opsi gabungan seperti -mc ikut dipecah menjadi "m" dan "c".
+ *
+ * @return array{0: string[], 1: string[]} [argumen, opsi]
+ */
+function pisahOpsi(array $arguments): array
+{
+    $argumen = [];
+    $opsi    = [];
+
+    foreach ($arguments as $arg) {
+        if (str_starts_with($arg, '--')) {
+            $opsi[] = substr($arg, 2);
+        } elseif (str_starts_with($arg, '-') && strlen($arg) > 1) {
+            $opsi = array_merge($opsi, str_split(substr($arg, 1)));
+        } else {
+            $argumen[] = $arg;
+        }
+    }
+
+    return [$argumen, $opsi];
+}
+
+function adaOpsi(array $opsi, string ...$nama): bool
+{
+    return array_intersect($opsi, $nama) !== [];
+}
+
+/** Isi berkas migrasi, menyesuaikan sintaks driver yang dipakai. */
+function stubMigrasi(string $namaMigrasi, string $tabel): string
+{
+    if (config('database.default') === 'mysql') {
+        return "-- {$namaMigrasi}\n\n"
+            . "CREATE TABLE IF NOT EXISTS `{$tabel}` (\n"
+            . "    id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n"
+            . "    nama       VARCHAR(255) NOT NULL,\n"
+            . "    created_at DATETIME NULL,\n"
+            . "    updated_at DATETIME NULL\n"
+            . ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\n";
+    }
+
+    return "-- {$namaMigrasi}\n\n"
+        . "CREATE TABLE IF NOT EXISTS \"{$tabel}\" (\n"
+        . "    id         INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+        . "    nama       TEXT NOT NULL,\n"
+        . "    created_at TEXT,\n"
+        . "    updated_at TEXT\n"
+        . ");\n";
+}
+
+/**
+ * Tulis berkas migrasi baru, mengembalikan nama berkasnya.
+ * Stempel waktu dinaikkan bila detik yang sama sudah terpakai.
+ */
+function buatBerkasMigrasi(string $namaMigrasi, string $tabel): string
+{
+    $waktu = time();
+
+    do {
+        $file = date('Y_m_d_His', $waktu) . '_' . str_snake($namaMigrasi) . '.sql';
+        $path = BASE_PATH . '/database/migrations/' . $file;
+        $waktu++;
+    } while (is_file($path));
+
+    file_put_contents($path, stubMigrasi($namaMigrasi, $tabel));
+
+    return $file;
+}
+
 /* ------------------------------------------------------------------ */
 /* Perintah                                                            */
 /* ------------------------------------------------------------------ */
+
+[$arguments, $opsi] = pisahOpsi($arguments);
 
 switch ($command) {
 
@@ -128,12 +200,25 @@ switch ($command) {
 
             $sql = (string) file_get_contents($file);
 
-            foreach (array_filter(array_map('trim', explode(';', $sql))) as $statement) {
-                if (str_starts_with($statement, '--') && ! str_contains($statement, "\n")) {
+            foreach (explode(';', $sql) as $statement) {
+                // Buang baris komentar, lalu lewati bila tidak ada perintah tersisa.
+                $statement = trim((string) preg_replace('/^\s*--.*$/m', '', $statement));
+
+                if ($statement === '') {
                     continue;
                 }
 
-                Connection::statement($statement);
+                try {
+                    Connection::statement($statement);
+                } catch (Throwable $e) {
+                    out();
+                    fail('✘ Gagal menjalankan ' . $name);
+                    fail('  ' . $e->getMessage());
+                    out();
+                    out('  Perbaiki SQL di berkas tersebut, lalu jalankan migrate lagi.', 'gray');
+                    out();
+                    exit(1);
+                }
             }
 
             Connection::statement(
@@ -312,10 +397,13 @@ switch ($command) {
 
     /* -------------------------------------------------------------- */
     case 'make:model':
+        bootConfig($app);
+
         $name = str_studly($arguments[0] ?? '');
 
         if ($name === '') {
             fail('Nama model wajib diisi. Contoh: php batara make:model User');
+            out('    Tambahkan -m untuk sekalian membuat berkas migrasi.', 'gray');
             break;
         }
 
@@ -345,6 +433,19 @@ switch ($command) {
 
         ok('✔ Model dibuat: app/Models/' . $name . '.php');
         out('    Tabel yang diasumsikan: ' . $table, 'gray');
+
+        // -m / --migration : sekalian buatkan berkas migrasinya.
+        if (adaOpsi($opsi, 'm', 'migration')) {
+            $migrasi = buatBerkasMigrasi('create_' . $table . '_table', $table);
+
+            out();
+            ok('✔ Migrasi dibuat: database/migrations/' . $migrasi);
+            out('    Sintaks ' . config('database.default') . ', tabel: ' . $table, 'gray');
+            out();
+            out('    Berikutnya: sesuaikan kolom di berkas itu, lalu jalankan', 'gray');
+            out('    php batara migrate', 'cyan');
+        }
+
         break;
 
     /* -------------------------------------------------------------- */
@@ -383,30 +484,10 @@ switch ($command) {
 
         bootConfig($app);
 
-        $file = date('Y_m_d_His') . '_' . str_snake($name) . '.sql';
-        $path = BASE_PATH . '/database/migrations/' . $file;
-
         // Tebak nama tabel dari "create_buku_table" -> "buku".
         $tabel = preg_replace('/^create_|_table$/', '', str_snake($name)) ?: 'nama_tabel';
 
-        // Stub disesuaikan dengan driver yang dipakai di .env.
-        $stub = config('database.default') === 'mysql'
-            ? "-- {$name}\n\n"
-              . "CREATE TABLE IF NOT EXISTS `{$tabel}` (\n"
-              . "    id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n"
-              . "    nama       VARCHAR(255) NOT NULL,\n"
-              . "    created_at DATETIME NULL,\n"
-              . "    updated_at DATETIME NULL\n"
-              . ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\n"
-            : "-- {$name}\n\n"
-              . "CREATE TABLE IF NOT EXISTS \"{$tabel}\" (\n"
-              . "    id         INTEGER PRIMARY KEY AUTOINCREMENT,\n"
-              . "    nama       TEXT NOT NULL,\n"
-              . "    created_at TEXT,\n"
-              . "    updated_at TEXT\n"
-              . ");\n";
-
-        file_put_contents($path, $stub);
+        $file = buatBerkasMigrasi($name, $tabel);
 
         ok('✔ Migrasi dibuat: database/migrations/' . $file);
         out('    Tabel: ' . $tabel . ' (sintaks ' . config('database.default') . ')', 'gray');
@@ -440,7 +521,7 @@ switch ($command) {
             'db:check'               => 'Uji koneksi database sesuai file .env',
             'route:list'             => 'Tampilkan seluruh route terdaftar',
             'make:controller Nama'   => 'Buat controller baru',
-            'make:model Nama'        => 'Buat model baru',
+            'make:model Nama [-m]'   => 'Buat model baru (-m sekalian buat migrasinya)',
             'make:view nama.view'    => 'Buat file view baru',
             'make:migration nama'    => 'Buat file migrasi baru',
             'view:clear'             => 'Bersihkan cache view',

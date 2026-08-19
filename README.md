@@ -520,6 +520,7 @@ php batara db:check              # uji koneksi database sesuai .env
 php batara route:list            # daftar seluruh route
 php batara make:controller Nama  # buat controller
 php batara make:model Nama       # buat model
+php batara make:model Nama -m    # buat model + berkas migrasinya sekaligus
 php batara make:view nama.view   # buat view
 php batara make:migration nama   # buat file migrasi
 php batara view:clear            # bersihkan cache view
