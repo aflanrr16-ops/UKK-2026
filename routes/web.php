@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\UserController;
 use Batara\Route;
 
 /*
@@ -28,7 +29,7 @@ Route::get('/', function () {
 | Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
 |
 | // Tujuh route CRUD sekaligus: index, create, store, show, edit, update, destroy
-| Route::resource('buku', BukuController::class);
+| // Route::resource
 |
 | // Group dengan prefix dan middleware bersama
 | Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
