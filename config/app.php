@@ -31,7 +31,10 @@ return [
     ],
 
     'middleware' => [
-        // 'auth' => App\Middleware\Authenticate::class,
+        'auth'  => App\Middleware\Authenticate::class,
+        'guest' => App\Middleware\RedirectIfAuthenticated::class,
+        'admin' => App\Middleware\AdminOnly::class,
+        'staff' => App\Middleware\StaffOnly::class,
     ],
 
 ];

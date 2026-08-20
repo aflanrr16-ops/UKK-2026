@@ -1,5 +1,8 @@
 <?php
 
+use App\Controllers\AuthController;
+use App\Controllers\DashboardController;
+use App\Controllers\DocsController;
 use App\Controllers\UserController;
 use Batara\Route;
 
@@ -18,6 +21,29 @@ use Batara\Route;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/docs', [DocsController::class, 'index'])->name('docs');
+
+/*
+|--------------------------------------------------------------------------
+| Login multi-role
+|--------------------------------------------------------------------------
+| Lihat /docs untuk penjelasan lengkap langkah demi langkah.
+*/
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login.attempt')->middleware('guest');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+    Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
+});
+
+Route::group(['prefix' => 'staff', 'middleware' => 'staff'], function () {
+    Route::get('/', [DashboardController::class, 'staff'])->name('staff.dashboard');
+});
 
 /*
 |--------------------------------------------------------------------------

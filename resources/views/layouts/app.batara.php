@@ -30,6 +30,27 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">Beranda</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('docs') }}">Docs</a>
+                </li>
+                @php
+                    $currentUser = \App\Models\User::current();
+                @endphp
+                @if ($currentUser)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ $currentUser->role === 'admin' ? route('admin.dashboard') : ($currentUser->role === 'staff' ? route('staff.dashboard') : route('dashboard')) }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}" class="d-lg-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline-secondary w-100 mt-2 mt-lg-0">Logout ({{ $currentUser->username }})</button>
+                        </form>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="btn btn-sm btn-outline-brand mt-2 mt-lg-0" href="{{ route('login') }}">Masuk</a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>
