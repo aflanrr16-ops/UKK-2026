@@ -4,11 +4,6 @@ namespace App\Controllers;
 
 use Batara\Controller;
 
-/**
- * Halaman /docs: tutorial login multi-role, ditulis sebagai data (bukan
- * ditulis langsung di view) supaya contoh kode di dalamnya tidak perlu
- * di-escape manual dari compiler @directive milik View.
- */
 class DocsController extends Controller
 {
     public function index()
@@ -19,284 +14,483 @@ class DocsController extends Controller
     protected function sections(): array
     {
         return [
+            // ===== INTRO =====
             [
-                'id'    => 'ringkasan',
-                'title' => 'Ringkasan',
+                'id'    => '0-intro',
+                'title' => '📚 Dokumentasi Batara',
                 'parts' => [
-                    ['p' => 'Batara tidak punya sistem auth bawaan, tapi semua bahan dasarnya sudah ada: Session untuk menyimpan siapa yang login, Middleware untuk menjaga route, dan Route::group() untuk mengelompokkan halaman per role. Tutorial ini merakit ketiganya menjadi login dengan 3 role: admin, staff, dan user biasa.'],
-                    ['p' => 'Alurnya singkat: tabel users punya kolom role. Saat login berhasil, id user disimpan di session. Middleware membaca user yang sedang login lewat session itu, lalu memutuskan boleh atau tidak masuk ke suatu halaman berdasarkan role-nya.'],
-                    ['note' => 'Fitur ini sudah aktif di project ini. Coba langsung login di /login dengan salah satu akun demo: admin, staff, atau budi — passwordnya sama, rahasia123.'],
+                    ['p' => 'Kerangka PHP ringan bergaya Laravel tanpa Composer. Fitur: Route, Model, View, Controller, Validation, Session, Middleware, CSRF protection, Query Builder dengan eager loading, dan Bootstrap 5.3.8 built-in.'],
+                    ['p' => '<strong>Coba akun demo:</strong> admin / rahasia123 (atau staff, atau budi)'],
                 ],
             ],
+
+            // ===== CLI =====
             [
-                'id'    => 'skema-database',
-                'title' => '1. Skema database',
+                'id'    => '1-cli',
+                'title' => '🖥️ CLI — Perintah batara',
                 'parts' => [
-                    ['p' => 'Tabel users butuh kolom role di samping username dan password. Buat modelnya sekalian dengan migrasinya:'],
-                    ['code' => 'php batara make:model User -m', 'lang' => 'bash'],
-                    ['p' => 'Lalu isi berkas migrasi yang dihasilkan (database/migrations/..._create_users_table.sql):'],
-                    ['code' => <<<'SQL'
-                        CREATE TABLE IF NOT EXISTS `users` (
-                            id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                            username   VARCHAR(255) NOT NULL,
-                            password   VARCHAR(255) NOT NULL,
-                            role       VARCHAR(50)  NOT NULL DEFAULT 'user',
-                            created_at DATETIME NULL,
-                            updated_at DATETIME NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                        SQL, 'lang' => 'sql'],
-                    ['p' => 'Kolom role diisi bebas sesuai kebutuhan aplikasi — di sini dipakai tiga nilai: admin, staff, user. Jalankan migrasinya:'],
-                    ['code' => 'php batara migrate', 'lang' => 'bash'],
+                    ['p' => 'Jalankan semua perintah dari folder project:'],
+                    ['code' => "php batara serve                    # Jalankan server (127.0.0.1:8000)\nphp batara migrate                  # Jalankan migrasi\nphp batara migrate:fresh            # Hapus semua tabel\nphp batara db:check                 # Uji koneksi database\nphp batara route:list               # Lihat semua route\nphp batara make:model Nama          # Buat model\nphp batara make:model Nama -m       # Buat model + migrasi\nphp batara make:controller Nama     # Buat controller\nphp batara make:view nama.view      # Buat view\nphp batara make:migration nama      # Buat migrasi\nphp batara view:clear               # Bersihkan cache view", 'lang' => 'bash'],
                 ],
             ],
+
+            // ===== ROUTING =====
             [
-                'id'    => 'model',
-                'title' => '2. Model User',
+                'id'    => '2-routing',
+                'title' => '🛣️ Routing',
                 'parts' => [
-                    ['p' => 'Tambahkan dua helper kecil di model: hasRole() untuk mengecek role, dan current() untuk mengambil (lalu meng-cache) user yang sedang login dari session.'],
+                    ['p' => 'Daftarkan route di routes/web.php:'],
+                    ['code' => <<<'PHP'
+                        use App\Controllers\PostController;
+                        use Batara\Route;
+
+                        // Route dasar
+                        Route::get('/', function () { return view('welcome'); })->name('home');
+                        Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+                        Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+                        // Parameter
+                        Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+                        Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
+
+                        // 7 route CRUD sekaligus
+                        Route::resource('posts', PostController::class);
+
+                        // Group dengan middleware
+                        Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+                            Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+                        });
+                        PHP, 'lang' => 'php'],
+                    ['p' => 'Route dapat diakses lewat nama:'],
+                    ['code' => "route('home')                  # /\nroute('posts.index')            # /posts\nroute('posts.show', ['id' => 1]) # /posts/1\nroute('admin.dashboard')        # /admin/", 'lang' => 'php'],
+                ],
+            ],
+
+            // ===== MODEL =====
+            [
+                'id'    => '3-model',
+                'title' => '📊 Model & Query Builder',
+                'parts' => [
+                    ['p' => 'Model mewakili satu tabel di database. Buat dengan:'],
+                    ['code' => 'php batara make:model Post -m', 'lang' => 'bash'],
                     ['code' => <<<'PHP'
                         <?php
-
                         namespace App\Models;
-
                         use Batara\Database\Model;
+
+                        class Post extends Model
+                        {
+                            protected static ?string $table = 'posts';  // opsional, ditebak dari nama
+                            protected array $fillable = ['title', 'body', 'status'];
+                            protected array $hidden = [];               // tidak tampil saat JSON
+                        }
+                        PHP, 'lang' => 'php'],
+                    ['p' => '<strong>Query dasar:</strong>'],
+                    ['code' => <<<'PHP'
+                        Post::all();                           // Semua post
+                        Post::find(1);                         // Post id=1
+                        Post::findOrFail(1);                   // Atau 404
+                        Post::where('status', 'published')->get();
+                        Post::where('status', 'published')->first();
+                        Post::latest()->limit(5)->get();
+                        Post::count();
+
+                        // Join
+                        Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
+                            ->select('posts.title', 'users.nama')
+                            ->get();
+
+                        // Eager loading (cegah N+1)
+                        Post::with('user', 'comments')->get();
+
+                        // Paging
+                        Post::paginate(15);  // 15 per halaman
+                        PHP, 'lang' => 'php'],
+                    ['p' => '<strong>CRUD:</strong>'],
+                    ['code' => <<<'PHP'
+                        // Create
+                        Post::create(['title' => 'Hello', 'body' => '...', 'status' => 'published']);
+
+                        // Update
+                        $post = Post::find(1);
+                        $post->update(['title' => 'New title']);
+
+                        // Delete
+                        $post->delete();
+                        PHP, 'lang' => 'php'],
+                ],
+            ],
+
+            // ===== CONTROLLER =====
+            [
+                'id'    => '4-controller',
+                'title' => '⚙️ Controller',
+                'parts' => [
+                    ['p' => 'Buat dengan: php batara make:controller PostController'],
+                    ['code' => <<<'PHP'
+                        <?php
+                        namespace App\Controllers;
+
+                        use App\Models\Post;
+                        use Batara\Controller;
+                        use Batara\Http\Request;
+
+                        class PostController extends Controller
+                        {
+                            // GET /posts
+                            public function index()
+                            {
+                                $posts = Post::latest()->paginate(10);
+                                return view('posts.index', ['posts' => $posts]);
+                            }
+
+                            // GET /posts/create
+                            public function create()
+                            {
+                                return view('posts.create');
+                            }
+
+                            // POST /posts
+                            public function store(Request $request)
+                            {
+                                $data = $request->validate([
+                                    'title' => 'required|min:3|max:100',
+                                    'body'  => 'required|min:10',
+                                ]);
+
+                                Post::create($data);
+
+                                return redirect(route('posts.index'))
+                                    ->with('success', 'Post berhasil dibuat.');
+                            }
+
+                            // GET /posts/{id} — Route model binding
+                            public function show(Post $post)
+                            {
+                                return view('posts.show', ['post' => $post]);
+                            }
+
+                            // GET /posts/{id}/edit
+                            public function edit(Post $post)
+                            {
+                                return view('posts.edit', ['post' => $post]);
+                            }
+
+                            // PUT /posts/{id}
+                            public function update(Request $request, Post $post)
+                            {
+                                $data = $request->validate([
+                                    'title' => 'required|min:3|max:100',
+                                    'body'  => 'required|min:10',
+                                ]);
+
+                                $post->update($data);
+
+                                return redirect(route('posts.index'))
+                                    ->with('success', 'Post berhasil diubah.');
+                            }
+
+                            // DELETE /posts/{id}
+                            public function destroy(Post $post)
+                            {
+                                $post->delete();
+
+                                return redirect(route('posts.index'))
+                                    ->with('success', 'Post berhasil dihapus.');
+                            }
+                        }
+                        PHP, 'lang' => 'php'],
+                    ['p' => '<strong>Penjelasan:</strong> Parameter bertipe (Post $post) otomatis diambil dari database berdasarkan {id}. Ini namanya route model binding.'],
+                ],
+            ],
+
+            // ===== VIEW =====
+            [
+                'id'    => '5-view',
+                'title' => '🎨 View (Template)',
+                'parts' => [
+                    ['p' => 'File view ada di resources/views/ dengan akhiran .batara.php. Pakai sintaks Blade-like:'],
+                    ['code' => <<<'BLADE'
+                        @extends('layouts.app')
+                        @section('title', 'Daftar Post')
+                        @section('content')
+
+                            <h1>Daftar Post</h1>
+
+                            {{-- Output aman (escape) --}}
+                            <h2>{{ $post->title }}</h2>
+
+                            {{-- Output tanpa escape --}}
+                            {!! $html !!}
+
+                            {{-- Kondisi --}}
+                            @if ($posts->count() > 0)
+                                Ada {{ $posts->count() }} post
+                            @else
+                                Belum ada post
+                            @endif
+
+                            {{-- Loop --}}
+                            @foreach ($posts as $post)
+                                <h3>{{ $post->title }}</h3>
+                            @endforeach
+
+                            {{-- Loop dengan else --}}
+                            @forelse ($posts as $post)
+                                <article>{{ $post->title }}</article>
+                            @empty
+                                <p>Belum ada post</p>
+                            @endforelse
+
+                            {{-- Include --}}
+                            @include('components.post-card', ['post' => $post])
+
+                            {{-- CSRF (wajib di form) --}}
+                            <form method="POST" action="/posts">
+                                @csrf
+                                <input type="text" name="title">
+                            </form>
+
+                            {{-- Flash message --}}
+                            @if (session('success'))
+                                <div class="alert">{{ session('success') }}</div>
+                            @endif
+
+                            {{-- Validation error --}}
+                            @error('title')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+
+                            {{-- Old input --}}
+                            <input type="text" value="{{ old('title') }}">
+
+                        @endsection
+                        BLADE, 'lang' => 'blade'],
+                ],
+            ],
+
+            // ===== VALIDATION =====
+            [
+                'id'    => '6-validation',
+                'title' => '✓ Validation',
+                'parts' => [
+                    ['p' => 'Di controller, gunakan $request->validate():'],
+                    ['code' => <<<'PHP'
+                        $data = $request->validate([
+                            'nama'   => 'required|min:3|max:100',
+                            'email'  => 'required|email|unique:users,email',
+                            'umur'   => 'nullable|integer|min:18',
+                            'status' => 'required|in:aktif,tidak-aktif',
+                        ]);
+
+                        // Kalau validasi gagal, auto-redirect dengan error & old input
+                        // Kalau validasi lulus, $data berisi nilai yang sudah validated
+                        PHP, 'lang' => 'php'],
+                    ['p' => '<strong>Rule tersedia:</strong> required, nullable, email, url, numeric, integer, min, max, between, in, not_in, regex, alpha, alpha_num, alpha_dash, confirmed, same, different, unique, exists, date, size, array, boolean, string'],
+                ],
+            ],
+
+            // ===== BOOTSTRAP UI =====
+            [
+                'id'    => '7-bootstrap-ui',
+                'title' => '🎯 Bootstrap Components',
+                'parts' => [
+                    ['p' => 'Bootstrap 5.3.8 sudah built-in. Ganti warna khas di public/css/app.css:'],
+                    ['code' => <<<'CSS'
+                        :root {
+                            --brand: #c2410c;       /* Warna utama */
+                            --brand-dark: #9a3412; /* Saat hover */
+                        }
+                        CSS, 'lang' => 'css'],
+                    ['p' => '<strong>Component Bootstrap yang sering dipakai:</strong>'],
+                    ['table' => [
+                        ['Kelas' => 'card', 'Fungsi' => 'Kotak putih dengan bayangan'],
+                        ['Kelas' => 'btn btn-primary', 'Fungsi' => 'Tombol biru'],
+                        ['Kelas' => 'btn btn-brand', 'Fungsi' => 'Tombol warna khas Batara'],
+                        ['Kelas' => 'form-label, form-control', 'Fungsi' => 'Label & input form'],
+                        ['Kelas' => 'is-invalid, invalid-feedback', 'Fungsi' => 'Garis merah saat validasi gagal'],
+                        ['Kelas' => 'alert alert-success', 'Fungsi' => 'Notifikasi hijau'],
+                        ['Kelas' => 'table table-hover', 'Fungsi' => 'Tabel'],
+                        ['Kelas' => 'mb-3, mt-4, p-4, gap-2', 'Fungsi' => 'Spacing (margin/padding)'],
+                        ['Kelas' => 'row, col-md-6', 'Fungsi' => 'Grid (responsive)'],
+                        ['Kelas' => 'navbar navbar-expand-lg', 'Fungsi' => 'Navigation bar'],
+                    ]],
+                    ['p' => 'Contoh form pakai Bootstrap:'],
+                    ['code' => <<<'BLADE'
+                        <form method="POST">
+                            @csrf
+
+                            <div class="mb-3">
+                                <label class="form-label" for="nama">Nama</label>
+                                <input type="text" id="nama" name="nama"
+                                       class="form-control {{ errors()->has('nama') ? 'is-invalid' : '' }}"
+                                       value="{{ old('nama') }}">
+                                @error('nama')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <button class="btn btn-brand" type="submit">Simpan</button>
+                        </form>
+                        BLADE, 'lang' => 'blade'],
+                ],
+            ],
+
+            // ===== DATABASE =====
+            [
+                'id'    => '8-database',
+                'title' => '💾 Database Setup',
+                'parts' => [
+                    ['p' => 'Edit .env:'],
+                    ['code' => "DB_CONNECTION=mysql\nDB_HOST=127.0.0.1\nDB_PORT=3306\nDB_DATABASE=batara_belajar\nDB_USERNAME=root\nDB_PASSWORD=", 'lang' => 'ini'],
+                    ['p' => 'Lalu buat database (lewat phpMyAdmin atau SQL):'],
+                    ['code' => 'CREATE DATABASE batara_belajar CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;', 'lang' => 'sql'],
+                    ['p' => 'Uji koneksi:'],
+                    ['code' => 'php batara db:check', 'lang' => 'bash'],
+                    ['p' => 'Untuk SQLite (tanpa setup), cukup ubah .env:'],
+                    ['code' => 'DB_CONNECTION=sqlite', 'lang' => 'ini'],
+                ],
+            ],
+
+            // ===== SESSION =====
+            [
+                'id'    => '9-session',
+                'title' => '🔐 Session & Flash Message',
+                'parts' => [
+                    ['p' => 'Di controller atau view:'],
+                    ['code' => <<<'PHP'
                         use Batara\Session;
 
-                        class User extends Model
-                        {
-                            protected static ?string $table = 'users';
-                            protected array $fillable = ['username', 'password', 'role'];
-                            protected array $hidden   = ['password'];
+                        // Simpan
+                        Session::put('user_id', 123);
+                        Session::put('cart', ['item1', 'item2']);
 
-                            public function hasRole(string ...$roles): bool
-                            {
-                                return in_array($this->role, $roles, true);
-                            }
+                        // Baca
+                        $id = Session::get('user_id');
+                        $cart = Session::get('cart', []);  // Default []
 
-                            public static function current(): ?static
-                            {
-                                static $user = null;
-                                static $resolved = false;
+                        // Cek ada
+                        if (Session::has('user_id')) { ... }
 
-                                if (! $resolved) {
-                                    $resolved = true;
+                        // Hapus
+                        Session::forget('user_id');
 
-                                    if (Session::has('user_id')) {
-                                        $user = static::find(Session::get('user_id'));
-                                    }
-                                }
-
-                                return $user;
-                            }
-                        }
+                        // Flash (sekali pakai, auto-hapus setelah ditampilkan)
+                        return redirect('/')->with('success', 'Berhasil login!');
                         PHP, 'lang' => 'php'],
-                    ['p' => 'static $user / static $resolved membuat query ke database hanya jalan sekali walau User::current() dipanggil berkali-kali dalam satu request (misalnya dari middleware lalu dari view).'],
+                    ['p' => 'Di view:'],
+                    ['code' => <<<'BLADE'
+                        {{ session('success') }}  {{-- atau null --}}
+                        @if (session('error'))
+                            <div class="alert alert-danger">{{ session('error') }}</div>
+                        @endif
+                        BLADE, 'lang' => 'blade'],
                 ],
             ],
+
+            // ===== MIDDLEWARE =====
             [
-                'id'    => 'middleware',
-                'title' => '3. Middleware',
+                'id'    => '10-middleware',
+                'title' => '🚦 Middleware',
                 'parts' => [
-                    ['p' => 'Middleware di Batara dibuat tanpa argumen (new $class()), jadi tidak ada sintaks middleware(\'role:admin\') seperti Laravel. Solusinya: satu class dasar EnsureRole yang isi role-nya di-override oleh turunan tipis per role.'],
-                    ['code' => <<<'PHP'
-                        <?php
-
-                        namespace App\Middleware;
-
-                        use App\Models\User;
-                        use Batara\Http\Request;
-                        use Batara\Middleware;
-
-                        abstract class EnsureRole extends Middleware
-                        {
-                            /** @return string[] role yang diizinkan mengakses route ini */
-                            abstract protected function roles(): array;
-
-                            public function handle(Request $request, \Closure $next): mixed
-                            {
-                                $user = User::current();
-
-                                if ($user === null) {
-                                    return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
-                                }
-
-                                if (! $user->hasRole(...$this->roles())) {
-                                    abort(403, 'Anda tidak punya akses ke halaman ini.');
-                                }
-
-                                return $next($request);
-                            }
-                        }
-                        PHP, 'lang' => 'php'],
-                    ['p' => 'Role baru tinggal 3 baris:'],
-                    ['code' => <<<'PHP'
-                        // app/Middleware/AdminOnly.php
-                        class AdminOnly extends EnsureRole
-                        {
-                            protected function roles(): array { return ['admin']; }
-                        }
-
-                        // app/Middleware/StaffOnly.php — admin & staff sama-sama boleh
-                        class StaffOnly extends EnsureRole
-                        {
-                            protected function roles(): array { return ['admin', 'staff']; }
-                        }
-                        PHP, 'lang' => 'php'],
-                    ['p' => 'Dua middleware pelengkap: Authenticate (wajib login, dipakai alias auth) dan RedirectIfAuthenticated (kebalikannya — dipakai di halaman login supaya yang sudah login tidak melihat form login lagi, alias guest).'],
-                    ['code' => <<<'PHP'
-                        class Authenticate extends Middleware
-                        {
-                            public function handle(Request $request, \Closure $next): mixed
-                            {
-                                if (User::current() === null) {
-                                    return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
-                                }
-
-                                return $next($request);
-                            }
-                        }
-                        PHP, 'lang' => 'php'],
-                ],
-            ],
-            [
-                'id'    => 'konfigurasi',
-                'title' => '4. Daftarkan alias middleware',
-                'parts' => [
-                    ['p' => 'Middleware harus dikenalkan namanya di config/app.php supaya bisa dipakai sebagai string pendek di route.'],
+                    ['p' => 'Middleware adalah filter yang menjalankan kode sebelum/sesudah request masuk ke controller. Daftarkan di config/app.php:'],
                     ['code' => <<<'PHP'
                         'middleware' => [
                             'auth'  => App\Middleware\Authenticate::class,
                             'guest' => App\Middleware\RedirectIfAuthenticated::class,
                             'admin' => App\Middleware\AdminOnly::class,
-                            'staff' => App\Middleware\StaffOnly::class,
                         ],
                         PHP, 'lang' => 'php'],
-                ],
-            ],
-            [
-                'id'    => 'controller',
-                'title' => '5. AuthController',
-                'parts' => [
-                    ['p' => 'Controller ini menangani form login, verifikasi password, penyimpanan session, dan logout. Setelah login sukses, user diarahkan ke dashboard sesuai role-nya masing-masing.'],
+                    ['p' => 'Pakai di route:'],
+                    ['code' => <<<'PHP'
+                        Route::get('/dashboard', [DashboardController::class, 'index'])
+                            ->middleware('auth');
+
+                        Route::group(['middleware' => 'admin'], function () {
+                            Route::get('/admin', [AdminController::class, 'index']);
+                        });
+                        PHP, 'lang' => 'php'],
+                    ['p' => 'Buat middleware:'],
                     ['code' => <<<'PHP'
                         <?php
+                        namespace App\Middleware;
 
-                        namespace App\Controllers;
-
-                        use App\Models\User;
-                        use Batara\Controller;
                         use Batara\Http\Request;
-                        use Batara\Session;
+                        use Batara\Middleware;
 
-                        class AuthController extends Controller
+                        class MyMiddleware extends Middleware
                         {
-                            public function showLogin()
+                            public function handle(Request $request, \Closure $next): mixed
                             {
-                                return view('auth.login');
-                            }
-
-                            public function login(Request $request)
-                            {
-                                $data = $request->validate([
-                                    'username' => 'required',
-                                    'password' => 'required',
-                                ]);
-
-                                $user = User::firstWhere('username', $data['username']);
-
-                                if (! $user || ! password_verify($data['password'], $user->password)) {
-                                    return back()
-                                        ->withErrors(['username' => 'Username atau password salah.'])
-                                        ->withInput();
+                                // Sebelum masuk controller
+                                if (/* kondisi gagal */) {
+                                    abort(403, 'Tidak diizinkan');
                                 }
 
-                                Session::put('user_id', $user->id);
+                                $response = $next($request);
 
-                                return redirect(match ($user->role) {
-                                    'admin' => '/admin',
-                                    'staff' => '/staff',
-                                    default => '/dashboard',
-                                })->with('success', 'Selamat datang, ' . $user->username . '.');
-                            }
-
-                            public function logout()
-                            {
-                                Session::forget('user_id');
-
-                                return redirect('/login')->with('success', 'Berhasil logout.');
+                                // Setelah controller selesai
+                                return $response;
                             }
                         }
                         PHP, 'lang' => 'php'],
-                    ['p' => 'password_verify() membandingkan input dengan hash bcrypt yang tersimpan. Password mentah tidak pernah dibandingkan langsung — dan tidak pernah disimpan langsung (lihat $hidden di model, juga akun demo di migrasi yang sudah di-hash lewat password_hash()).'],
                 ],
             ],
+
+            // ===== MULTI-ROLE (dari awal) =====
             [
-                'id'    => 'route',
-                'title' => '6. Routes',
+                'id'    => '11-multi-role',
+                'title' => '👥 Multi-Role Login System',
                 'parts' => [
-                    ['p' => 'Route login/logout tidak butuh proteksi role. Route dashboard dikelompokkan per prefix dengan middleware yang sesuai.'],
-                    ['code' => <<<'PHP'
-                        use App\Controllers\AuthController;
-                        use App\Controllers\DashboardController;
-
-                        Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
-                        Route::post('/login', [AuthController::class, 'login'])->name('login.attempt')->middleware('guest');
-                        Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-
-                        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
-
-                        Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
-                            Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
-                        });
-
-                        Route::group(['prefix' => 'staff', 'middleware' => 'staff'], function () {
-                            Route::get('/', [DashboardController::class, 'staff'])->name('staff.dashboard');
-                        });
-                        PHP, 'lang' => 'php'],
-                    ['p' => 'Middleware admin sudah otomatis mencakup pengecekan login, jadi tidak perlu ditulis dobel dengan auth. Cek hasilnya kapan saja dengan:'],
-                    ['code' => 'php batara route:list', 'lang' => 'bash'],
-                ],
-            ],
-            [
-                'id'    => 'view-login',
-                'title' => '7. View login',
-                'parts' => [
-                    ['p' => 'Form biasa: @csrf wajib ada, dan errors()/old() dipakai supaya validasi gagal tetap menampilkan pesan serta mengisi ulang input sebelumnya.'],
-                    ['code' => <<<'BLADE'
-                        @extends('layouts.app')
-
-                        @section('title', 'Login')
-
-                        @section('content')
-                            <div class="col-md-5 mx-auto">
-                                <form method="POST" action="{{ route('login.attempt') }}">
-                                    @csrf
-
-                                    <input type="text" name="username" value="{{ old('username') }}">
-                                    @error('username') <div>{{ $message }}</div> @enderror
-
-                                    <input type="password" name="password">
-
-                                    <button type="submit">Login</button>
-                                </form>
-                            </div>
-                        @endsection
-                        BLADE, 'lang' => 'blade'],
-                ],
-            ],
-            [
-                'id'    => 'uji-coba',
-                'title' => '8. Uji coba',
-                'parts' => [
-                    ['p' => 'Jalankan migrasi (sekali saja, otomatis dilewati kalau sudah pernah jalan) lalu nyalakan server:'],
-                    ['code' => "php batara migrate\nphp batara serve", 'lang' => 'bash'],
-                    ['p' => 'Buka /login lalu masuk dengan salah satu akun demo berikut (dibuat otomatis oleh migrasi):'],
+                    ['p' => 'Sistem login dengan 3 role: admin, staff, user. Lihat awal dokumentasi untuk detailnya.'],
+                    ['p' => 'Coba login dengan salah satu akun demo:'],
                     ['table' => [
-                        ['username' => 'admin', 'password' => 'rahasia123', 'role' => 'admin', 'tujuan' => '/admin'],
-                        ['username' => 'staff', 'password' => 'rahasia123', 'role' => 'staff', 'tujuan' => '/staff'],
-                        ['username' => 'budi',  'password' => 'rahasia123', 'role' => 'user',  'tujuan' => '/dashboard'],
+                        ['username' => 'admin', 'password' => 'rahasia123', 'akses' => '/admin'],
+                        ['username' => 'staff', 'password' => 'rahasia123', 'akses' => '/staff'],
+                        ['username' => 'budi',  'password' => 'rahasia123', 'akses' => '/dashboard'],
                     ]],
-                    ['p' => 'Coba juga akses /admin memakai akun budi (role user) — akan ditolak dengan 403, karena middleware admin hanya mengizinkan role admin.'],
+                ],
+            ],
+
+            // ===== TIPS =====
+            [
+                'id'    => '12-tips',
+                'title' => '💡 Tips & Trik',
+                'parts' => [
+                    ['p' => '<strong>Helper global yang tersedia:</strong>'],
+                    ['code' => <<<'PHP'
+                        view('name', ['var' => 'value'])     // Render view
+                        route('name', ['id' => 1])           // Generate URL
+                        redirect('/path')                    // Redirect
+                        redirect(route('home'))
+                        back()                               // Kembali ke halaman sebelumnya
+                        old('field')                         // Nilai input sebelumnya
+                        errors()                             // Object error dari validasi
+                        session('key')                       // Baca session
+                        dd($var)                             // Dump & die
+                        abort(404, 'Not found')              // Abort dengan status code
+                        PHP, 'lang' => 'php'],
+                    ['p' => '<strong>Eager loading (cegah N+1):</strong>'],
+                    ['code' => <<<'PHP'
+                        // Buruk: 11 query (1 posts + 10 comments)
+                        foreach (Post::all() as $post) {
+                            echo $post->comments;
+                        }
+
+                        // Bagus: 2 query (1 posts + 1 comments)
+                        foreach (Post::with('comments')->get() as $post) {
+                            echo $post->comments;
+                        }
+
+                        // Nested
+                        Post::with('comments.user')->get();
+                        PHP, 'lang' => 'php'],
+                    ['p' => '<strong>Join data dari tabel lain:</strong>'],
+                    ['code' => <<<'PHP'
+                        User::leftJoin('profil', 'profil.user_id', '=', 'users.id')
+                            ->select('users.nama', 'profil.alamat')
+                            ->get();
+                        PHP, 'lang' => 'php'],
                 ],
             ],
         ];
