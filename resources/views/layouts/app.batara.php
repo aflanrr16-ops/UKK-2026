@@ -14,7 +14,22 @@
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold" href="{{ route('home') }}">
-            <span class="brand-mark">S</span>
+            <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+                <!-- Outer circle -->
+                <circle cx="16" cy="16" r="15" fill="none" stroke="#333" stroke-width="1"/>
+
+                <!-- Top half - Red -->
+                <path d="M 16 1 A 15 15 0 0 1 16 16 A 7.5 7.5 0 0 1 16 1" fill="#FF4444"/>
+
+                <!-- Bottom half - Blue -->
+                <path d="M 16 16 A 15 15 0 0 1 16 31 A 7.5 7.5 0 0 1 16 16" fill="#4444FF"/>
+
+                <!-- Yellow accent circle top -->
+                <circle cx="16" cy="8" r="2.5" fill="#FFD700"/>
+
+                <!-- Yellow accent circle bottom -->
+                <circle cx="16" cy="24" r="2.5" fill="#FFD700"/>
+            </svg>
             {{ config('app.name') }}
         </a>
 
