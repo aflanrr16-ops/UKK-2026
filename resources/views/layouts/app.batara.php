@@ -15,20 +15,20 @@
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold" href="{{ route('home') }}">
             <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block;">
-                <!-- Outer circle -->
-                <circle cx="16" cy="16" r="15" fill="none" stroke="#333" stroke-width="1"/>
+                <!-- Outer circle border -->
+                <circle cx="16" cy="16" r="15" fill="none" stroke="#333" stroke-width="1.5"/>
 
-                <!-- Top half - Red -->
-                <path d="M 16 1 A 15 15 0 0 1 16 16 A 7.5 7.5 0 0 1 16 1" fill="#FF4444"/>
+                <!-- Top half - RED (putih jadi merah) -->
+                <path d="M 16 1 A 15 15 0 0 1 16 16 A 7.5 7.5 0 0 1 16 1" fill="#FF0000"/>
 
-                <!-- Bottom half - Blue -->
-                <path d="M 16 16 A 15 15 0 0 1 16 31 A 7.5 7.5 0 0 1 16 16" fill="#4444FF"/>
+                <!-- Bottom half - BLUE (hitam jadi biru) -->
+                <path d="M 16 16 A 15 15 0 0 1 16 31 A 7.5 7.5 0 0 1 16 16" fill="#0066FF"/>
 
-                <!-- Yellow accent circle top -->
-                <circle cx="16" cy="8" r="2.5" fill="#FFD700"/>
+                <!-- Top dot - YELLOW (putih dot jadi kuning) -->
+                <circle cx="16" cy="8.5" r="2.5" fill="#FFD700"/>
 
-                <!-- Yellow accent circle bottom -->
-                <circle cx="16" cy="24" r="2.5" fill="#FFD700"/>
+                <!-- Bottom dot - YELLOW (hitam dot jadi kuning) -->
+                <circle cx="16" cy="23.5" r="2.5" fill="#FFD700"/>
             </svg>
             {{ config('app.name') }}
         </a>
