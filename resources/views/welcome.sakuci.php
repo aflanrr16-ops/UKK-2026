@@ -20,12 +20,48 @@
 
         <div class="d-flex flex-wrap gap-2 justify-content-center">
             <a class="btn btn-brand btn-lg px-4" href="#langkah">Mulai dari sini</a>
+            <a class="btn btn-outline-brand btn-lg px-4" href="https://github.com/indrabsus/sakuci-framework" target="_blank">GitHub</a>
         </div>
 
         <p class="text-secondary small mt-3 mb-0">
             Panduan langkah demi langkah ada di berkas
             <code class="inline">TUTORIAL.md</code>
         </p>
+    </section>
+
+    {{-- Instalasi --}}
+    <section class="row g-4 align-items-start mb-5">
+        <div class="col-lg-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h5 fw-semibold mb-3">📥 Instalasi</h2>
+
+                    <p class="text-secondary mb-3">Pilih salah satu cara untuk memulai:</p>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <h3 class="h6 fw-medium mb-2">Dari GitHub</h3>
+                            <pre class="code"><span class="cmt"># Clone repository</span>
+git clone https://github.com/indrabsus/sakuci-framework.git
+cd sakuci-framework
+
+<span class="cmt"># Jalankan server</span>
+php sakuci serve</pre>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h3 class="h6 fw-medium mb-2">Manual</h3>
+                            <ol class="mb-0 ps-4">
+                                <li>Download folder dari <a href="https://github.com/indrabsus/sakuci-framework" target="_blank">GitHub</a></li>
+                                <li>Ekstrak ke folder proyek</li>
+                                <li>Jalankan <code class="inline">php sakuci serve</code></li>
+                                <li>Buka <code class="inline">http://127.0.0.1:8000</code></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     {{-- Langkah berikutnya --}}

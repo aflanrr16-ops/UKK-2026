@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Core;
 
 use App\Models\Role;
 use App\Models\User;
@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('admin.users.index', [
+        return view('core.admin.users.index', [
             'users' => User::orderBy('username')->get(),
             'roles' => Role::orderBy('name')->get(),
         ]);

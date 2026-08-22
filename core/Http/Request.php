@@ -240,7 +240,7 @@ class Request
      * Validasi input. Jika gagal, otomatis redirect balik dengan error
      * dan old input â€” persis kebiasaan Laravel.
      *
-     * @throws \Batara\Exceptions\ValidationException
+     * @throws \Sakuci\Exceptions\ValidationException
      */
     public function validate(array $rules, array $messages = []): array
     {
@@ -250,7 +250,7 @@ class Request
             Session::flash('_errors', $validator->errors());
             Session::flashInput($this->except(['_token', '_method', 'password', 'password_confirmation']));
 
-            throw new \Batara\Exceptions\ValidationException($validator->errors());
+            throw new \Sakuci\Exceptions\ValidationException($validator->errors());
         }
 
         return $validator->validated();

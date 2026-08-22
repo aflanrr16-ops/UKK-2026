@@ -20,6 +20,8 @@ class DocsController extends Controller
                 'title' => 'Dokumentasi Sakuci',
                 'parts' => [
                     ['p' => 'Kerangka PHP ringan bergaya Laravel tanpa Composer. Fitur: Route, Model, View, Controller, Validation, Session, Middleware, CSRF protection, Query Builder dengan eager loading, dan Bootstrap 5.3.8 built-in.'],
+                    ['p' => '<strong>Instalasi cepat:</strong> Clone dari GitHub atau salin folder ke web server Anda.'],
+                    ['code' => "# Clone dari GitHub\ngit clone https://github.com/indrabsus/sakuci-framework.git\ncd sakuci-framework\n\n# Atau download dan ekstrak folder\n\n# Jalankan server\nphp sakuci serve\n\n# Buka di browser\nhttp://127.0.0.1:8000", 'lang' => 'bash'],
                     ['p' => '<strong>Coba akun demo:</strong> admin / rahasia123 (atau staff, atau budi)'],
                 ],
             ],
@@ -209,7 +211,7 @@ class DocsController extends Controller
                 'id'    => '5-view',
                 'title' => 'View (Template)',
                 'parts' => [
-                    ['p' => 'File view ada di resources/views/ dengan akhiran .batara.php. Pakai sintaks Blade-like:'],
+                    ['p' => 'File view ada di resources/views/ dengan akhiran .sakuci.php. Pakai sintaks Blade-like:'],
                     ['code' => <<<'BLADE'
                         @extends('layouts.app')
                         @section('title', 'Daftar Post')

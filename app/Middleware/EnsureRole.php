@@ -7,7 +7,7 @@ use Sakuci\Http\Request;
 use Sakuci\Middleware;
 
 /**
- * Dasar untuk middleware berbasis role. Router Batara membuat middleware
+ * Dasar untuk middleware berbasis role. Router Sakuci membuat middleware
  * tanpa argumen (new $class()), jadi role tidak dikirim lewat parameter
  * seperti Laravel ('role:admin') â€” cukup buat turunan tipis per role:
  *

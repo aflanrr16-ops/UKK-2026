@@ -5,7 +5,7 @@ namespace Sakuci;
 /**
  * Template engine ringan bergaya Blade.
  *
- * File view disimpan di resources/views dengan akhiran .batara.php lalu
+ * File view disimpan di resources/views dengan akhiran .sakuci.php lalu
  * dikompilasi menjadi PHP biasa di storage/framework/views (dicache
  * berdasarkan waktu modifikasi file sumber).
  *
@@ -76,7 +76,7 @@ class View
     {
         $view = str_replace(['.', '\\'], '/', $view);
 
-        return resource_path('views/' . $view . '.batara.php');
+        return resource_path('views/' . $view . '.sakuci.php');
     }
 
     /*

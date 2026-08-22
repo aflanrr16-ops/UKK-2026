@@ -1,10 +1,10 @@
 <?php
 
-use App\Controllers\AuthController;
-use App\Controllers\DashboardController;
+use App\Controllers\Core\AuthController;
+use App\Controllers\Core\DashboardController;
 use App\Controllers\DocsController;
-use App\Controllers\RoleController;
-use App\Controllers\UserController;
+use App\Controllers\Core\RoleController;
+use App\Controllers\Core\UserController;
 use Sakuci\Route;
 
 /*

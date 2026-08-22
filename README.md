@@ -6,7 +6,7 @@ tanpa dependensi eksternal. Cukup PHP OOP murni.
 ```
 Request -> public/index.php -> Application -> Router -> Middleware -> Controller -> Model
                                                                             |
-                                                        Response <- View (.Sakuci.php)
+                                                        Response <- View (.sakuci.php)
 ```
 
 > **Baru pertama kali memakai Sakuci?** Ikuti **[TUTORIAL.md](TUTORIAL.md)** -- panduan
@@ -105,7 +105,7 @@ sakuci-framework/
 |-- public/                   document root
 |   |-- css/app.css           tema (warna khas, blok kode)
 |   +-- vendor/bootstrap/     Bootstrap 5.3.8 -- lokal, tanpa internet
-|-- resources/views/          file *.Sakuci.php (berisi layout + welcome)
+|-- resources/views/          file *.sakuci.php (berisi layout + welcome)
 |-- routes/web.php            daftar route
 |-- storage/                  cache view + log
 |-- .env                      pengaturan database & aplikasi
@@ -394,14 +394,13 @@ Menyesuaikan warna khas -- ubah di `public/css/app.css`:
 Kelas tambahan di luar Bootstrap: `btn-brand`, `btn-outline-brand`, `text-brand`,
 `badge-brand`, `brand-mark`, `step-number`, `pre.code`, `code.inline`.
 
-Ingin memakai Tailwind atau CSS sendiri? Ganti saja tag `<link>` di
-`resources/views/layouts/app.Sakuci.php` -- framework tidak terikat pada Bootstrap.
+Ingin memakai Tailwind atau CSS sendiri? Ganti saja tag `<link>` di `resources/views/layouts/app.sakuci.php` -- framework tidak terikat pada Bootstrap.
 
 ---
 
 ## View
 
-File view berada di `resources/views` dengan akhiran `.Sakuci.php`.
+File view berada di `resources/views` dengan akhiran `.sakuci.php`.
 
 ```php
 view('posts.index', ['posts' => $posts]);   // resources/views/posts/index.Sakuci.php
@@ -448,8 +447,7 @@ Form update/hapus:
 </form>
 ```
 
-View dikompilasi menjadi PHP biasa di `storage/framework/views` dan otomatis
-dikompilasi ulang saat file sumber berubah.
+View dikompilasi menjadi PHP biasa di `storage/framework/views` dan otomatis dikompilasi ulang saat file sumber berubah.
 
 ---
 

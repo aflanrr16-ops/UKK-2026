@@ -228,7 +228,7 @@ class Application
         }
 
         return '<!doctype html><html lang="id"><meta charset="utf-8">'
-            . '<title>Error &mdash; Batara</title>'
+            . '<title>Error &mdash; Sakuci</title>'
             . '<body style="margin:0;background:#0f172a;color:#e2e8f0;font:15px/1.6 system-ui,Segoe UI,sans-serif">'
             . '<div style="max-width:980px;margin:0 auto;padding:40px 24px">'
             . '<div style="color:#f87171;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:12px">'

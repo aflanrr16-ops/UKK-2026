@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Core;
 
 use App\Models\User;
 use Sakuci\Controller;
@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
-        return view('auth.login');
+        return view('core.auth.login');
     }
 
     public function login(Request $request)

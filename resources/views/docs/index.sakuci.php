@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dokumentasi Batara Framework')
+@section('title', 'Dokumentasi Sakuci Framework')
 
 @section('content')
 
@@ -21,7 +21,7 @@
         <div class="col-lg-9">
             <div class="mb-5">
                 <span class="badge rounded-pill badge-brand px-3 py-2 mb-3">Dokumentasi</span>
-                <h1 class="h2 mb-2">Batara Framework</h1>
+                <h1 class="h2 mb-2">Sakuci Framework</h1>
                 <p class="text-secondary">Panduan lengkap: CLI, Routing, Model, Controller, View, Bootstrap UI, Validation, Database, Session, Middleware, dan Multi-Role Login.</p>
             </div>
 
@@ -89,7 +89,7 @@
 
             {{-- Footer --}}
             <div class="text-center text-secondary small mt-5 pt-4 border-top">
-                <p>Untuk pertanyaan atau kontribusi, kunjungi <a href="https://github.com/indrabsus/batara-framework" target="_blank">GitHub repository</a>.</p>
+                <p>Untuk pertanyaan atau kontribusi, kunjungi <a href="https://github.com/indrabsus/sakuci-framework" target="_blank">GitHub repository</a>.</p>
             </div>
         </div>
     </div>

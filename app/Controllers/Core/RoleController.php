@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Core;
 
 use App\Models\Role;
 use Sakuci\Controller;
@@ -11,7 +11,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        return view('admin.roles.index', [
+        return view('core.admin.roles.index', [
             'roles' => Role::orderBy('name')->get(),
         ]);
     }

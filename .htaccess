@@ -1,9 +1,10 @@
-﻿<IfModule mod_rewrite.c>
+<IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
 
-    # Jika folder proyek diakses langsung (mis. htdocs/Sakuci-framework),
-    # arahkan semuanya ke folder public.
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
-
-
