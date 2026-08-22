@@ -165,31 +165,31 @@ class View
 
             switch ($name) {
                 case 'extends':
-                    return "<?php \\Batara\\View::extend({$expr}); ?>";
+                    return "<?php \\Sakuci\\View::extend({$expr}); ?>";
 
                 case 'section':
-                    return "<?php \\Batara\\View::startSection({$expr}); ?>";
+                    return "<?php \\Sakuci\\View::startSection({$expr}); ?>";
 
                 case 'endsection':
                 case 'stop':
-                    return '<?php \\Batara\\View::stopSection(); ?>';
+                    return '<?php \\Sakuci\\View::stopSection(); ?>';
 
                 case 'show':
-                    return '<?= \\Batara\\View::yieldContent(\\Batara\\View::stopSection()) ?>';
+                    return '<?= \\Sakuci\\View::yieldContent(\\Sakuci\\View::stopSection()) ?>';
 
                 case 'parent':
-                    return '<?= \\Batara\\View::parentContent() ?>';
+                    return '<?= \\Sakuci\\View::parentContent() ?>';
 
                 case 'yield':
-                    return "<?= \\Batara\\View::yieldContent({$expr}) ?>";
+                    return "<?= \\Sakuci\\View::yieldContent({$expr}) ?>";
 
                 case 'include':
                     // get_defined_vars() diletakkan di depan agar argumen view
                     // dan data tambahan tetap bisa ditulis seperti Laravel.
-                    return "<?= \\Batara\\View::insert(get_defined_vars(), {$expr}) ?>";
+                    return "<?= \\Sakuci\\View::insert(get_defined_vars(), {$expr}) ?>";
 
                 case 'includeIf':
-                    return "<?= \\Batara\\View::insertIf(get_defined_vars(), {$expr}) ?>";
+                    return "<?= \\Sakuci\\View::insertIf(get_defined_vars(), {$expr}) ?>";
 
                 case 'if':
                     return "<?php if({$expr}): ?>";
@@ -267,10 +267,10 @@ class View
                     return '<?php endif; unset($message); ?>';
 
                 case 'csrf':
-                    return '<?= \\Batara\\View::csrfField() ?>';
+                    return '<?= \\Sakuci\\View::csrfField() ?>';
 
                 case 'method':
-                    return "<?= \\Batara\\View::methodField({$expr}) ?>";
+                    return "<?= \\Sakuci\\View::methodField({$expr}) ?>";
 
                 case 'json':
                     return "<?= json_encode({$expr}, JSON_UNESCAPED_UNICODE) ?>";

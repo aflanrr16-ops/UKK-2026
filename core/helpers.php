@@ -234,7 +234,7 @@ if (! function_exists('errors')) {
 if (! function_exists('abort')) {
     function abort(int $code, string $message = ''): never
     {
-        throw new \Batara\Exceptions\HttpException($code, $message);
+        throw new \Sakuci\Exceptions\HttpException($code, $message);
     }
 }
 
