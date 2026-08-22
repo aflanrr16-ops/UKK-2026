@@ -1,4 +1,4 @@
-﻿{{-- Notifikasi flash & daftar error validasi (Bootstrap alert) --}}
+{{-- Notifikasi flash & daftar error validasi (Bootstrap alert) --}}
 
 @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">

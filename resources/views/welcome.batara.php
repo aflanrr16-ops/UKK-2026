@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', config('app.name') . ' â€” Kerangka PHP Ringan')
 
