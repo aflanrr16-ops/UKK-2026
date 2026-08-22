@@ -1,11 +1,11 @@
-<?php
+﻿<?php
 
 namespace App\Controllers;
 
 use App\Models\User;
-use Batara\Controller;
-use Batara\Http\Request;
-use Batara\Session;
+use Sakuci\Controller;
+use Sakuci\Http\Request;
+use Sakuci\Session;
 
 class AuthController extends Controller
 {
@@ -45,3 +45,4 @@ class AuthController extends Controller
         return redirect('/login')->with('success', 'Berhasil logout.');
     }
 }
+

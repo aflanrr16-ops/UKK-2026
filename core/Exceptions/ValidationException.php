@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 
-namespace Batara\Exceptions;
+namespace Sakuci\Exceptions;
 
-use Batara\MessageBag;
+use Sakuci\MessageBag;
 
 /**
  * Dilempar oleh $request->validate() saat validasi gagal.
@@ -20,3 +20,4 @@ class ValidationException extends \Exception
         return $this->errors;
     }
 }
+

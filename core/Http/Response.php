@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 
-namespace Batara\Http;
+namespace Sakuci\Http;
 
-use Batara\View;
+use Sakuci\View;
 
 /**
  * Representasi response yang akan dikirim ke browser.
@@ -98,3 +98,4 @@ class Response
         return $this->content;
     }
 }
+

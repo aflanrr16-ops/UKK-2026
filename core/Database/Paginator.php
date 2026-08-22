@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 
-namespace Batara\Database;
+namespace Sakuci\Database;
 
-use Batara\Http\Request;
+use Sakuci\Http\Request;
 
 /**
  * Hasil paginasi beserta helper untuk merender navigasi halaman.
@@ -136,3 +136,4 @@ class Paginator implements \IteratorAggregate, \Countable, \JsonSerializable
         return $this->toArray();
     }
 }
+

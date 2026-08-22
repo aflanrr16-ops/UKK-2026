@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 
-namespace Batara;
+namespace Sakuci;
 
-use Batara\Http\RedirectResponse;
-use Batara\Http\Response;
+use Sakuci\Http\RedirectResponse;
+use Sakuci\Http\Response;
 
 /**
  * Base controller. Semua controller aplikasi mewarisi class ini.
@@ -49,3 +49,4 @@ abstract class Controller
         throw new \BadMethodCallException(static::class . ' tidak punya method __invoke().');
     }
 }
+

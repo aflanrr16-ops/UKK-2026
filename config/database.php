@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 return [
 
@@ -6,7 +6,7 @@ return [
     |--------------------------------------------------------------------------
     | Koneksi default
     |--------------------------------------------------------------------------
-    | Diatur lewat DB_CONNECTION di file .env — pilihannya "mysql" atau "sqlite".
+    | Diatur lewat DB_CONNECTION di file .env â€” pilihannya "mysql" atau "sqlite".
     */
 
     'default' => env('DB_CONNECTION', 'mysql'),
@@ -29,7 +29,7 @@ return [
         ],
 
         /*
-        | SQLite — tanpa server, file dibuat otomatis.
+        | SQLite â€” tanpa server, file dibuat otomatis.
         | Butuh ekstensi pdo_sqlite aktif di php.ini.
         */
         'sqlite' => [
@@ -40,3 +40,4 @@ return [
     ],
 
 ];
+

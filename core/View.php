@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Batara;
+namespace Sakuci;
 
 /**
  * Template engine ringan bergaya Blade.
@@ -143,7 +143,7 @@ class View
     }
 
     /**
-     * Kompilasi seluruh direktif @nama(...) — tanda kurung dicocokkan secara
+     * Kompilasi seluruh direktif @nama(...) â€” tanda kurung dicocokkan secara
      * rekursif sehingga ekspresi seperti @if(count($a) > 0) tetap utuh.
      */
     protected static function compileDirectives(string $value): string
@@ -404,3 +404,4 @@ class View
         return '<input type="hidden" name="_method" value="' . e(strtoupper($method)) . '">';
     }
 }
+

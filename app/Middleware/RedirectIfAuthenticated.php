@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 
 namespace App\Middleware;
 
 use App\Models\User;
-use Batara\Http\Request;
-use Batara\Middleware;
+use Sakuci\Http\Request;
+use Sakuci\Middleware;
 
 /**
  * Kebalikan dari Authenticate: dipakai di halaman login supaya user
@@ -28,3 +28,4 @@ class RedirectIfAuthenticated extends Middleware
         return $next($request);
     }
 }
+

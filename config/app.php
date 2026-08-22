@@ -8,14 +8,14 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'name'     => env('APP_NAME', 'Batara'),
+    'name'     => env('APP_NAME', 'Sakuci'),
 
     // Saat true, halaman error menampilkan detail lengkap. Matikan di produksi.
     'debug'    => env('APP_DEBUG', true),
 
     'timezone' => env('APP_TIMEZONE', 'Asia/Jakarta'),
 
-    'session_name' => 'batara_session',
+    'session_name' => 'sakuci_session',
 
     /*
     |--------------------------------------------------------------------------
@@ -35,6 +35,7 @@ return [
         'guest' => App\Middleware\RedirectIfAuthenticated::class,
         'admin' => App\Middleware\AdminOnly::class,
         'staff' => App\Middleware\StaffOnly::class,
+        'user'  => App\Middleware\UserOnly::class,
     ],
 
 ];

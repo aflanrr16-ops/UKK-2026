@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Dokumentasi Batara Framework')
 
@@ -42,7 +42,7 @@
                             {{-- Note/Warning --}}
                             @isset ($part['note'])
                                 <div class="alert alert-info small mb-3">
-                                    <strong>💡 Catatan:</strong> {{ $part['note'] }}
+                                    <strong>ðŸ’¡ Catatan:</strong> {{ $part['note'] }}
                                 </div>
                             @endisset
 
@@ -121,3 +121,4 @@
         });
     </script>
 @endsection
+

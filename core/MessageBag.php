@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Batara;
+namespace Sakuci;
 
 /**
  * Wadah pesan error validasi, mirip MessageBag milik Laravel.
@@ -83,3 +83,4 @@ class MessageBag implements \Countable, \JsonSerializable
         return $this->messages;
     }
 }
+

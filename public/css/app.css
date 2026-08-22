@@ -1,4 +1,4 @@
-/*
+﻿/*
 | Lapisan tema di atas Bootstrap.
 | Bootstrap dimuat lebih dulu, file ini hanya menimpa seperlunya.
 */
@@ -26,7 +26,7 @@ body {
     font-weight: 700;
 }
 
-/* Tombol warna khas Batara */
+/* Tombol warna khas Sakuci */
 .btn-brand {
     background-color: var(--brand);
     border-color: var(--brand);
@@ -102,3 +102,4 @@ code.inline {
     line-height: 1;
     color: var(--brand);
 }
+

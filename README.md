@@ -1,15 +1,15 @@
-# Batara Framework
+﻿# Sakuci Framework
 
-Kerangka PHP ringan bergaya Laravel — **Route, Model, View, Controller** — tanpa Composer,
+Kerangka PHP ringan bergaya Laravel â€” **Route, Model, View, Controller** â€” tanpa Composer,
 tanpa dependensi eksternal. Cukup PHP OOP murni.
 
 ```
-Request → public/index.php → Application → Router → Middleware → Controller → Model
-                                                                     ↓
-                                                Response ← View (.batara.php)
+Request â†’ public/index.php â†’ Application â†’ Router â†’ Middleware â†’ Controller â†’ Model
+                                                                     â†“
+                                                Response â† View (.Sakuci.php)
 ```
 
-> **Baru pertama kali memakai Batara?** Ikuti **[TUTORIAL.md](TUTORIAL.md)** — panduan
+> **Baru pertama kali memakai Sakuci?** Ikuti **[TUTORIAL.md](TUTORIAL.md)** â€” panduan
 > langkah demi langkah dari menyalakan server sampai membuat CRUD lengkap.
 > File README ini adalah rujukan sintaks, bukan panduan awal.
 
@@ -20,22 +20,22 @@ Request → public/index.php → Application → Router → Middleware → Contr
 | Kebutuhan | Keterangan |
 |---|---|
 | PHP 8.1+ | Wajib. |
-| `pdo_mysql` | Untuk MySQL/MariaDB — aktif secara bawaan di XAMPP dan Laragon. |
+| `pdo_mysql` | Untuk MySQL/MariaDB â€” aktif secara bawaan di XAMPP dan Laragon. |
 | `pdo_sqlite` | Hanya bila memakai SQLite. Aktifkan `extension=pdo_sqlite` di `php.ini`. |
-| `mbstring` | Opsional — sudah ada polyfill bawaan bila belum aktif. |
+| `mbstring` | Opsional â€” sudah ada polyfill bawaan bila belum aktif. |
 
 ---
 
 ## Menjalankan
 
 ```bash
-php batara serve
+php Sakuci serve
 ```
 
 Buka <http://127.0.0.1:8000>.
 
 Untuk XAMPP/Apache: salin folder ini ke `htdocs`, lalu akses
-`http://localhost/batara-framework/` (sudah ada `.htaccess` yang mengarahkan ke
+`http://localhost/Sakuci-framework/` (sudah ada `.htaccess` yang mengarahkan ke
 `public/`). Idealnya arahkan DocumentRoot langsung ke folder `public/`.
 
 ---
@@ -48,7 +48,7 @@ Salin `.env.example` menjadi `.env`, lalu sesuaikan:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=batara
+DB_DATABASE=Sakuci
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -56,18 +56,18 @@ DB_PASSWORD=
 Databasenya harus dibuat lebih dulu (lewat phpMyAdmin atau perintah SQL):
 
 ```sql
-CREATE DATABASE batara CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE Sakuci CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ```
 
 Uji koneksinya:
 
 ```bash
-php batara db:check
+php Sakuci db:check
 ```
 
 Bila gagal, pesan errornya sudah menyertakan saran perbaikan.
 
-**Tanpa server database** — ganti satu baris saja di `.env`:
+**Tanpa server database** â€” ganti satu baris saja di `.env`:
 
 ```ini
 DB_CONNECTION=sqlite
@@ -80,39 +80,39 @@ File otomatis dibuat di `database/database.sqlite`.
 ## Struktur Folder
 
 ```
-batara-framework/
-├── app/
-│   ├── Controllers/          controller aplikasi (masih kosong)
-│   ├── Models/               model, satu file per tabel (masih kosong)
-│   └── Middleware/           filter request (berisi VerifyCsrfToken)
-├── config/
-│   ├── app.php               nama app, debug, timezone, middleware
-│   ├── database.php          koneksi sqlite / mysql
-│   └── view.php              lokasi & cache view
-├── core/                     ISI FRAMEWORK — tidak perlu diubah
-│   ├── Application.php       kernel: boot, dispatch, error handler
-│   ├── Route.php             facade statis Route::
-│   ├── Routing/              Router + RouteDefinition
-│   ├── Http/                 Request, Response, RedirectResponse
-│   ├── Database/             Connection, QueryBuilder, Model, Relation, Paginator
-│   ├── Validation/           Validator
-│   ├── View.php              template engine (.batara.php)
-│   ├── Controller.php        base controller
-│   ├── Session.php           session + flash + old input
-│   ├── helpers.php           fungsi global: view(), route(), old(), dd()
-│   └── bootstrap.php         autoloader PSR-4 (pengganti Composer)
-├── database/migrations/      file .sql
-├── public/                   document root
-│   ├── css/app.css           tema (warna khas, blok kode)
-│   └── vendor/bootstrap/     Bootstrap 5.3.8 — lokal, tanpa internet
-├── resources/views/          file *.batara.php (berisi layout + welcome)
-├── routes/web.php            daftar route
-├── storage/                  cache view + log
-├── .env                      pengaturan database & aplikasi
-├── server.php                router untuk `php -S`
-├── batara                    CLI (padanan artisan)
-├── TUTORIAL.md               panduan langkah demi langkah
-└── README.md                 rujukan sintaks (file ini)
+Sakuci-framework/
+â”œâ”€â”€ app/
+â”‚   â”œâ”€â”€ Controllers/          controller aplikasi (masih kosong)
+â”‚   â”œâ”€â”€ Models/               model, satu file per tabel (masih kosong)
+â”‚   â””â”€â”€ Middleware/           filter request (berisi VerifyCsrfToken)
+â”œâ”€â”€ config/
+â”‚   â”œâ”€â”€ app.php               nama app, debug, timezone, middleware
+â”‚   â”œâ”€â”€ database.php          koneksi sqlite / mysql
+â”‚   â””â”€â”€ view.php              lokasi & cache view
+â”œâ”€â”€ core/                     ISI FRAMEWORK â€” tidak perlu diubah
+â”‚   â”œâ”€â”€ Application.php       kernel: boot, dispatch, error handler
+â”‚   â”œâ”€â”€ Route.php             facade statis Route::
+â”‚   â”œâ”€â”€ Routing/              Router + RouteDefinition
+â”‚   â”œâ”€â”€ Http/                 Request, Response, RedirectResponse
+â”‚   â”œâ”€â”€ Database/             Connection, QueryBuilder, Model, Relation, Paginator
+â”‚   â”œâ”€â”€ Validation/           Validator
+â”‚   â”œâ”€â”€ View.php              template engine (.Sakuci.php)
+â”‚   â”œâ”€â”€ Controller.php        base controller
+â”‚   â”œâ”€â”€ Session.php           session + flash + old input
+â”‚   â”œâ”€â”€ helpers.php           fungsi global: view(), route(), old(), dd()
+â”‚   â””â”€â”€ bootstrap.php         autoloader PSR-4 (pengganti Composer)
+â”œâ”€â”€ database/migrations/      file .sql
+â”œâ”€â”€ public/                   document root
+â”‚   â”œâ”€â”€ css/app.css           tema (warna khas, blok kode)
+â”‚   â””â”€â”€ vendor/bootstrap/     Bootstrap 5.3.8 â€” lokal, tanpa internet
+â”œâ”€â”€ resources/views/          file *.Sakuci.php (berisi layout + welcome)
+â”œâ”€â”€ routes/web.php            daftar route
+â”œâ”€â”€ storage/                  cache view + log
+â”œâ”€â”€ .env                      pengaturan database & aplikasi
+â”œâ”€â”€ server.php                router untuk `php -S`
+â”œâ”€â”€ Sakuci                    CLI (padanan artisan)
+â”œâ”€â”€ TUTORIAL.md               panduan langkah demi langkah
+â””â”€â”€ README.md                 rujukan sintaks (file ini)
 ```
 
 ---
@@ -123,7 +123,7 @@ batara-framework/
 
 ```php
 use App\Controllers\PostController;
-use Batara\Route;
+use Sakuci\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -136,7 +136,7 @@ Route::get('/arsip/{tahun?}', [ArsipController::class, 'index']);
 // Closure
 Route::get('/halo/{nama}', fn (string $nama) => "Halo, {$nama}!");
 
-// Mengembalikan array → otomatis JSON
+// Mengembalikan array â†’ otomatis JSON
 Route::get('/api/posts', fn () => ['data' => Post::all()]);
 
 // 7 route CRUD sekaligus
@@ -178,8 +178,8 @@ route('posts.show', ['id' => 7]);   // /posts/7
 namespace App\Controllers;
 
 use App\Models\Post;
-use Batara\Controller;
-use Batara\Http\Request;
+use Sakuci\Controller;
+use Sakuci\Http\Request;
 
 class PostController extends Controller
 {
@@ -223,7 +223,7 @@ Aturan validasi: `required`, `nullable`, `email`, `url`, `numeric`, `integer`, `
 ```php
 namespace App\Models;
 
-use Batara\Database\Model;
+use Sakuci\Database\Model;
 
 class Post extends Model
 {
@@ -260,10 +260,10 @@ $post->delete();
 
 ### Relasi
 
-Contoh tiga tabel yang saling terhubung (`User` → `Post` → `Comment`):
+Contoh tiga tabel yang saling terhubung (`User` â†’ `Post` â†’ `Comment`):
 
 ```php
-use Batara\Database\Relation;
+use Sakuci\Database\Relation;
 
 class User extends Model
 {
@@ -286,7 +286,7 @@ class Comment extends Model
 }
 ```
 
-Kunci ditebak otomatis (`Post` → `post_id`, induk → `id`), atau tulis sendiri:
+Kunci ditebak otomatis (`Post` â†’ `post_id`, induk â†’ `id`), atau tulis sendiri:
 
 ```php
 $this->hasMany(Comment::class, 'artikel_id', 'id');
@@ -299,7 +299,7 @@ Relasi tetap bisa dirantai seperti query biasa:
 $post->comments()->where('approved', 1)->latest()->limit(5)->get();
 ```
 
-### Eager Loading — `with()`
+### Eager Loading â€” `with()`
 
 Memanggil relasi di dalam perulangan menghasilkan **N+1 query**:
 
@@ -339,16 +339,16 @@ Post::with(['user', 'comments.user'])->get();   // penulis post + penulis tiap k
 User::with('posts.comments.user')->get();       // tiga tingkat
 ```
 
-Perbandingan terukur pada 10 postingan × 3 komentar:
+Perbandingan terukur pada 10 postingan Ã— 3 komentar:
 
 | Cara | Query |
 |---|---|
 | Tanpa `with()` | **48** |
-| `with(['user', 'comments'])` — penulis komentar masih N+1 | **30** |
+| `with(['user', 'comments'])` â€” penulis komentar masih N+1 | **30** |
 | `with(['user', 'comments.user'])` | **4** |
 | `User::with('posts.comments.user')` | **4** |
 
-Jumlah query tetap segitu berapa pun banyaknya baris — satu query per tingkat relasi.
+Jumlah query tetap segitu berapa pun banyaknya baris â€” satu query per tingkat relasi.
 
 Untuk model yang sudah terlanjur diambil:
 
@@ -360,7 +360,7 @@ $post->loadMissing('comments');     // lewati bila sudah dimuat
 $post->relationLoaded('comments');  // true / false
 ```
 
-Hasil relasi: `hasMany` → array model, `hasOne`/`belongsTo` → satu model atau `null`.
+Hasil relasi: `hasMany` â†’ array model, `hasOne`/`belongsTo` â†’ satu model atau `null`.
 Relasi yang sudah dimuat ikut terbawa saat `toArray()` / respons JSON.
 
 > Catatan: sama seperti Laravel, `limit()` di dalam closure `with()` berlaku untuk
@@ -369,7 +369,7 @@ Relasi yang sudah dimuat ikut terbawa saat `toArray()` / respons JSON.
 Menghitung query yang benar-benar dijalankan (untuk memastikan tidak ada N+1):
 
 ```php
-count(Batara\Database\Connection::log());
+count(Sakuci\Database\Connection::log());
 ```
 
 ---
@@ -377,12 +377,12 @@ count(Batara\Database\Connection::log());
 ## Tampilan (Bootstrap)
 
 **Bootstrap 5.3.8** sudah disertakan secara lokal di `public/vendor/bootstrap`
-(CSS + JS bundle) dan dipanggil dari `resources/views/layouts/app.batara.php`.
+(CSS + JS bundle) dan dipanggil dari `resources/views/layouts/app.Sakuci.php`.
 Tidak butuh internet, tidak butuh npm.
 
 Setiap view yang memakai `@extends('layouts.app')` otomatis ikut tertata.
 
-Menyesuaikan warna khas — ubah di `public/css/app.css`:
+Menyesuaikan warna khas â€” ubah di `public/css/app.css`:
 
 ```css
 :root {
@@ -395,16 +395,16 @@ Kelas tambahan di luar Bootstrap: `btn-brand`, `btn-outline-brand`, `text-brand`
 `badge-brand`, `brand-mark`, `step-number`, `pre.code`, `code.inline`.
 
 Ingin memakai Tailwind atau CSS sendiri? Ganti saja tag `<link>` di
-`resources/views/layouts/app.batara.php` — framework tidak terikat pada Bootstrap.
+`resources/views/layouts/app.Sakuci.php` â€” framework tidak terikat pada Bootstrap.
 
 ---
 
 ## View
 
-File view berada di `resources/views` dengan akhiran `.batara.php`.
+File view berada di `resources/views` dengan akhiran `.Sakuci.php`.
 
 ```php
-view('posts.index', ['posts' => $posts]);   // resources/views/posts/index.batara.php
+view('posts.index', ['posts' => $posts]);   // resources/views/posts/index.Sakuci.php
 ```
 
 Sintaks yang didukung:
@@ -479,8 +479,8 @@ dikompilasi ulang saat file sumber berubah.
 ```php
 namespace App\Middleware;
 
-use Batara\Http\Request;
-use Batara\Middleware;
+use Sakuci\Http\Request;
+use Sakuci\Middleware;
 
 class Authenticate extends Middleware
 {
@@ -513,17 +513,17 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 ## Perintah CLI
 
 ```bash
-php batara serve                 # server pengembangan (127.0.0.1:8000)
-php batara migrate               # jalankan .sql di database/migrations
-php batara migrate:fresh         # hapus SEMUA tabel lalu mulai dari nol
-php batara db:check              # uji koneksi database sesuai .env
-php batara route:list            # daftar seluruh route
-php batara make:controller Nama  # buat controller
-php batara make:model Nama       # buat model
-php batara make:model Nama -m    # buat model + berkas migrasinya sekaligus
-php batara make:view nama.view   # buat view
-php batara make:migration nama   # buat file migrasi
-php batara view:clear            # bersihkan cache view
+php Sakuci serve                 # server pengembangan (127.0.0.1:8000)
+php Sakuci migrate               # jalankan .sql di database/migrations
+php Sakuci migrate:fresh         # hapus SEMUA tabel lalu mulai dari nol
+php Sakuci db:check              # uji koneksi database sesuai .env
+php Sakuci route:list            # daftar seluruh route
+php Sakuci make:controller Nama  # buat controller
+php Sakuci make:model Nama       # buat model
+php Sakuci make:model Nama -m    # buat model + berkas migrasinya sekaligus
+php Sakuci make:view nama.view   # buat view
+php Sakuci make:migration nama   # buat file migrasi
+php Sakuci view:clear            # bersihkan cache view
 ```
 
 ---
@@ -533,3 +533,4 @@ php batara view:clear            # bersihkan cache view
 1. Set `APP_DEBUG=false` di `.env`.
 2. Arahkan DocumentRoot web server ke folder `public/`.
 3. Pastikan folder `storage/` bisa ditulis.
+

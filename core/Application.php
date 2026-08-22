@@ -1,12 +1,12 @@
-<?php
+﻿<?php
 
-namespace Batara;
+namespace Sakuci;
 
-use Batara\Exceptions\HttpException;
-use Batara\Exceptions\ValidationException;
-use Batara\Http\RedirectResponse;
-use Batara\Http\Request;
-use Batara\Http\Response;
+use Sakuci\Exceptions\HttpException;
+use Sakuci\Exceptions\ValidationException;
+use Sakuci\Http\RedirectResponse;
+use Sakuci\Http\Request;
+use Sakuci\Http\Response;
 
 /**
  * Kernel aplikasi: memuat konfigurasi, menjalankan request melalui
@@ -243,3 +243,4 @@ class Application
             . '</div></body></html>';
     }
 }
+

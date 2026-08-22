@@ -1,12 +1,12 @@
 <?php
 /*
 |--------------------------------------------------------------------------
-| Bootstrap Batara Framework
+| Bootstrap Sakuci Framework
 |--------------------------------------------------------------------------
 | File ini menggantikan peran Composer autoload. Semua class dimuat
 | otomatis mengikuti aturan PSR-4 sederhana:
 |
-|   Batara\Router          -> core/Router.php
+|   Sakuci\Router          -> core/Router.php
 |   App\Controllers\Home   -> app/Controllers/Home.php
 */
 
@@ -16,7 +16,7 @@ if (! defined('BASE_PATH')) {
 
 spl_autoload_register(function (string $class): void {
     $prefixes = [
-        'Batara\\' => BASE_PATH . '/core/',
+        'Sakuci\\' => BASE_PATH . '/core/',
         'App\\'    => BASE_PATH . '/app/',
     ];
 

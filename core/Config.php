@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Batara;
+namespace Sakuci;
 
 /**
  * Penyimpan konfigurasi aplikasi.
@@ -53,3 +53,4 @@ class Config
         return static::$items;
     }
 }
+

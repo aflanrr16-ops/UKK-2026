@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Batara\Database;
+namespace Sakuci\Database;
 
 /**
  * Query builder sederhana:
@@ -250,7 +250,7 @@ class QueryBuilder
         $rows   = Connection::select($this->toSql(), $this->bindings);
         $models = $this->hydrate($rows);
 
-        // Ambil semua relasi yang diminta with() — satu query per relasi,
+        // Ambil semua relasi yang diminta with() â€” satu query per relasi,
         // bukan satu query per baris (inilah penangkal N+1).
         if ($this->eagerLoad !== [] && $models !== []) {
             $this->eagerLoadOn($models);
@@ -490,7 +490,7 @@ class QueryBuilder
             );
         }
 
-        // Query bersih untuk model tujuan — bukan query milik $parent.
+        // Query bersih untuk model tujuan â€” bukan query milik $parent.
         $query = ($relation->relatedClass)::query();
 
         if ($options['nested'] !== []) {
@@ -582,3 +582,4 @@ class QueryBuilder
         return array_values($keys);
     }
 }
+

@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 
-namespace Batara\Http;
+namespace Sakuci\Http;
 
-use Batara\MessageBag;
-use Batara\Route;
-use Batara\Session;
+use Sakuci\MessageBag;
+use Sakuci\Route;
+use Sakuci\Session;
 
 /**
  * Response redirect dengan gaya fluent:
@@ -73,3 +73,4 @@ class RedirectResponse extends Response
         parent::send();
     }
 }
+

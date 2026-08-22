@@ -1,15 +1,15 @@
-<?php
+﻿<?php
 
 namespace App\Middleware;
 
 use App\Models\User;
-use Batara\Http\Request;
-use Batara\Middleware;
+use Sakuci\Http\Request;
+use Sakuci\Middleware;
 
 /**
  * Dasar untuk middleware berbasis role. Router Batara membuat middleware
  * tanpa argumen (new $class()), jadi role tidak dikirim lewat parameter
- * seperti Laravel ('role:admin') — cukup buat turunan tipis per role:
+ * seperti Laravel ('role:admin') â€” cukup buat turunan tipis per role:
  *
  *   class AdminOnly extends EnsureRole
  *   {
@@ -36,3 +36,4 @@ abstract class EnsureRole extends Middleware
         return $next($request);
     }
 }
+

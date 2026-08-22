@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 
 namespace App\Middleware;
 
 use App\Models\User;
-use Batara\Http\Request;
-use Batara\Middleware;
+use Sakuci\Http\Request;
+use Sakuci\Middleware;
 
 /**
  * Menolak akses bila belum login. Daftarkan sebagai alias 'auth'
@@ -21,3 +21,4 @@ class Authenticate extends Middleware
         return $next($request);
     }
 }
+

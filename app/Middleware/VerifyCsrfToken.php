@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 
 namespace App\Middleware;
 
-use Batara\Http\Request;
-use Batara\Middleware;
-use Batara\Session;
+use Sakuci\Http\Request;
+use Sakuci\Middleware;
+use Sakuci\Session;
 
 /**
  * Menolak request POST/PUT/PATCH/DELETE yang tidak menyertakan token CSRF.
@@ -47,3 +47,4 @@ class VerifyCsrfToken extends Middleware
         return false;
     }
 }
+

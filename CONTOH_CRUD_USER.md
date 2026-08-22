@@ -1,11 +1,11 @@
-# Contoh CRUD Lengkap: User
+﻿# Contoh CRUD Lengkap: User
 
 Panduan membuat aplikasi User management dengan Model, Controller, View, dan Route.
 
 ## 1. Buat Model + Migrasi Sekaligus
 
 ```bash
-php batara make:model User -m
+php Sakuci make:model User -m
 ```
 
 Ini menghasilkan:
@@ -53,7 +53,7 @@ Edit `app/Models/User.php`:
 
 namespace App\Models;
 
-use Batara\Database\Model;
+use Sakuci\Database\Model;
 
 class User extends Model
 {
@@ -75,7 +75,7 @@ class User extends Model
 ## 4. Buat Controller
 
 ```bash
-php batara make:controller UserController
+php Sakuci make:controller UserController
 ```
 
 Edit `app/Controllers/UserController.php`:
@@ -86,8 +86,8 @@ Edit `app/Controllers/UserController.php`:
 namespace App\Controllers;
 
 use App\Models\User;
-use Batara\Controller;
-use Batara\Http\Request;
+use Sakuci\Controller;
+use Sakuci\Http\Request;
 
 class UserController extends Controller
 {
@@ -145,7 +145,7 @@ class UserController extends Controller
 
         $data = $request->validate($rules);
 
-        // Password opsional saat edit — hanya hash jika diisi
+        // Password opsional saat edit â€” hanya hash jika diisi
         if ($data['password'] ?? false) {
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
         } else {
@@ -171,7 +171,7 @@ class UserController extends Controller
 - `index()`: menampilkan daftar user terurut paling baru
 - `create()`: tampilkan form tambah (GET /users/create)
 - `store()`: terima data form, validasi, hash password, simpan (POST /users)
-- `show(User $user)`: tampilkan detail user (GET /users/{id}) — **route model binding** otomatis mengambil dari database
+- `show(User $user)`: tampilkan detail user (GET /users/{id}) â€” **route model binding** otomatis mengambil dari database
 - `edit(User $user)`: tampilkan form ubah dengan data lama (GET /users/{id}/edit)
 - `update()`: terima perubahan, password opsional (PUT /users/{id})
 - `destroy()`: hapus user (DELETE /users/{id})
@@ -184,7 +184,7 @@ Edit `routes/web.php`:
 <?php
 
 use App\Controllers\UserController;
-use Batara\Route;
+use Sakuci\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -208,12 +208,12 @@ Perintah `Route::resource()` otomatis membuat 7 route:
 
 Lihat semua route:
 ```bash
-php batara route:list
+php Sakuci route:list
 ```
 
 ## 6. Buat Views
 
-### `resources/views/users/index.batara.php` - Daftar User
+### `resources/views/users/index.Sakuci.php` - Daftar User
 
 ```blade
 @extends('layouts.app')
@@ -257,7 +257,7 @@ php batara route:list
 @endsection
 ```
 
-### `resources/views/users/create.batara.php` - Form Tambah
+### `resources/views/users/create.Sakuci.php` - Form Tambah
 
 ```blade
 @extends('layouts.app')
@@ -305,7 +305,7 @@ php batara route:list
 @endsection
 ```
 
-### `resources/views/users/edit.batara.php` - Form Ubah
+### `resources/views/users/edit.Sakuci.php` - Form Ubah
 
 ```blade
 @extends('layouts.app')
@@ -358,13 +358,13 @@ php batara route:list
 
 ```bash
 # Siapkan database
-php batara migrate
+php Sakuci migrate
 
 # Jalankan server
-php batara serve
+php Sakuci serve
 ```
 
-Buka browser ke **http://127.0.0.1:8000/users** — halaman daftar user akan tampil.
+Buka browser ke **http://127.0.0.1:8000/users** â€” halaman daftar user akan tampil.
 
 ## Konsep Penting
 
@@ -410,17 +410,18 @@ Pesan disimpan satu kali di session dan otomatis dihapus setelah ditampilkan (fl
 ## Summary
 
 ```
-Alur Model → Controller → View:
+Alur Model â†’ Controller â†’ View:
 
 1. User akses http://127.0.0.1:8000/users
-   ↓
-2. Route::resource('users') → UserController::index()
-   ↓
+   â†“
+2. Route::resource('users') â†’ UserController::index()
+   â†“
 3. Controller ambil data: User::latest()->get()
-   ↓
+   â†“
 4. Controller kirim ke view dengan view('users.index', ['users' => $users])
-   ↓
+   â†“
 5. View tampilkan dalam tabel/card dengan loop @foreach
 ```
 
 Demikian. Silakan copy model, controller, views, dan routes di atas ke project Anda.
+

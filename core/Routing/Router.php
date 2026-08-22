@@ -1,13 +1,13 @@
-<?php
+﻿<?php
 
-namespace Batara\Routing;
+namespace Sakuci\Routing;
 
-use Batara\Config;
-use Batara\Database\Model;
-use Batara\Exceptions\HttpException;
-use Batara\Http\RedirectResponse;
-use Batara\Http\Request;
-use Batara\Http\Response;
+use Sakuci\Config;
+use Sakuci\Database\Model;
+use Sakuci\Exceptions\HttpException;
+use Sakuci\Http\RedirectResponse;
+use Sakuci\Http\Request;
+use Sakuci\Http\Response;
 
 /**
  * Mesin routing: menyimpan daftar route, mencocokkan request,
@@ -365,3 +365,4 @@ class Router
         return Response::make((string) $result);
     }
 }
+

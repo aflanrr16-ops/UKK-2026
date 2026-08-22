@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 
 namespace App\Controllers;
 
-use Batara\Controller;
+use Sakuci\Controller;
 
 class DocsController extends Controller
 {
@@ -17,7 +17,7 @@ class DocsController extends Controller
             // ===== INTRO =====
             [
                 'id'    => '0-intro',
-                'title' => '📚 Dokumentasi Batara',
+                'title' => 'ðŸ“š Dokumentasi Batara',
                 'parts' => [
                     ['p' => 'Kerangka PHP ringan bergaya Laravel tanpa Composer. Fitur: Route, Model, View, Controller, Validation, Session, Middleware, CSRF protection, Query Builder dengan eager loading, dan Bootstrap 5.3.8 built-in.'],
                     ['p' => '<strong>Coba akun demo:</strong> admin / rahasia123 (atau staff, atau budi)'],
@@ -27,7 +27,7 @@ class DocsController extends Controller
             // ===== CLI =====
             [
                 'id'    => '1-cli',
-                'title' => '🖥️ CLI — Perintah batara',
+                'title' => 'ðŸ–¥ï¸ CLI â€” Perintah batara',
                 'parts' => [
                     ['p' => 'Jalankan semua perintah dari folder project:'],
                     ['code' => "php batara serve                    # Jalankan server (127.0.0.1:8000)\nphp batara migrate                  # Jalankan migrasi\nphp batara migrate:fresh            # Hapus semua tabel\nphp batara db:check                 # Uji koneksi database\nphp batara route:list               # Lihat semua route\nphp batara make:model Nama          # Buat model\nphp batara make:model Nama -m       # Buat model + migrasi\nphp batara make:controller Nama     # Buat controller\nphp batara make:view nama.view      # Buat view\nphp batara make:migration nama      # Buat migrasi\nphp batara view:clear               # Bersihkan cache view", 'lang' => 'bash'],
@@ -37,12 +37,12 @@ class DocsController extends Controller
             // ===== ROUTING =====
             [
                 'id'    => '2-routing',
-                'title' => '🛣️ Routing',
+                'title' => 'ðŸ›£ï¸ Routing',
                 'parts' => [
                     ['p' => 'Daftarkan route di routes/web.php:'],
                     ['code' => <<<'PHP'
                         use App\Controllers\PostController;
-                        use Batara\Route;
+                        use Sakuci\Route;
 
                         // Route dasar
                         Route::get('/', function () { return view('welcome'); })->name('home');
@@ -69,14 +69,14 @@ class DocsController extends Controller
             // ===== MODEL =====
             [
                 'id'    => '3-model',
-                'title' => '📊 Model & Query Builder',
+                'title' => 'ðŸ“Š Model & Query Builder',
                 'parts' => [
                     ['p' => 'Model mewakili satu tabel di database. Buat dengan:'],
                     ['code' => 'php batara make:model Post -m', 'lang' => 'bash'],
                     ['code' => <<<'PHP'
                         <?php
                         namespace App\Models;
-                        use Batara\Database\Model;
+                        use Sakuci\Database\Model;
 
                         class Post extends Model
                         {
@@ -124,7 +124,7 @@ class DocsController extends Controller
             // ===== CONTROLLER =====
             [
                 'id'    => '4-controller',
-                'title' => '⚙️ Controller',
+                'title' => 'âš™ï¸ Controller',
                 'parts' => [
                     ['p' => 'Buat dengan: php batara make:controller PostController'],
                     ['code' => <<<'PHP'
@@ -132,8 +132,8 @@ class DocsController extends Controller
                         namespace App\Controllers;
 
                         use App\Models\Post;
-                        use Batara\Controller;
-                        use Batara\Http\Request;
+                        use Sakuci\Controller;
+                        use Sakuci\Http\Request;
 
                         class PostController extends Controller
                         {
@@ -164,7 +164,7 @@ class DocsController extends Controller
                                     ->with('success', 'Post berhasil dibuat.');
                             }
 
-                            // GET /posts/{id} — Route model binding
+                            // GET /posts/{id} â€” Route model binding
                             public function show(Post $post)
                             {
                                 return view('posts.show', ['post' => $post]);
@@ -207,7 +207,7 @@ class DocsController extends Controller
             // ===== VIEW =====
             [
                 'id'    => '5-view',
-                'title' => '🎨 View (Template)',
+                'title' => 'ðŸŽ¨ View (Template)',
                 'parts' => [
                     ['p' => 'File view ada di resources/views/ dengan akhiran .batara.php. Pakai sintaks Blade-like:'],
                     ['code' => <<<'BLADE'
@@ -272,7 +272,7 @@ class DocsController extends Controller
             // ===== VALIDATION =====
             [
                 'id'    => '6-validation',
-                'title' => '✓ Validation',
+                'title' => 'âœ“ Validation',
                 'parts' => [
                     ['p' => 'Di controller, gunakan $request->validate():'],
                     ['code' => <<<'PHP'
@@ -293,7 +293,7 @@ class DocsController extends Controller
             // ===== BOOTSTRAP UI =====
             [
                 'id'    => '7-bootstrap-ui',
-                'title' => '🎯 Bootstrap Components',
+                'title' => 'ðŸŽ¯ Bootstrap Components',
                 'parts' => [
                     ['p' => 'Bootstrap 5.3.8 sudah built-in. Ganti warna khas di public/css/app.css:'],
                     ['code' => <<<'CSS'
@@ -339,7 +339,7 @@ class DocsController extends Controller
             // ===== DATABASE =====
             [
                 'id'    => '8-database',
-                'title' => '💾 Database Setup',
+                'title' => 'ðŸ’¾ Database Setup',
                 'parts' => [
                     ['p' => 'Edit .env:'],
                     ['code' => "DB_CONNECTION=mysql\nDB_HOST=127.0.0.1\nDB_PORT=3306\nDB_DATABASE=batara_belajar\nDB_USERNAME=root\nDB_PASSWORD=", 'lang' => 'ini'],
@@ -355,11 +355,11 @@ class DocsController extends Controller
             // ===== SESSION =====
             [
                 'id'    => '9-session',
-                'title' => '🔐 Session & Flash Message',
+                'title' => 'ðŸ” Session & Flash Message',
                 'parts' => [
                     ['p' => 'Di controller atau view:'],
                     ['code' => <<<'PHP'
-                        use Batara\Session;
+                        use Sakuci\Session;
 
                         // Simpan
                         Session::put('user_id', 123);
@@ -391,7 +391,7 @@ class DocsController extends Controller
             // ===== MIDDLEWARE =====
             [
                 'id'    => '10-middleware',
-                'title' => '🚦 Middleware',
+                'title' => 'ðŸš¦ Middleware',
                 'parts' => [
                     ['p' => 'Middleware adalah filter yang menjalankan kode sebelum/sesudah request masuk ke controller. Daftarkan di config/app.php:'],
                     ['code' => <<<'PHP'
@@ -415,8 +415,8 @@ class DocsController extends Controller
                         <?php
                         namespace App\Middleware;
 
-                        use Batara\Http\Request;
-                        use Batara\Middleware;
+                        use Sakuci\Http\Request;
+                        use Sakuci\Middleware;
 
                         class MyMiddleware extends Middleware
                         {
@@ -440,7 +440,7 @@ class DocsController extends Controller
             // ===== MULTI-ROLE (dari awal) =====
             [
                 'id'    => '11-multi-role',
-                'title' => '👥 Multi-Role Login System',
+                'title' => 'ðŸ‘¥ Multi-Role Login System',
                 'parts' => [
                     ['p' => 'Sistem login dengan 3 role: admin, staff, user. Lihat awal dokumentasi untuk detailnya.'],
                     ['p' => 'Coba login dengan salah satu akun demo:'],
@@ -455,7 +455,7 @@ class DocsController extends Controller
             // ===== TIPS =====
             [
                 'id'    => '12-tips',
-                'title' => '💡 Tips & Trik',
+                'title' => 'ðŸ’¡ Tips & Trik',
                 'parts' => [
                     ['p' => '<strong>Helper global yang tersedia:</strong>'],
                     ['code' => <<<'PHP'
@@ -496,3 +496,4 @@ class DocsController extends Controller
         ];
     }
 }
+

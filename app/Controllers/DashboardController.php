@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 
 namespace App\Controllers;
 
 use App\Models\User;
-use Batara\Controller;
+use Sakuci\Controller;
 
 class DashboardController extends Controller
 {
@@ -21,4 +21,10 @@ class DashboardController extends Controller
     {
         return view('staff.dashboard', ['user' => User::current()]);
     }
+
+    public function user()
+    {
+        return view('user.dashboard', ['user' => User::current()]);
+    }
 }
+

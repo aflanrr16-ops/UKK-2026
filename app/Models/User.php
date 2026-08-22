@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 
 namespace App\Models;
 
-use Batara\Database\Model;
-use Batara\Session;
+use Sakuci\Database\Model;
+use Sakuci\Session;
 
 class User extends Model
 {
@@ -41,3 +41,4 @@ class User extends Model
         return $user;
     }
 }
+

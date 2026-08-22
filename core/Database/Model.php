@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 
-namespace Batara\Database;
+namespace Sakuci\Database;
 
-use Batara\Exceptions\HttpException;
+use Sakuci\Exceptions\HttpException;
 
 /**
  * Model bergaya Eloquent (versi ringan).
@@ -488,3 +488,4 @@ abstract class Model implements \JsonSerializable
         return $this->toArray();
     }
 }
+

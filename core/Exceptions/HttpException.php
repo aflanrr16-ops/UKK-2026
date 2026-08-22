@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Batara\Exceptions;
+namespace Sakuci\Exceptions;
 
 /**
  * Exception yang membawa status code HTTP, dipakai oleh helper abort().
@@ -29,3 +29,4 @@ class HttpException extends \Exception
         return $this->statusCode;
     }
 }
+

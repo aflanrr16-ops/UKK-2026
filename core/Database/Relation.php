@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Batara\Database;
+namespace Sakuci\Database;
 
 /**
  * Query builder yang membawa metadata relasi.
@@ -39,3 +39,4 @@ class Relation extends QueryBuilder
         return ! $this->relationMany;
     }
 }
+

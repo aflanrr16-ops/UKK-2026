@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 
-namespace Batara\Validation;
+namespace Sakuci\Validation;
 
-use Batara\Database\Connection;
-use Batara\MessageBag;
+use Sakuci\Database\Connection;
+use Sakuci\MessageBag;
 
 /**
  * Validator sederhana dengan sintaks aturan seperti Laravel.
@@ -237,3 +237,4 @@ class Validator
         return $this->validated;
     }
 }
+

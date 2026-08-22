@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 
-namespace Batara\Database;
+namespace Sakuci\Database;
 
-use Batara\Config;
+use Sakuci\Config;
 
 /**
  * Koneksi database berbasis PDO (SQLite atau MySQL).
@@ -169,3 +169,4 @@ class Connection
         return array_values($bindings);
     }
 }
+

@@ -1,4 +1,4 @@
-# Tutorial Batara Framework
+﻿# Tutorial Sakuci Framework
 
 Panduan langkah demi langkah untuk pemula. Di akhir tutorial ini Anda akan punya
 aplikasi **Data Buku** dengan fitur tambah, lihat, ubah, dan hapus (CRUD).
@@ -23,7 +23,7 @@ aplikasi **Data Buku** dengan fitur tambah, lihat, ubah, dan hapus (CRUD).
 Yang dibutuhkan:
 
 - **PHP 8.1 atau lebih baru**
-- **MySQL / MariaDB** — paling gampang lewat **XAMPP** atau **Laragon**
+- **MySQL / MariaDB** â€” paling gampang lewat **XAMPP** atau **Laragon**
 
 Cek PHP sudah terpasang. Buka terminal (CMD / PowerShell), ketik:
 
@@ -32,15 +32,15 @@ php -v
 ```
 
 Kalau muncul tulisan `PHP 8.x.x`, berarti aman. Kalau muncul `'php' is not recognized`,
-PHP belum ada di PATH — pakai XAMPP dan jalankan lewat `C:\xampp\php\php.exe`.
+PHP belum ada di PATH â€” pakai XAMPP dan jalankan lewat `C:\xampp\php\php.exe`.
 
 Lalu masuk ke folder framework:
 
 ```bash
-cd C:\batara-framework
+cd C:\Sakuci-framework
 ```
 
-> **Catatan penting:** semua perintah `php batara ...` di tutorial ini
+> **Catatan penting:** semua perintah `php Sakuci ...` di tutorial ini
 > **harus dijalankan dari dalam folder framework**, bukan dari folder lain.
 
 ---
@@ -49,38 +49,38 @@ cd C:\batara-framework
 
 Ada dua cara. Pilih salah satu.
 
-### Cara A — server bawaan PHP (paling mudah)
+### Cara A â€” server bawaan PHP (paling mudah)
 
 ```bash
-php batara serve
+php Sakuci serve
 ```
 
 Akan muncul:
 
 ```
-  Batara Framework v1.0.0
+  Sakuci Framework v1.0.0
   Server berjalan di http://127.0.0.1:8000
   Tekan Ctrl+C untuk berhenti.
 ```
 
-Buka browser ke **http://127.0.0.1:8000** — halaman selamat datang akan tampil.
+Buka browser ke **http://127.0.0.1:8000** â€” halaman selamat datang akan tampil.
 
 Mau ganti port (misalnya 8080 karena 8000 dipakai aplikasi lain)?
 
 ```bash
-php batara serve 127.0.0.1 8080
+php Sakuci serve 127.0.0.1 8080
 ```
 
 Untuk menghentikan server: tekan `Ctrl + C` di terminal.
 
 > Biarkan terminal ini tetap terbuka selama Anda ngoding. Buka terminal **kedua**
-> untuk menjalankan perintah `php batara` yang lain.
+> untuk menjalankan perintah `php Sakuci` yang lain.
 
-### Cara B — lewat XAMPP (Apache)
+### Cara B â€” lewat XAMPP (Apache)
 
-1. Salin seluruh folder `batara-framework` ke `C:\xampp\htdocs\`
+1. Salin seluruh folder `Sakuci-framework` ke `C:\xampp\htdocs\`
 2. Nyalakan **Apache** di XAMPP Control Panel
-3. Buka **http://localhost/batara-framework/**
+3. Buka **http://localhost/Sakuci-framework/**
 
 File `.htaccess` sudah disiapkan supaya URL otomatis diarahkan ke folder `public/`.
 
@@ -88,27 +88,27 @@ File `.htaccess` sudah disiapkan supaya URL otomatis diarahkan ke folder `public
 
 ## 3. Mengatur database MySQL
 
-### Langkah 1 — nyalakan MySQL
+### Langkah 1 â€” nyalakan MySQL
 
 Buka **XAMPP Control Panel**, klik **Start** pada baris **MySQL**.
 Tunggu sampai tulisannya berubah jadi hijau.
 
-### Langkah 2 — buat database
+### Langkah 2 â€” buat database
 
 Buka **http://localhost/phpmyadmin** di browser:
 
 1. Klik menu **New** / **Baru** di kiri atas
-2. Isi nama database: **`batara_belajar`**
+2. Isi nama database: **`Sakuci_belajar`**
 3. Pilih collation **`utf8mb4_general_ci`**
 4. Klik **Create** / **Buat**
 
 Kalau lebih suka lewat tab **SQL**, jalankan:
 
 ```sql
-CREATE DATABASE batara_belajar CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE Sakuci_belajar CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ```
 
-### Langkah 3 — edit file `.env`
+### Langkah 3 â€” edit file `.env`
 
 Buka file **`.env`** di folder framework pakai teks editor (VS Code, Notepad++, dll),
 lalu sesuaikan bagian database:
@@ -117,7 +117,7 @@ lalu sesuaikan bagian database:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=batara_belajar
+DB_DATABASE=Sakuci_belajar
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -132,10 +132,10 @@ Keterangan tiap baris:
 
 > Kalau file `.env` belum ada, salin dari `.env.example` dan ganti namanya jadi `.env`.
 
-### Langkah 4 — uji koneksinya
+### Langkah 4 â€” uji koneksinya
 
 ```bash
-php batara db:check
+php Sakuci db:check
 ```
 
 Kalau berhasil:
@@ -145,15 +145,15 @@ Kalau berhasil:
 
     DB_CONNECTION : mysql
     Host          : 127.0.0.1:3306
-    Database      : batara_belajar
+    Database      : Sakuci_belajar
     Username      : root
     Password      : (kosong)
 
-  ✔ Koneksi berhasil. Versi server: 8.0.36
+  âœ” Koneksi berhasil. Versi server: 8.0.36
     Jumlah tabel  : 0
 ```
 
-Kalau gagal, pesan errornya sudah disertai saran perbaikan — baca
+Kalau gagal, pesan errornya sudah disertai saran perbaikan â€” baca
 [bagian 10](#10-kalau-error).
 
 ### Alternatif: tanpa MySQL (SQLite)
@@ -178,7 +178,7 @@ menjalankan satu perintah.
 Buat file migrasi:
 
 ```bash
-php batara make:migration create_buku_table
+php Sakuci make:migration create_buku_table
 ```
 
 Hasilnya muncul file baru di `database/migrations/` dengan nama berawalan tanggal,
@@ -204,37 +204,37 @@ CREATE TABLE IF NOT EXISTS `buku` (
 Jalankan migrasinya:
 
 ```bash
-php batara migrate
+php Sakuci migrate
 ```
 
 ```
-  ✔ 2026_08_19_101500_create_buku_table.sql
+  âœ” 2026_08_19_101500_create_buku_table.sql
 
   Selesai. 1 migrasi dijalankan.
 ```
 
-Cek di phpMyAdmin — tabel `buku` sudah ada.
+Cek di phpMyAdmin â€” tabel `buku` sudah ada.
 
 **Perintah migrasi yang perlu diingat:**
 
 | Perintah | Fungsi |
 |---|---|
-| `php batara migrate` | Jalankan migrasi yang belum pernah dijalankan |
-| `php batara migrate:fresh` | Hapus **semua** tabel (hati-hati, data ikut hilang) |
-| `php batara db:check` | Lihat tabel apa saja yang sudah ada |
+| `php Sakuci migrate` | Jalankan migrasi yang belum pernah dijalankan |
+| `php Sakuci migrate:fresh` | Hapus **semua** tabel (hati-hati, data ikut hilang) |
+| `php Sakuci db:check` | Lihat tabel apa saja yang sudah ada |
 
 > Migrasi yang sudah pernah jalan **tidak akan diulang**. Kalau Anda mengubah isi
-> file migrasi lama, jalankan `php batara migrate:fresh` lalu `php batara migrate`.
+> file migrasi lama, jalankan `php Sakuci migrate:fresh` lalu `php Sakuci migrate`.
 
 ---
 
 ## 5. Membuat Model
 
 Model adalah kelas PHP yang mewakili satu tabel. Lewat model inilah kita
-menyimpan dan mengambil data — tanpa menulis SQL manual.
+menyimpan dan mengambil data â€” tanpa menulis SQL manual.
 
 ```bash
-php batara make:model Buku
+php Sakuci make:model Buku
 ```
 
 File baru muncul di `app/Models/Buku.php`. Buka dan lengkapi:
@@ -244,7 +244,7 @@ File baru muncul di `app/Models/Buku.php`. Buka dan lengkapi:
 
 namespace App\Models;
 
-use Batara\Database\Model;
+use Sakuci\Database\Model;
 
 class Buku extends Model
 {
@@ -265,25 +265,25 @@ Tambahkan `-m` supaya berkas migrasinya ikut dibuatkan, jadi langkah 4 dan 5 di
 atas cukup satu perintah:
 
 ```bash
-php batara make:model Buku -m
+php Sakuci make:model Buku -m
 ```
 
 ```
-  ✔ Model dibuat: app/Models/Buku.php
+  âœ” Model dibuat: app/Models/Buku.php
     Tabel yang diasumsikan: bukus
 
-  ✔ Migrasi dibuat: database/migrations/2026_08_19_101500_create_bukus_table.sql
+  âœ” Migrasi dibuat: database/migrations/2026_08_19_101500_create_bukus_table.sql
     Sintaks mysql, tabel: bukus
 
     Berikutnya: sesuaikan kolom di berkas itu, lalu jalankan
-    php batara migrate
+    php Sakuci migrate
 ```
 
 Nama tabel ditebak dari nama model dalam bentuk jamak sederhana:
-`User` → `users`, `Kategori` → `kategoris`, `Buku` → `bukus`.
+`User` â†’ `users`, `Kategori` â†’ `kategoris`, `Buku` â†’ `bukus`.
 
 Tebakannya memakai aturan bahasa Inggris, jadi untuk kata Indonesia hasilnya
-kadang terasa janggal seperti `bukus` di atas. Tidak masalah — Anda bebas
+kadang terasa janggal seperti `bukus` di atas. Tidak masalah â€” Anda bebas
 menggantinya, asalkan **dua tempat ini isinya sama**:
 
 1. nama tabel di dalam berkas migrasi, dan
@@ -292,7 +292,7 @@ menggantinya, asalkan **dua tempat ini isinya sama**:
 Untuk tutorial ini kita pakai `buku`, jadi ubah keduanya menjadi `buku`.
 
 Urutannya tetap sama: sesuaikan kolom di berkas migrasi, lalu
-`php batara migrate`.
+`php Sakuci migrate`.
 
 ### Mencoba model
 
@@ -336,7 +336,7 @@ Controller adalah tempat menulis logika: mengambil data dari model, lalu
 mengirimkannya ke view.
 
 ```bash
-php batara make:controller BukuController
+php Sakuci make:controller BukuController
 ```
 
 File baru muncul di `app/Controllers/BukuController.php`. Ubah isinya:
@@ -347,8 +347,8 @@ File baru muncul di `app/Controllers/BukuController.php`. Ubah isinya:
 namespace App\Controllers;
 
 use App\Models\Buku;
-use Batara\Controller;
-use Batara\Http\Request;
+use Sakuci\Controller;
+use Sakuci\Http\Request;
 
 class BukuController extends Controller
 {
@@ -385,14 +385,14 @@ class BukuController extends Controller
 
 Tiga hal penting di atas:
 
-**`view('buku.index', [...])`** — menampilkan file
-`resources/views/buku/index.batara.php`. Titik berarti folder.
+**`view('buku.index', [...])`** â€” menampilkan file
+`resources/views/buku/index.Sakuci.php`. Titik berarti folder.
 
-**`$request->validate([...])`** — memeriksa isian form. Kalau ada yang salah,
+**`$request->validate([...])`** â€” memeriksa isian form. Kalau ada yang salah,
 pengunjung otomatis dikembalikan ke form beserta pesan errornya. Baris di
 bawahnya tidak akan dijalankan.
 
-**`redirect(...)->with('success', ...)`** — pindah halaman sambil menitipkan
+**`redirect(...)->with('success', ...)`** â€” pindah halaman sambil menitipkan
 pesan yang bisa ditampilkan sekali di halaman tujuan.
 
 ---
@@ -400,13 +400,13 @@ pesan yang bisa ditampilkan sekali di halaman tujuan.
 ## 7. Membuat View
 
 View adalah tampilan HTML-nya. Semua file view ada di `resources/views` dengan
-akhiran `.batara.php`.
+akhiran `.Sakuci.php`.
 
 ```bash
-php batara make:view buku.index
+php Sakuci make:view buku.index
 ```
 
-File muncul di `resources/views/buku/index.batara.php`. Isi dengan:
+File muncul di `resources/views/buku/index.Sakuci.php`. Isi dengan:
 
 ```blade
 @extends('layouts.app')
@@ -442,15 +442,15 @@ File muncul di `resources/views/buku/index.batara.php`. Isi dengan:
 ```
 
 > Tampilannya memakai **Bootstrap 5.3.8** yang sudah tersedia di folder
-> `public/vendor/bootstrap` — tidak perlu unduh apa pun, tidak perlu internet.
+> `public/vendor/bootstrap` â€” tidak perlu unduh apa pun, tidak perlu internet.
 > Kelas seperti `card`, `btn`, dan `shadow-sm` berasal dari Bootstrap;
-> `btn-brand` adalah warna khas Batara dari `public/css/app.css`.
+> `btn-brand` adalah warna khas Sakuci dari `public/css/app.css`.
 
 Penjelasan sintaksnya:
 
 | Sintaks | Arti |
 |---|---|
-| `@extends('layouts.app')` | Pakai kerangka halaman dari `resources/views/layouts/app.batara.php` |
+| `@extends('layouts.app')` | Pakai kerangka halaman dari `resources/views/layouts/app.Sakuci.php` |
 | `@section('content') ... @endsection` | Isi bagian `content` pada kerangka tersebut |
 | `{{ $b->judul }}` | Tampilkan isi variabel (otomatis aman dari serangan XSS) |
 | `@forelse ... @empty ... @endforelse` | Perulangan, dengan tampilan cadangan bila data kosong |
@@ -462,10 +462,10 @@ Penjelasan sintaksnya:
 Sekarang buat form tambahnya:
 
 ```bash
-php batara make:view buku.create
+php Sakuci make:view buku.create
 ```
 
-Isi `resources/views/buku/create.batara.php`:
+Isi `resources/views/buku/create.Sakuci.php`:
 
 ```blade
 @extends('layouts.app')
@@ -527,29 +527,29 @@ Isi `resources/views/buku/create.batara.php`:
 
 Empat hal penting pada setiap form:
 
-**`@csrf`** — token keamanan. **Tanpa ini form akan ditolak dengan error 419.**
+**`@csrf`** â€” token keamanan. **Tanpa ini form akan ditolak dengan error 419.**
 
-**`old('judul')`** — mengembalikan isian sebelumnya kalau validasi gagal, supaya
+**`old('judul')`** â€” mengembalikan isian sebelumnya kalau validasi gagal, supaya
 pengunjung tidak perlu mengetik ulang semuanya.
 
-**`@error('judul') ... @enderror`** — menampilkan pesan kesalahan untuk kolom itu.
+**`@error('judul') ... @enderror`** â€” menampilkan pesan kesalahan untuk kolom itu.
 
-**`errors()->has('judul') ? 'is-invalid' : ''`** — memberi garis merah pada kotak
+**`errors()->has('judul') ? 'is-invalid' : ''`** â€” memberi garis merah pada kotak
 isian yang salah. `is-invalid` dan `invalid-feedback` adalah pasangan kelas
 Bootstrap: pesan error hanya muncul kalau kotaknya bertanda `is-invalid`.
 
 ### Tentang tampilan (Bootstrap)
 
-Batara sudah menyertakan **Bootstrap 5.3.8** secara lokal:
+Sakuci sudah menyertakan **Bootstrap 5.3.8** secara lokal:
 
 ```
 public/vendor/bootstrap/css/bootstrap.min.css
 public/vendor/bootstrap/js/bootstrap.bundle.min.js
 ```
 
-Keduanya sudah dipanggil di `resources/views/layouts/app.batara.php`, jadi
+Keduanya sudah dipanggil di `resources/views/layouts/app.Sakuci.php`, jadi
 **semua view yang memakai `@extends('layouts.app')` otomatis ikut tertata rapi.**
-Tidak perlu mengunduh apa pun dan tetap jalan tanpa internet — cocok untuk
+Tidak perlu mengunduh apa pun dan tetap jalan tanpa internet â€” cocok untuk
 praktik di lab sekolah.
 
 Kelas yang paling sering dipakai:
@@ -557,7 +557,7 @@ Kelas yang paling sering dipakai:
 | Kelas | Fungsi |
 |---|---|
 | `card`, `card-body`, `shadow-sm` | Kotak putih dengan bayangan |
-| `btn btn-brand` | Tombol warna khas Batara |
+| `btn btn-brand` | Tombol warna khas Sakuci |
 | `btn btn-outline-secondary` | Tombol abu-abu bergaris |
 | `form-label`, `form-control` | Label dan kotak isian form |
 | `is-invalid`, `invalid-feedback` | Menandai isian yang salah |
@@ -567,7 +567,7 @@ Kelas yang paling sering dipakai:
 
 Rujukan lengkapnya di <https://getbootstrap.com/docs/5.3/>.
 
-**Mengubah warna khas** — buka `public/css/app.css`, ubah baris ini:
+**Mengubah warna khas** â€” buka `public/css/app.css`, ubah baris ini:
 
 ```css
 :root {
@@ -576,7 +576,7 @@ Rujukan lengkapnya di <https://getbootstrap.com/docs/5.3/>.
 }
 ```
 
-**Menambah menu di navbar** — buka `resources/views/layouts/app.batara.php`,
+**Menambah menu di navbar** â€” buka `resources/views/layouts/app.Sakuci.php`,
 cari `<ul class="navbar-nav ...">`, lalu tambahkan:
 
 ```blade
@@ -596,7 +596,7 @@ Route menghubungkan alamat URL dengan method di controller. Buka
 <?php
 
 use App\Controllers\BukuController;
-use Batara\Route;
+use Sakuci\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -611,7 +611,7 @@ Cara membacanya:
 
 ```php
 Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
-//     ↑        ↑              ↑             ↑                  ↑
+//     â†‘        â†‘              â†‘             â†‘                  â†‘
 //   method    URL         controller      method          nama route
 ```
 
@@ -621,13 +621,13 @@ menghasilkan URL yang benar. Kalau nanti URL-nya diubah, view tidak perlu diedit
 Lihat semua route yang terdaftar:
 
 ```bash
-php batara route:list
+php Sakuci route:list
 ```
 
 Sekarang jalankan servernya dan buka **http://127.0.0.1:8000/buku**.
 Coba tambah buku lewat tombol **Tambah Buku**.
 
-Coba juga kosongkan judul lalu tekan Simpan — pesan error akan muncul dan isian
+Coba juga kosongkan judul lalu tekan Simpan â€” pesan error akan muncul dan isian
 lain tetap terisi.
 
 ---
@@ -694,11 +694,11 @@ Lengkapi `BukuController` dengan empat method sisanya:
     }
 ```
 
-> Perhatikan `show(Buku $buku)` — cukup tulis tipenya, framework otomatis
+> Perhatikan `show(Buku $buku)` â€” cukup tulis tipenya, framework otomatis
 > mencarikan datanya dari database. Kalau tidak ketemu, muncul halaman 404.
 > Ini namanya **route model binding**.
 
-Buat view `buku.edit` — salin saja isi `buku.create`, lalu ubah tiga hal:
+Buat view `buku.edit` â€” salin saja isi `buku.create`, lalu ubah tiga hal:
 
 ```blade
 <form method="POST" action="{{ route('buku.update', ['id' => $buku->id]) }}">
@@ -752,7 +752,7 @@ Terakhir, tambahkan tombol Ubah dan Hapus di `buku.index`. Ganti isi
 > HTML hanya mengenal GET dan POST, jadi `@method('DELETE')` dipakai untuk
 > memberi tahu framework bahwa ini sebenarnya permintaan DELETE.
 
-Selesai — CRUD Anda lengkap.
+Selesai â€” CRUD Anda lengkap.
 
 ---
 
@@ -769,7 +769,7 @@ Username atau password salah. Di XAMPP biasanya `DB_USERNAME=root` dan
 `DB_PASSWORD=` (dikosongkan). Cek lagi `.env`, lalu:
 
 ```bash
-php batara db:check
+php Sakuci db:check
 ```
 
 ### `Gagal terhubung ke database ... Server MySQL tidak berjalan`
@@ -797,13 +797,13 @@ Nama di `route('xxx')` tidak cocok dengan `->name('xxx')` di `routes/web.php`.
 Cek daftarnya:
 
 ```bash
-php batara route:list
+php Sakuci route:list
 ```
 
 ### `View [xxx] tidak ditemukan`
 
 Nama file atau foldernya salah. `view('buku.index')` mencari file
-`resources/views/buku/index.batara.php`. Pastikan akhirannya `.batara.php`,
+`resources/views/buku/index.Sakuci.php`. Pastikan akhirannya `.Sakuci.php`,
 bukan `.php` saja.
 
 ### Halaman tidak berubah padahal view sudah diedit
@@ -811,7 +811,7 @@ bukan `.php` saja.
 Bersihkan cache view:
 
 ```bash
-php batara view:clear
+php Sakuci view:clear
 ```
 
 ### `'php' is not recognized`
@@ -819,7 +819,7 @@ php batara view:clear
 PHP belum terdaftar di PATH Windows. Pakai path lengkapnya:
 
 ```bash
-C:\xampp\php\php.exe batara serve
+C:\xampp\php\php.exe Sakuci serve
 ```
 
 ### Tabel tidak berubah padahal file migrasi sudah diedit
@@ -827,11 +827,11 @@ C:\xampp\php\php.exe batara serve
 Migrasi yang sudah jalan tidak diulang. Hapus semua tabel lalu bangun ulang:
 
 ```bash
-php batara migrate:fresh
+php Sakuci migrate:fresh
 ```
 
 ```bash
-php batara migrate
+php Sakuci migrate
 ```
 
 ---
@@ -839,27 +839,28 @@ php batara migrate
 ## Ringkasan perintah
 
 ```bash
-php batara serve                    # jalankan server
-php batara db:check                 # uji koneksi database
-php batara migrate                  # buat tabel dari file migrasi
-php batara migrate:fresh            # hapus semua tabel
-php batara route:list               # lihat semua route
-php batara make:migration nama      # buat file migrasi
-php batara make:model Nama          # buat model
-php batara make:model Nama -m       # buat model + migrasinya sekaligus
-php batara make:controller Nama     # buat controller
-php batara make:view nama.view      # buat view
-php batara view:clear               # bersihkan cache view
+php Sakuci serve                    # jalankan server
+php Sakuci db:check                 # uji koneksi database
+php Sakuci migrate                  # buat tabel dari file migrasi
+php Sakuci migrate:fresh            # hapus semua tabel
+php Sakuci route:list               # lihat semua route
+php Sakuci make:migration nama      # buat file migrasi
+php Sakuci make:model Nama          # buat model
+php Sakuci make:model Nama -m       # buat model + migrasinya sekaligus
+php Sakuci make:controller Nama     # buat controller
+php Sakuci make:view nama.view      # buat view
+php Sakuci view:clear               # bersihkan cache view
 ```
 
 ## Alur berpikir saat menambah fitur baru
 
 ```
-1. Tabel   →  make:migration  →  edit file .sql  →  migrate
-2. Model   →  make:model -m   →  model + migrasi sekaligus
-3. Route   →  edit routes/web.php
-4. Control →  make:controller →  ambil data, kirim ke view
-5. View    →  make:view       →  tampilkan datanya
+1. Tabel   â†’  make:migration  â†’  edit file .sql  â†’  migrate
+2. Model   â†’  make:model -m   â†’  model + migrasi sekaligus
+3. Route   â†’  edit routes/web.php
+4. Control â†’  make:controller â†’  ambil data, kirim ke view
+5. View    â†’  make:view       â†’  tampilkan datanya
 ```
 
 Rujukan sintaks selengkapnya ada di **README.md**.
+

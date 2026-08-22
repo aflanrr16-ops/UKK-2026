@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
 |--------------------------------------------------------------------------
 | Helper Global
@@ -6,14 +6,14 @@
 | Fungsi pendek yang dipakai di controller maupun view.
 */
 
-use Batara\Config;
-use Batara\Http\RedirectResponse;
-use Batara\Http\Request;
-use Batara\Http\Response;
-use Batara\MessageBag;
-use Batara\Route;
-use Batara\Session;
-use Batara\View;
+use Sakuci\Config;
+use Sakuci\Http\RedirectResponse;
+use Sakuci\Http\Request;
+use Sakuci\Http\Response;
+use Sakuci\MessageBag;
+use Sakuci\Route;
+use Sakuci\Session;
+use Sakuci\View;
 
 /*
 | Polyfill mbstring: sebagian instalasi PHP di Windows belum mengaktifkan
@@ -340,3 +340,4 @@ if (! function_exists('dump')) {
         }
     }
 }
+

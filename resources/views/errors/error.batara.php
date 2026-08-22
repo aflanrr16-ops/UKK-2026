@@ -1,6 +1,6 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
-@section('title', $status . ' — ' . config('app.name'))
+@section('title', $status . ' â€” ' . config('app.name'))
 
 @section('content')
 
@@ -11,3 +11,4 @@
     </div>
 
 @endsection
+

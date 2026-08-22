@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 
-namespace Batara;
+namespace Sakuci;
 
-use Batara\Http\Request;
-use Batara\Http\Response;
+use Sakuci\Http\Request;
+use Sakuci\Http\Response;
 
 /**
  * Kontrak middleware.
@@ -27,3 +27,4 @@ abstract class Middleware
      */
     abstract public function handle(Request $request, \Closure $next): mixed;
 }
+

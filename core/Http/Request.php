@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 
-namespace Batara\Http;
+namespace Sakuci\Http;
 
-use Batara\Session;
-use Batara\Validation\Validator;
+use Sakuci\Session;
+use Sakuci\Validation\Validator;
 
 /**
  * Representasi request HTTP yang masuk.
@@ -238,7 +238,7 @@ class Request
 
     /**
      * Validasi input. Jika gagal, otomatis redirect balik dengan error
-     * dan old input — persis kebiasaan Laravel.
+     * dan old input â€” persis kebiasaan Laravel.
      *
      * @throws \Batara\Exceptions\ValidationException
      */
@@ -256,3 +256,4 @@ class Request
         return $validator->validated();
     }
 }
+

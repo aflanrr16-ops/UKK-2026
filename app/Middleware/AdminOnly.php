@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace App\Middleware;
 
@@ -10,3 +10,4 @@ class AdminOnly extends EnsureRole
         return ['admin'];
     }
 }
+

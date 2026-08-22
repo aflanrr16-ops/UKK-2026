@@ -1,6 +1,6 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
-@section('title', config('app.name') . ' — Kerangka PHP Ringan')
+@section('title', config('app.name') . ' â€” Kerangka PHP Ringan')
 
 @section('content')
 
@@ -15,7 +15,7 @@
 
         <p class="lead text-secondary mx-auto mb-4" style="max-width: 620px;">
             Route, Model, View, dan Controller dalam satu paket ringan.
-            Cukup PHP OOP murni — salin foldernya, jalankan, selesai.
+            Cukup PHP OOP murni â€” salin foldernya, jalankan, selesai.
         </p>
 
         <div class="d-flex flex-wrap gap-2 justify-content-center">
@@ -185,3 +185,4 @@ Buku::create(['judul' =&gt; 'PHP']);</pre>
     </section>
 
 @endsection
+

@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Batara\Routing;
+namespace Sakuci\Routing;
 
 /**
  * Satu baris route: method + uri + action.
@@ -115,3 +115,4 @@ class RouteDefinition
         return $uri === '' ? '/' : $uri;
     }
 }
+

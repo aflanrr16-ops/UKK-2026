@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Batara;
+namespace Sakuci;
 
 /**
  * Pembungkus $_SESSION lengkap dengan flash data (sekali pakai),
@@ -96,3 +96,4 @@ class Session
         return $errors instanceof MessageBag ? $errors : new MessageBag((array) $errors);
     }
 }
+

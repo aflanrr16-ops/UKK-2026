@@ -1,22 +1,22 @@
 <?php
 /*
 |--------------------------------------------------------------------------
-| Batara CLI
+| Sakuci CLI
 |--------------------------------------------------------------------------
-| Padanan "artisan" versi ringan. Jalankan: php batara <perintah>
+| Padanan "artisan" versi ringan. Jalankan: php sakuci <perintah>
 */
 
 if (PHP_SAPI !== 'cli') {
-    exit('Batara CLI hanya bisa dijalankan dari terminal.');
+    exit('Sakuci CLI hanya bisa dijalankan dari terminal.');
 }
 
 define('BASE_PATH', __DIR__);
 
 require BASE_PATH . '/core/bootstrap.php';
 
-use Batara\Application;
-use Batara\Database\Connection;
-use Batara\Route;
+use Sakuci\Application;
+use Sakuci\Database\Connection;
+use Sakuci\Route;
 
 $app = new Application(BASE_PATH);
 
@@ -64,7 +64,7 @@ function bootConfig(Application $app): void
     $reflection->setAccessible(true);
     $reflection->invoke($app);
 
-    Batara\Config::load(BASE_PATH . '/config');
+    Sakuci\Config::load(BASE_PATH . '/config');
     date_default_timezone_set(config('app.timezone', 'Asia/Jakarta'));
 
     $booted = true;
@@ -154,7 +154,7 @@ switch ($command) {
         $port = $arguments[1] ?? '8000';
 
         out();
-        out('  Batara Framework v' . Application::VERSION, 'bold');
+        out('  Sakuci Framework v' . Application::VERSION, 'bold');
         out('  Server berjalan di http://' . $host . ':' . $port, 'green');
         out('  Tekan Ctrl+C untuk berhenti.', 'gray');
         out();
@@ -272,7 +272,7 @@ switch ($command) {
         }
 
         out();
-        out('  Jalankan "php batara migrate" untuk membuat ulang tabel.', 'cyan');
+        out('  Jalankan "php sakuci migrate" untuk membuat ulang tabel.', 'cyan');
         break;
 
     /* -------------------------------------------------------------- */
@@ -359,7 +359,7 @@ switch ($command) {
         $name = str_studly($arguments[0] ?? '');
 
         if ($name === '') {
-            fail('Nama controller wajib diisi. Contoh: php batara make:controller UserController');
+            fail('Nama controller wajib diisi. Contoh: php sakuci make:controller UserController');
             break;
         }
 
@@ -379,8 +379,8 @@ switch ($command) {
 
         namespace App\Controllers;
 
-        use Batara\Controller;
-        use Batara\Http\Request;
+        use Sakuci\Controller;
+        use Sakuci\Http\Request;
 
         class {$name} extends Controller
         {
@@ -402,7 +402,7 @@ switch ($command) {
         $name = str_studly($arguments[0] ?? '');
 
         if ($name === '') {
-            fail('Nama model wajib diisi. Contoh: php batara make:model User');
+            fail('Nama model wajib diisi. Contoh: php sakuci make:model User');
             out('    Tambahkan -m untuk sekalian membuat berkas migrasi.', 'gray');
             break;
         }
@@ -420,7 +420,7 @@ switch ($command) {
 
         namespace App\Models;
 
-        use Batara\Database\Model;
+        use Sakuci\Database\Model;
 
         class {$name} extends Model
         {
@@ -443,7 +443,7 @@ switch ($command) {
             out('    Sintaks ' . config('database.default') . ', tabel: ' . $table, 'gray');
             out();
             out('    Berikutnya: sesuaikan kolom di berkas itu, lalu jalankan', 'gray');
-            out('    php batara migrate', 'cyan');
+            out('    php sakuci migrate', 'cyan');
         }
 
         break;
@@ -453,7 +453,7 @@ switch ($command) {
         $name = $arguments[0] ?? '';
 
         if ($name === '') {
-            fail('Nama view wajib diisi. Contoh: php batara make:view users.index');
+            fail('Nama view wajib diisi. Contoh: php sakuci make:view users.index');
             break;
         }
 
@@ -478,7 +478,7 @@ switch ($command) {
         $name = $arguments[0] ?? '';
 
         if ($name === '') {
-            fail('Nama migrasi wajib diisi. Contoh: php batara make:migration create_users_table');
+            fail('Nama migrasi wajib diisi. Contoh: php sakuci make:migration create_users_table');
             break;
         }
 
@@ -507,10 +507,10 @@ switch ($command) {
     /* -------------------------------------------------------------- */
     default:
         out();
-        out('  Batara Framework v' . Application::VERSION, 'bold');
+        out('  Sakuci Framework v' . Application::VERSION, 'bold');
         out('  Kerangka PHP ringan bergaya Laravel — tanpa Composer.', 'gray');
         out();
-        out('  Penggunaan: php batara <perintah> [argumen]', 'yellow');
+        out('  Penggunaan: php sakuci <perintah> [argumen]', 'yellow');
         out();
         out('  Perintah tersedia:', 'bold');
 
