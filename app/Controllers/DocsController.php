@@ -17,7 +17,7 @@ class DocsController extends Controller
             // ===== INTRO =====
             [
                 'id'    => '0-intro',
-                'title' => 'ðŸ“š Dokumentasi Batara',
+                'title' => 'Dokumentasi Sakuci',
                 'parts' => [
                     ['p' => 'Kerangka PHP ringan bergaya Laravel tanpa Composer. Fitur: Route, Model, View, Controller, Validation, Session, Middleware, CSRF protection, Query Builder dengan eager loading, dan Bootstrap 5.3.8 built-in.'],
                     ['p' => '<strong>Coba akun demo:</strong> admin / rahasia123 (atau staff, atau budi)'],
@@ -27,17 +27,17 @@ class DocsController extends Controller
             // ===== CLI =====
             [
                 'id'    => '1-cli',
-                'title' => 'ðŸ–¥ï¸ CLI â€” Perintah batara',
+                'title' => 'CLI -- Perintah sakuci',
                 'parts' => [
                     ['p' => 'Jalankan semua perintah dari folder project:'],
-                    ['code' => "php batara serve                    # Jalankan server (127.0.0.1:8000)\nphp batara migrate                  # Jalankan migrasi\nphp batara migrate:fresh            # Hapus semua tabel\nphp batara db:check                 # Uji koneksi database\nphp batara route:list               # Lihat semua route\nphp batara make:model Nama          # Buat model\nphp batara make:model Nama -m       # Buat model + migrasi\nphp batara make:controller Nama     # Buat controller\nphp batara make:view nama.view      # Buat view\nphp batara make:migration nama      # Buat migrasi\nphp batara view:clear               # Bersihkan cache view", 'lang' => 'bash'],
+                    ['code' => "php sakuci serve                    # Jalankan server (127.0.0.1:8000)\nphp sakuci migrate                  # Jalankan migrasi\nphp sakuci migrate:fresh            # Hapus semua tabel\nphp sakuci db:check                 # Uji koneksi database\nphp sakuci route:list               # Lihat semua route\nphp sakuci make:model Nama          # Buat model\nphp sakuci make:model Nama -m       # Buat model + migrasi\nphp sakuci make:controller Nama     # Buat controller\nphp sakuci make:view nama.view      # Buat view\nphp sakuci make:migration nama      # Buat migrasi\nphp sakuci view:clear               # Bersihkan cache view", 'lang' => 'bash'],
                 ],
             ],
 
             // ===== ROUTING =====
             [
                 'id'    => '2-routing',
-                'title' => 'ðŸ›£ï¸ Routing',
+                'title' => 'Routing',
                 'parts' => [
                     ['p' => 'Daftarkan route di routes/web.php:'],
                     ['code' => <<<'PHP'
@@ -69,10 +69,10 @@ class DocsController extends Controller
             // ===== MODEL =====
             [
                 'id'    => '3-model',
-                'title' => 'ðŸ“Š Model & Query Builder',
+                'title' => 'Model & Query Builder',
                 'parts' => [
                     ['p' => 'Model mewakili satu tabel di database. Buat dengan:'],
-                    ['code' => 'php batara make:model Post -m', 'lang' => 'bash'],
+                    ['code' => 'php sakuci make:model Post -m', 'lang' => 'bash'],
                     ['code' => <<<'PHP'
                         <?php
                         namespace App\Models;
@@ -124,9 +124,9 @@ class DocsController extends Controller
             // ===== CONTROLLER =====
             [
                 'id'    => '4-controller',
-                'title' => 'âš™ï¸ Controller',
+                'title' => 'Controller',
                 'parts' => [
-                    ['p' => 'Buat dengan: php batara make:controller PostController'],
+                    ['p' => 'Buat dengan: php sakuci make:controller PostController'],
                     ['code' => <<<'PHP'
                         <?php
                         namespace App\Controllers;
@@ -164,7 +164,7 @@ class DocsController extends Controller
                                     ->with('success', 'Post berhasil dibuat.');
                             }
 
-                            // GET /posts/{id} â€” Route model binding
+                            // GET /posts/{id} -- Route model binding
                             public function show(Post $post)
                             {
                                 return view('posts.show', ['post' => $post]);
@@ -207,7 +207,7 @@ class DocsController extends Controller
             // ===== VIEW =====
             [
                 'id'    => '5-view',
-                'title' => 'ðŸŽ¨ View (Template)',
+                'title' => 'View (Template)',
                 'parts' => [
                     ['p' => 'File view ada di resources/views/ dengan akhiran .batara.php. Pakai sintaks Blade-like:'],
                     ['code' => <<<'BLADE'
@@ -272,7 +272,7 @@ class DocsController extends Controller
             // ===== VALIDATION =====
             [
                 'id'    => '6-validation',
-                'title' => 'âœ“ Validation',
+                'title' => 'Validation',
                 'parts' => [
                     ['p' => 'Di controller, gunakan $request->validate():'],
                     ['code' => <<<'PHP'
@@ -293,7 +293,7 @@ class DocsController extends Controller
             // ===== BOOTSTRAP UI =====
             [
                 'id'    => '7-bootstrap-ui',
-                'title' => 'ðŸŽ¯ Bootstrap Components',
+                'title' => 'Bootstrap Components',
                 'parts' => [
                     ['p' => 'Bootstrap 5.3.8 sudah built-in. Ganti warna khas di public/css/app.css:'],
                     ['code' => <<<'CSS'
@@ -306,7 +306,7 @@ class DocsController extends Controller
                     ['table' => [
                         ['Kelas' => 'card', 'Fungsi' => 'Kotak putih dengan bayangan'],
                         ['Kelas' => 'btn btn-primary', 'Fungsi' => 'Tombol biru'],
-                        ['Kelas' => 'btn btn-brand', 'Fungsi' => 'Tombol warna khas Batara'],
+                        ['Kelas' => 'btn btn-brand', 'Fungsi' => 'Tombol warna khas Sakuci'],
                         ['Kelas' => 'form-label, form-control', 'Fungsi' => 'Label & input form'],
                         ['Kelas' => 'is-invalid, invalid-feedback', 'Fungsi' => 'Garis merah saat validasi gagal'],
                         ['Kelas' => 'alert alert-success', 'Fungsi' => 'Notifikasi hijau'],
@@ -339,14 +339,14 @@ class DocsController extends Controller
             // ===== DATABASE =====
             [
                 'id'    => '8-database',
-                'title' => 'ðŸ’¾ Database Setup',
+                'title' => 'Database Setup',
                 'parts' => [
                     ['p' => 'Edit .env:'],
-                    ['code' => "DB_CONNECTION=mysql\nDB_HOST=127.0.0.1\nDB_PORT=3306\nDB_DATABASE=batara_belajar\nDB_USERNAME=root\nDB_PASSWORD=", 'lang' => 'ini'],
+                    ['code' => "DB_CONNECTION=mysql\nDB_HOST=127.0.0.1\nDB_PORT=3306\nDB_DATABASE=sakuci_belajar\nDB_USERNAME=root\nDB_PASSWORD=", 'lang' => 'ini'],
                     ['p' => 'Lalu buat database (lewat phpMyAdmin atau SQL):'],
-                    ['code' => 'CREATE DATABASE batara_belajar CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;', 'lang' => 'sql'],
+                    ['code' => 'CREATE DATABASE sakuci_belajar CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;', 'lang' => 'sql'],
                     ['p' => 'Uji koneksi:'],
-                    ['code' => 'php batara db:check', 'lang' => 'bash'],
+                    ['code' => 'php sakuci db:check', 'lang' => 'bash'],
                     ['p' => 'Untuk SQLite (tanpa setup), cukup ubah .env:'],
                     ['code' => 'DB_CONNECTION=sqlite', 'lang' => 'ini'],
                 ],
@@ -355,7 +355,7 @@ class DocsController extends Controller
             // ===== SESSION =====
             [
                 'id'    => '9-session',
-                'title' => 'ðŸ” Session & Flash Message',
+                'title' => 'Session & Flash Message',
                 'parts' => [
                     ['p' => 'Di controller atau view:'],
                     ['code' => <<<'PHP'
@@ -391,7 +391,7 @@ class DocsController extends Controller
             // ===== MIDDLEWARE =====
             [
                 'id'    => '10-middleware',
-                'title' => 'ðŸš¦ Middleware',
+                'title' => 'Middleware',
                 'parts' => [
                     ['p' => 'Middleware adalah filter yang menjalankan kode sebelum/sesudah request masuk ke controller. Daftarkan di config/app.php:'],
                     ['code' => <<<'PHP'
@@ -440,7 +440,7 @@ class DocsController extends Controller
             // ===== MULTI-ROLE (dari awal) =====
             [
                 'id'    => '11-multi-role',
-                'title' => 'ðŸ‘¥ Multi-Role Login System',
+                'title' => 'Multi-Role Login System',
                 'parts' => [
                     ['p' => 'Sistem login dengan 3 role: admin, staff, user. Lihat awal dokumentasi untuk detailnya.'],
                     ['p' => 'Coba login dengan salah satu akun demo:'],
@@ -455,7 +455,7 @@ class DocsController extends Controller
             // ===== TIPS =====
             [
                 'id'    => '12-tips',
-                'title' => 'ðŸ’¡ Tips & Trik',
+                'title' => 'Tips & Trik',
                 'parts' => [
                     ['p' => '<strong>Helper global yang tersedia:</strong>'],
                     ['code' => <<<'PHP'
@@ -496,4 +496,3 @@ class DocsController extends Controller
         ];
     }
 }
-
