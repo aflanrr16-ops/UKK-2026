@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', config('app.name') . ' â€” Kerangka PHP Ringan')
+@section('title', config('app.name') . ' -- Kerangka PHP Ringan')
 
 @section('content')
 
     {{-- Hero --}}
     <section class="text-center py-4 py-lg-5">
-        <span class="badge rounded-pill badge-brand px-3 py-2 mb-3">Batara v1.0.0</span>
+        <span class="badge rounded-pill badge-brand px-3 py-2 mb-3">Sakuci v1.0.0</span>
 
         <h1 class="display-5 fw-bold mb-3">
             Kerangka PHP rasa Laravel,<br class="d-none d-md-inline">
@@ -15,7 +15,7 @@
 
         <p class="lead text-secondary mx-auto mb-4" style="max-width: 620px;">
             Route, Model, View, dan Controller dalam satu paket ringan.
-            Cukup PHP OOP murni â€” salin foldernya, jalankan, selesai.
+            Cukup PHP OOP murni -- salin foldernya, jalankan, selesai.
         </p>
 
         <div class="d-flex flex-wrap gap-2 justify-content-center">
@@ -42,7 +42,7 @@
                                 <div class="fw-medium">Atur koneksi database</div>
                                 <div class="text-secondary small">
                                     Edit berkas <code class="inline">.env</code>, lalu uji dengan
-                                    <code class="inline">php batara db:check</code>
+                                    <code class="inline">php sakuci db:check</code>
                                 </div>
                             </div>
                         </li>
@@ -51,8 +51,8 @@
                             <div>
                                 <div class="fw-medium">Buat tabel</div>
                                 <div class="text-secondary small">
-                                    <code class="inline">php batara make:migration create_buku_table</code>
-                                    lalu <code class="inline">php batara migrate</code>
+                                    <code class="inline">php sakuci make:migration create_buku_table</code>
+                                    lalu <code class="inline">php sakuci migrate</code>
                                 </div>
                             </div>
                         </li>
@@ -73,7 +73,7 @@
                                 <div class="fw-medium">Daftarkan route</div>
                                 <div class="text-secondary small">
                                     Tulis di <code class="inline">routes/web.php</code>, cek dengan
-                                    <code class="inline">php batara route:list</code>
+                                    <code class="inline">php sakuci route:list</code>
                                 </div>
                             </div>
                         </li>
@@ -88,16 +88,16 @@
                     <h2 class="h5 fw-semibold mb-3">Perintah yang sering dipakai</h2>
 
                     <pre class="code"><span class="cmt"># jalankan server</span>
-php batara serve
+php sakuci serve
 
 <span class="cmt"># uji koneksi database</span>
-php batara db:check
+php sakuci db:check
 
 <span class="cmt"># lihat semua route</span>
-php batara route:list
+php sakuci route:list
 
 <span class="cmt"># bantuan lengkap</span>
-php batara</pre>
+php sakuci</pre>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@ php batara</pre>
                     <div class="card-body">
                         <pre class="code">Route::get('/buku',
     [BukuController::class, 'index'])
-    -&gt;name('buku.index');
+    ->name('buku.index');
 
 <span class="cmt">// 7 route CRUD sekaligus</span>
 Route::resource('buku',
@@ -138,7 +138,7 @@ Route::resource('buku',
     public function index()
     {
         return view('buku.index', [
-            'buku' =&gt; Buku::all(),
+            'buku' => Buku::all(),
         ]);
     }
 }</pre>
@@ -155,11 +155,11 @@ Route::resource('buku',
                     <div class="card-body">
                         <pre class="code">Buku::all();
 Buku::find(1);
-Buku::where('stok', '&gt;', 0)
-    -&gt;latest()
-    -&gt;paginate(10);
+Buku::where('stok', '>', 0)
+    ->latest()
+    ->paginate(10);
 
-Buku::create(['judul' =&gt; 'PHP']);</pre>
+Buku::create(['judul' => 'PHP']);</pre>
                     </div>
                 </div>
             </div>
@@ -185,4 +185,3 @@ Buku::create(['judul' =&gt; 'PHP']);</pre>
     </section>
 
 @endsection
-

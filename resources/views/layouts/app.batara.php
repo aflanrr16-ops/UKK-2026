@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', config('app.name'))</title>
 
-    {{-- Bootstrap 5.3.8 â€” file lokal, tidak butuh internet --}}
+    {{-- Bootstrap 5.3.8 -- file lokal, tidak butuh internet --}}
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
@@ -14,7 +14,7 @@
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold" href="{{ route('home') }}">
-            <span class="brand-mark">B</span>
+            <span class="brand-mark">S</span>
             {{ config('app.name') }}
         </a>
 
@@ -64,7 +64,7 @@
 
 <footer class="border-top bg-white py-4 mt-auto">
     <div class="container text-center text-secondary small">
-        Batara Framework &middot; PHP {{ PHP_VERSION }} &middot; Bootstrap 5.3.8 &middot; tanpa Composer
+        Sakuci Framework &middot; PHP {{ PHP_VERSION }} &middot; Bootstrap 5.3.8 &middot; tanpa Composer
     </div>
 </footer>
 
@@ -73,4 +73,3 @@
 
 </body>
 </html>
-
