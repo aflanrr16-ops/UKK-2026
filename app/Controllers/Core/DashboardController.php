@@ -16,15 +16,5 @@ class DashboardController extends Controller
     {
         return view('core.admin.dashboard', ['user' => User::current()]);
     }
-
-    public function staff()
-    {
-        return view('core.staff.dashboard', ['user' => User::current()]);
-    }
-
-    public function user()
-    {
-        return view('core.user.dashboard', ['user' => User::current()]);
-    }
 }
 

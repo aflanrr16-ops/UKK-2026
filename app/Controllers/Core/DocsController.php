@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Core;
 
 use Sakuci\Controller;
 
@@ -8,7 +8,7 @@ class DocsController extends Controller
 {
     public function index()
     {
-        return view('docs.index', ['sections' => $this->sections()]);
+        return view('core.docs.index', ['sections' => $this->sections()]);
     }
 
     protected function sections(): array
@@ -22,7 +22,7 @@ class DocsController extends Controller
                     ['p' => 'Kerangka PHP ringan bergaya Laravel tanpa Composer. Fitur: Route, Model, View, Controller, Validation, Session, Middleware, CSRF protection, Query Builder dengan eager loading, dan Bootstrap 5.3.8 built-in.'],
                     ['p' => '<strong>Instalasi cepat:</strong> Clone dari GitHub atau salin folder ke web server Anda.'],
                     ['code' => "# Clone dari GitHub\ngit clone https://github.com/indrabsus/sakuci-framework.git\ncd sakuci-framework\n\n# Atau download dan ekstrak folder\n\n# Jalankan server\nphp sakuci serve\n\n# Buka di browser\nhttp://127.0.0.1:8000", 'lang' => 'bash'],
-                    ['p' => '<strong>Coba akun demo:</strong> admin / rahasia123 (atau staff, atau budi)'],
+                    ['p' => '<strong>Coba akun demo:</strong> admin / rahasia123 &mdash; satu-satunya akun bawaan. Role lain (staff, user, dst.) dibuat sendiri lewat /admin/roles setelah login.'],
                 ],
             ],
 
@@ -444,13 +444,13 @@ class DocsController extends Controller
                 'id'    => '11-multi-role',
                 'title' => 'Multi-Role Login System',
                 'parts' => [
-                    ['p' => 'Sistem login dengan 3 role: admin, staff, user. Lihat awal dokumentasi untuk detailnya.'],
-                    ['p' => 'Coba login dengan salah satu akun demo:'],
+                    ['p' => 'Instalasi baru hanya punya satu akun & satu role: admin. Role lain (staff, user, editor, dst) dibuat sendiri oleh admin lewat /admin/roles -- baru muncul di dropdown /admin/users setelah dibuat.'],
                     ['table' => [
                         ['username' => 'admin', 'password' => 'rahasia123', 'akses' => '/admin'],
-                        ['username' => 'staff', 'password' => 'rahasia123', 'akses' => '/staff'],
-                        ['username' => 'budi',  'password' => 'rahasia123', 'akses' => '/dashboard'],
                     ]],
+                    ['p' => '<strong>Tambah role baru:</strong> Login sebagai admin, buka /admin/roles, isi nama role. Dua hal dibuat otomatis: berkas middleware <code class="inline">{Role}Only.php</code> di app/Middleware (langsung terdaftar sebagai alias, pakai lewat <code class="inline">Route::group([\'middleware\' => \'nama-role\'], ...)</code>), dan route group <code class="inline">/nama-role</code> di routes/web.php yang sudah dilindungi middleware tersebut.'],
+                    ['p' => '<strong>Ganti nama / hapus role:</strong> Di /admin/roles, tiap role (selain admin) punya form ganti nama + toggle registrasi, dan tombol hapus. Middleware & route mengikuti otomatis; ganti nama juga memindahkan seluruh user pemilik role itu ke nama barunya. Role tidak bisa dihapus selama masih ada user yang memakainya.'],
+                    ['p' => '<strong>Registrasi mandiri:</strong> Centang "Daftar" saat membuat/mengubah role supaya role itu muncul sebagai pilihan di halaman /register. Kalau tidak ada role yang dicentang, halaman /register otomatis mengarahkan kembali ke /login.'],
                 ],
             ],
 

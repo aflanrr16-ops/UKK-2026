@@ -9,7 +9,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <h1 class="h4 mb-1">Masuk</h1>
-                    <p class="text-secondary small mb-4">Akun demo: admin / staff / budi &mdash; password <code class="inline">rahasia123</code></p>
+                    <p class="text-secondary small mb-4">Akun demo: admin &mdash; password <code class="inline">rahasia123</code></p>
 
                     <form method="POST" action="{{ route('login.attempt') }}">
                         @csrf
@@ -28,6 +28,18 @@
 
                         <button class="btn btn-brand w-100" type="submit">Login</button>
                     </form>
+
+                    @php
+                        $canRegister = false;
+                        try {
+                            $canRegister = \App\Models\Role::where('can_register', 1)->exists();
+                        } catch (\Throwable $e) {
+                            $canRegister = false;
+                        }
+                    @endphp
+                    @if ($canRegister)
+                        <p class="text-secondary small text-center mt-3 mb-0">Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a>.</p>
+                    @endif
                 </div>
             </div>
         </div>

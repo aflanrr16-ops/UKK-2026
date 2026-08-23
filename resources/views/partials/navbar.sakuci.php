@@ -39,7 +39,7 @@
                 @endphp
                 @if ($currentUser)
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ $currentUser->role === 'admin' ? route('admin.dashboard') : ($currentUser->role === 'staff' ? route('staff.dashboard') : route('dashboard')) }}">Dashboard</a>
+                        <a class="nav-link" href="{{ $currentUser->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <form method="POST" action="{{ route('logout') }}" class="d-lg-inline">
@@ -48,6 +48,21 @@
                         </form>
                     </li>
                 @else
+                    @php
+                        $canRegister = false;
+                        if ($dbConnected) {
+                            try {
+                                $canRegister = \App\Models\Role::where('can_register', 1)->exists();
+                            } catch (\Throwable $e) {
+                                $canRegister = false;
+                            }
+                        }
+                    @endphp
+                    @if ($canRegister)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">Daftar</a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="btn btn-sm btn-outline-brand mt-2 mt-lg-0" href="{{ route('login') }}">Masuk</a>
                     </li>

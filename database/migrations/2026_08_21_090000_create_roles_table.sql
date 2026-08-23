@@ -9,15 +9,8 @@ CREATE TABLE IF NOT EXISTS `roles` (
     updated_at DATETIME NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Role bawaan, sesuai role yang sudah dipakai login multi-role.
+-- Satu-satunya role bawaan. Role lain (staff, user, dst) dibuat sendiri
+-- oleh admin lewat /admin/roles -- middleware & route-nya otomatis dibuat.
 INSERT INTO `roles` (name, created_at, updated_at)
 SELECT * FROM (SELECT 'admin' AS name, NOW() AS created_at, NOW() AS updated_at) AS tmp
 WHERE NOT EXISTS (SELECT 1 FROM `roles` WHERE name = 'admin');
-
-INSERT INTO `roles` (name, created_at, updated_at)
-SELECT * FROM (SELECT 'staff' AS name, NOW() AS created_at, NOW() AS updated_at) AS tmp
-WHERE NOT EXISTS (SELECT 1 FROM `roles` WHERE name = 'staff');
-
-INSERT INTO `roles` (name, created_at, updated_at)
-SELECT * FROM (SELECT 'user' AS name, NOW() AS created_at, NOW() AS updated_at) AS tmp
-WHERE NOT EXISTS (SELECT 1 FROM `roles` WHERE name = 'user');

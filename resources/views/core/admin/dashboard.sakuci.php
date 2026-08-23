@@ -29,6 +29,14 @@
                 </div>
             </a>
         </div>
+        <div class="col-md-6">
+            <a href="{{ route('admin.database.export') }}" class="card border-0 shadow-sm text-decoration-none h-100">
+                <div class="card-body p-4">
+                    <h2 class="h6 mb-1">Download Database</h2>
+                    <p class="text-secondary small mb-0">Unduh seluruh isi database jadi satu file .sql, siap diimpor di server.</p>
+                </div>
+            </a>
+        </div>
     </div>
 
 @endsection

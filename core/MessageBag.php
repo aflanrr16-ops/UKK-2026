@@ -9,6 +9,13 @@ class MessageBag implements \Countable, \JsonSerializable
 {
     public function __construct(protected array $messages = [])
     {
+        // Terima juga bentuk singkat ['field' => 'pesan'], bukan hanya
+        // ['field' => ['pesan']] -- keduanya dipakai lewat withErrors().
+        foreach ($this->messages as $key => $value) {
+            if (! is_array($value)) {
+                $this->messages[$key] = [$value];
+            }
+        }
     }
 
     public function add(string $key, string $message): static
