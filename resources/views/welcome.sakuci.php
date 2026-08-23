@@ -45,6 +45,10 @@
 git clone https://github.com/indrabsus/sakuci-framework.git
 cd sakuci-framework
 
+<span class="cmt"># Siapkan .env + kode aktivasi</span>
+cp .env.example .env
+php sakuci code
+
 <span class="cmt"># Jalankan server</span>
 php sakuci serve</pre>
                         </div>
@@ -54,6 +58,8 @@ php sakuci serve</pre>
                             <ol class="mb-0 ps-4">
                                 <li>Download folder dari <a href="https://github.com/indrabsus/sakuci-framework" target="_blank">GitHub</a></li>
                                 <li>Ekstrak ke folder proyek</li>
+                                <li>Salin <code class="inline">.env.example</code> jadi <code class="inline">.env</code></li>
+                                <li>Jalankan <code class="inline">php sakuci code</code>, tempel hasilnya ke <code class="inline">APPCODE</code> di <code class="inline">.env</code></li>
                                 <li>Jalankan <code class="inline">php sakuci serve</code></li>
                                 <li>Buka <code class="inline">http://127.0.0.1:8000</code></li>
                             </ol>
@@ -125,6 +131,9 @@ php sakuci serve</pre>
 
                     <pre class="code"><span class="cmt"># jalankan server</span>
 php sakuci serve
+
+<span class="cmt"># generate APPCODE (.env)</span>
+php sakuci code
 
 <span class="cmt"># uji koneksi database</span>
 php sakuci db:check

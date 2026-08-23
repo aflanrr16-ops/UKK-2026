@@ -21,7 +21,7 @@ class DocsController extends Controller
                 'parts' => [
                     ['p' => 'Kerangka PHP ringan bergaya Laravel tanpa Composer. Fitur: Route, Model, View, Controller, Validation, Session, Middleware, CSRF protection, Query Builder dengan eager loading, dan Bootstrap 5.3.8 built-in.'],
                     ['p' => '<strong>Instalasi cepat:</strong> Clone dari GitHub atau salin folder ke web server Anda.'],
-                    ['code' => "# Clone dari GitHub\ngit clone https://github.com/indrabsus/sakuci-framework.git\ncd sakuci-framework\n\n# Atau download dan ekstrak folder\n\n# Jalankan server\nphp sakuci serve\n\n# Buka di browser\nhttp://127.0.0.1:8000", 'lang' => 'bash'],
+                    ['code' => "# Clone dari GitHub\ngit clone https://github.com/indrabsus/sakuci-framework.git\ncd sakuci-framework\n\n# Atau download dan ekstrak folder\n\n# Salin .env.example jadi .env, lalu isi APPCODE (lihat bagian\n# \"Aktivasi -- APPCODE\" di bawah) sebelum menjalankan server\ncp .env.example .env\nphp sakuci code\n\n# Jalankan server\nphp sakuci serve\n\n# Buka di browser\nhttp://127.0.0.1:8000", 'lang' => 'bash'],
                     ['p' => '<strong>Coba akun demo:</strong> admin / rahasia123 &mdash; satu-satunya akun bawaan. Role lain (staff, user, dst.) dibuat sendiri lewat /admin/roles setelah login.'],
                 ],
             ],
@@ -32,7 +32,25 @@ class DocsController extends Controller
                 'title' => 'CLI -- Perintah sakuci',
                 'parts' => [
                     ['p' => 'Jalankan semua perintah dari folder project:'],
-                    ['code' => "php sakuci serve                    # Jalankan server (127.0.0.1:8000)\nphp sakuci migrate                  # Jalankan migrasi\nphp sakuci migrate:fresh            # Hapus semua tabel\nphp sakuci db:check                 # Uji koneksi database\nphp sakuci route:list               # Lihat semua route\nphp sakuci make:model Nama          # Buat model\nphp sakuci make:model Nama -m       # Buat model + migrasi\nphp sakuci make:controller Nama     # Buat controller\nphp sakuci make:view nama.view      # Buat view\nphp sakuci make:migration nama      # Buat migrasi\nphp sakuci view:clear               # Bersihkan cache view", 'lang' => 'bash'],
+                    ['code' => "php sakuci serve                    # Jalankan server (127.0.0.1:8000)\nphp sakuci code                     # Generate APPCODE untuk .env\nphp sakuci migrate                  # Jalankan migrasi\nphp sakuci migrate:fresh            # Hapus semua tabel\nphp sakuci db:check                 # Uji koneksi database\nphp sakuci route:list               # Lihat semua route\nphp sakuci make:model Nama          # Buat model\nphp sakuci make:model Nama -m       # Buat model + migrasi\nphp sakuci make:controller Nama     # Buat controller\nphp sakuci make:view nama.view      # Buat view\nphp sakuci make:migration nama      # Buat migrasi\nphp sakuci view:clear               # Bersihkan cache view", 'lang' => 'bash'],
+                ],
+            ],
+
+            // ===== APPCODE =====
+            [
+                'id'    => '1a-appcode',
+                'title' => 'Aktivasi -- APPCODE',
+                'parts' => [
+                    ['p' => '<strong>php sakuci serve</strong> menolak jalan selama <code class="inline">APPCODE</code> di file <code class="inline">.env</code> masih kosong atau salah. Ini kode aktivasi framework ini, bukan bagian dari konfigurasi database/aplikasi biasa.'],
+                    ['p' => '<strong>Langkah 1 -- Generate APPCODE:</strong>'],
+                    ['code' => 'php sakuci code', 'lang' => 'bash'],
+                    ['p' => 'Perintah ini mencetak sebuah hash bcrypt beserta baris siap-tempel, misalnya:'],
+                    ['code' => "APPCODE baru:\n\$2y\$10\$contohHashAcakYangDicetakDiTerminalAnda\n\nTempel ke .env:\nAPPCODE=\$2y\$10\$contohHashAcakYangDicetakDiTerminalAnda", 'lang' => 'text'],
+                    ['p' => '<strong>Langkah 2 -- Tempel ke .env:</strong> salin baris <code class="inline">APPCODE=...</code> yang dicetak, lalu tempelkan (timpa baris <code class="inline">APPCODE=</code> yang masih kosong) di file <code class="inline">.env</code> pada folder project.'],
+                    ['p' => '<strong>Langkah 3 -- Jalankan lagi:</strong>'],
+                    ['code' => 'php sakuci serve', 'lang' => 'bash'],
+                    ['p' => 'Kalau APPCODE kosong atau isinya sembarangan (bukan hash yang benar-benar valid), server menolak jalan dan mencetak pesan error di terminal -- tidak ada server yang menyala sama sekali, jadi tidak perlu khawatir situs terbuka tanpa aktivasi.'],
+                    ['p' => 'Setiap kali <code class="inline">php sakuci code</code> dijalankan, hash yang dicetak selalu berbeda (bcrypt memakai salt acak) -- itu normal, semuanya tetap valid. Cukup jalankan sekali per instalasi dan simpan hasilnya di <code class="inline">.env</code>.'],
                 ],
             ],
 
