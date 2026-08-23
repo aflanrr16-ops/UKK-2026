@@ -92,7 +92,10 @@ class Application
             $value = trim(trim($value), "\"'");
 
             $_ENV[$key] = $value;
-            putenv($key . '=' . $value);
+
+            if (function_exists('putenv')) {
+                putenv($key . '=' . $value);
+            }
         }
     }
 
