@@ -1,11 +1,31 @@
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold" href="{{ route('home') }}">
-            <svg width="28" height="28" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;">
-                <path d="M15 1H1V7H3.38197L4.88196 4L7.11803 4L10 9.76393L11.382 7H15V1Z" fill="#FF0000"/>
-                <path d="M15 9H12.618L11.118 12L8.88197 12L6 6.23607L4.61803 9H1V15H15V9Z" fill="#0066FF"/>
+            <svg width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+                <defs>
+                    <clipPath id="sakuciLogoClip">
+                        <circle cx="16" cy="16" r="16"/>
+                    </clipPath>
+                </defs>
+                <g clip-path="url(#sakuciLogoClip)">
+                    <path d="M30 2H2V14H6.76394L9.76392 8L14.23606 8L20 19.52786L22.764 14H30V2Z" fill="#FF0000"/>
+                    <path d="M30 18H25.236L22.236 24L17.76394 24L12 12.47214L9.23606 18H2V30H30V18Z" fill="#0066FF"/>
+                </g>
+                <circle cx="16" cy="16" r="15.5" fill="none" stroke="#333" stroke-width="1"/>
             </svg>
             {{ config('app.name') }}
+            @php
+                $dbConnected = false;
+                try {
+                    \Sakuci\Database\Connection::pdo();
+                    $dbConnected = true;
+                } catch (\Throwable $e) {
+                    $dbConnected = false;
+                }
+            @endphp
+            <span class="d-inline-block rounded-circle"
+                  style="width: 10px; height: 10px; background-color: {{ $dbConnected ? '#28a745' : '#dc3545' }};"
+                  title="{{ $dbConnected ? 'Database terhubung' : 'Database tidak terhubung' }}"></span>
         </a>
 
         <button class="navbar-toggler border-0" type="button"
