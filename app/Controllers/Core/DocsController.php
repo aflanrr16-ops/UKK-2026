@@ -313,29 +313,280 @@ class DocsController extends Controller
             // ===== BOOTSTRAP UI =====
             [
                 'id'    => '7-bootstrap-ui',
-                'title' => 'Bootstrap Components',
+                'title' => 'Bootstrap 5.3.8 -- Grid, Card & Tabel',
                 'parts' => [
-                    ['p' => 'Bootstrap 5.3.8 sudah built-in. Ganti warna khas di public/css/app.css:'],
+                    ['p' => 'Bootstrap 5.3.8 sudah built-in (file lokal di public/vendor/bootstrap, tidak butuh internet). Ganti warna khas di public/css/app.css, otomatis berlaku ke seluruh tombol, badge, dan aksen brand:'],
                     ['code' => <<<'CSS'
                         :root {
                             --brand: #c2410c;       /* Warna utama */
                             --brand-dark: #9a3412; /* Saat hover */
+                            --brand-subtle: #fff7ed; /* Latar lembut, mis. badge */
                         }
                         CSS, 'lang' => 'css'],
-                    ['p' => '<strong>Component Bootstrap yang sering dipakai:</strong>'],
+
+                    // ----- GRID -----
+                    ['h3' => 'Grid System -- container, row, col'],
+                    ['p' => 'Layout Bootstrap berbasis <strong>12 kolom</strong>. Tiga lapis yang selalu dipakai bersamaan: <code class="inline">.container</code> (bungkus lebar & center konten, sudah otomatis ada di layouts/app.sakuci.php), <code class="inline">.row</code> (bungkus satu baris kolom), lalu <code class="inline">.col-*</code> (kolom di dalamnya). Angka di belakang col menyatakan lebar dari 12, misal col-md-6 = separuh lebar mulai breakpoint md ke atas.'],
                     ['table' => [
-                        ['Kelas' => 'card', 'Fungsi' => 'Kotak putih dengan bayangan'],
-                        ['Kelas' => 'btn btn-primary', 'Fungsi' => 'Tombol biru'],
-                        ['Kelas' => 'btn btn-brand', 'Fungsi' => 'Tombol warna khas Sakuci'],
-                        ['Kelas' => 'form-label, form-control', 'Fungsi' => 'Label & input form'],
-                        ['Kelas' => 'is-invalid, invalid-feedback', 'Fungsi' => 'Garis merah saat validasi gagal'],
-                        ['Kelas' => 'alert alert-success', 'Fungsi' => 'Notifikasi hijau'],
-                        ['Kelas' => 'table table-hover', 'Fungsi' => 'Tabel'],
-                        ['Kelas' => 'mb-3, mt-4, p-4, gap-2', 'Fungsi' => 'Spacing (margin/padding)'],
-                        ['Kelas' => 'row, col-md-6', 'Fungsi' => 'Grid (responsive)'],
-                        ['Kelas' => 'navbar navbar-expand-lg', 'Fungsi' => 'Navigation bar'],
+                        ['Breakpoint' => '(tanpa akhiran) col-6', 'Lebar layar' => '< 576px (HP)', 'Kegunaan' => 'Berlaku di semua ukuran layar'],
+                        ['Breakpoint' => 'col-sm-6', 'Lebar layar' => '>= 576px', 'Kegunaan' => 'HP landscape ke atas'],
+                        ['Breakpoint' => 'col-md-6', 'Lebar layar' => '>= 768px', 'Kegunaan' => 'Tablet ke atas'],
+                        ['Breakpoint' => 'col-lg-6', 'Lebar layar' => '>= 992px', 'Kegunaan' => 'Laptop ke atas'],
+                        ['Breakpoint' => 'col-xl-6', 'Lebar layar' => '>= 1200px', 'Kegunaan' => 'Layar besar'],
+                        ['Breakpoint' => 'col-xxl-6', 'Lebar layar' => '>= 1400px', 'Kegunaan' => 'Layar sangat besar'],
                     ]],
-                    ['p' => 'Contoh form pakai Bootstrap:'],
+                    ['p' => '<strong>Kolom otomatis (tanpa angka):</strong> kalau semua col di satu row ditulis tanpa angka (cukup class="col"), Bootstrap membagi rata lebarnya secara otomatis -- cocok untuk jumlah kolom yang dinamis.'],
+                    ['code' => <<<'BLADE'
+                        <div class="container">
+                            {{-- 3 kolom sama lebar, otomatis dibagi rata --}}
+                            <div class="row g-3">
+                                <div class="col">Kolom 1</div>
+                                <div class="col">Kolom 2</div>
+                                <div class="col">Kolom 3</div>
+                            </div>
+
+                            {{-- 2 kolom: penuh di HP, separuh-separuh mulai tablet (md) --}}
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">Separuh kiri</div>
+                                <div class="col-md-6">Separuh kanan</div>
+                            </div>
+                        </div>
+                        BLADE, 'lang' => 'blade'],
+                    ['preview' => <<<'HTML'
+                        <div class="row g-3 text-center">
+                            <div class="col"><div class="demo-box">col</div></div>
+                            <div class="col"><div class="demo-box">col</div></div>
+                            <div class="col"><div class="demo-box">col</div></div>
+                        </div>
+                        <div class="row g-3 mt-1 text-center">
+                            <div class="col-md-6"><div class="demo-box demo-box-alt">col-md-6</div></div>
+                            <div class="col-md-6"><div class="demo-box demo-box-alt">col-md-6</div></div>
+                        </div>
+                        HTML],
+                    ['p' => '<strong>Offset & order:</strong> offset-md-4 menggeser kolom ke kanan sejauh 4/12 (dipakai untuk "menengahkan" kolom yang lebih sempit dari 12). order-1, order-2, dst mengubah urutan tampil tanpa mengubah urutan HTML -- berguna supaya urutan di HP beda dari di desktop.'],
+                    ['code' => <<<'BLADE'
+                        {{-- col-md-4 di tengah, karena sisa 8/12 dibagi rata kiri-kanan --}}
+                        <div class="row">
+                            <div class="col-md-4 offset-md-4">Kolom di tengah</div>
+                        </div>
+
+                        {{-- urutan tampil: B, C, A -- meski di HTML urutannya A, B, C --}}
+                        <div class="row g-2">
+                            <div class="col order-3">A (order-3)</div>
+                            <div class="col order-1">B (order-1)</div>
+                            <div class="col order-2">C (order-2)</div>
+                        </div>
+                        BLADE, 'lang' => 'blade'],
+                    ['preview' => <<<'HTML'
+                        <div class="row text-center">
+                            <div class="col-md-4 offset-md-4"><div class="demo-box">col-md-4 offset-md-4</div></div>
+                        </div>
+                        <div class="row g-2 mt-1 text-center">
+                            <div class="col order-3"><div class="demo-box demo-box-alt">A (order-3)</div></div>
+                            <div class="col order-1"><div class="demo-box demo-box-alt">B (order-1)</div></div>
+                            <div class="col order-2"><div class="demo-box demo-box-alt">C (order-2)</div></div>
+                        </div>
+                        HTML],
+                    ['note' => 'g-2 / g-3 di atas row itu "gutter" (jarak antar kolom). Tanpa itu kolom akan mepet satu sama lain.'],
+
+                    // ----- SPACING -----
+                    ['h3' => 'Spacing Utilities -- Margin & Padding'],
+                    ['p' => 'Pola nama kelasnya: <code class="inline">{property}{sisi}-{ukuran}</code>. Tidak perlu nulis CSS custom untuk jarak antar elemen -- tinggal tempel kelasnya di HTML.'],
+                    ['table' => [
+                        ['Bagian' => 'property', 'Kode' => 'm = margin, p = padding', 'Contoh' => 'm-3, p-2'],
+                        ['Bagian' => 'sisi', 'Kode' => 't=top, b=bottom, s=start(kiri), e=end(kanan), x=kiri&kanan, y=atas&bawah, (kosong)=4 sisi', 'Contoh' => 'mt-3, px-2, mb-0'],
+                        ['Bagian' => 'ukuran', 'Kode' => '0, 1(.25rem), 2(.5rem), 3(1rem), 4(1.5rem), 5(3rem), auto(khusus margin)', 'Contoh' => 'mt-4, mx-auto'],
+                    ]],
+                    ['code' => <<<'BLADE'
+                        <div class="card p-4 mb-3">          {{-- padding 1rem semua sisi, jarak bawah 1rem --}}
+                            <h5 class="mb-2">Judul</h5>       {{-- jarak bawah kecil ke teks berikutnya --}}
+                            <p class="mb-0">Paragraf ini menempel ke elemen di bawahnya (mb-0).</p>
+                        </div>
+
+                        <div class="mx-auto" style="max-width: 400px;">Elemen ini di-center horizontal</div>
+
+                        <div class="d-flex gap-2">          {{-- jarak antar item flex, tanpa margin manual --}}
+                            <button class="btn btn-brand" type="button">Simpan</button>
+                            <button class="btn btn-outline-secondary" type="button">Batal</button>
+                        </div>
+                        BLADE, 'lang' => 'blade'],
+                    ['preview' => <<<'HTML'
+                        <div class="bg-light border rounded p-3">
+                            <div class="demo-box mb-3">mb-3 &rarr; jarak ke bawah 1rem</div>
+                            <div class="demo-box mb-3">mb-3 &rarr; jarak ke bawah 1rem</div>
+                            <div class="demo-box mb-0">mb-0 &rarr; tanpa jarak</div>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <div class="demo-box-alt demo-box p-1">p-1</div>
+                            <div class="demo-box-alt demo-box p-3">p-3</div>
+                            <div class="demo-box-alt demo-box p-5">p-5</div>
+                        </div>
+                        HTML],
+                    ['note' => 'gap-1 s/d gap-5 dipakai di atas elemen ber-display flex/grid (mis. d-flex) untuk mengatur jarak antar anak secara otomatis, tanpa perlu margin manual di tiap item.'],
+
+                    // ----- CARD -----
+                    ['h3' => 'Card Component'],
+                    ['p' => 'Card adalah kotak konten serba-guna. Bagian umum: <code class="inline">card-header</code>, <code class="inline">card-body</code> (berisi <code class="inline">card-title</code>, <code class="inline">card-subtitle</code>, <code class="inline">card-text</code>), dan <code class="inline">card-footer</code> -- semuanya opsional, pakai sesuai kebutuhan.'],
+                    ['code' => <<<'BLADE'
+                        <div class="card" style="max-width: 380px;">
+                            <div class="card-header">Header Card</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Judul Card</h5>
+                                <h6 class="card-subtitle mb-2 text-secondary">Subjudul</h6>
+                                <p class="card-text">Teks isi card, biasanya deskripsi singkat.</p>
+                                <a href="#" class="btn btn-brand btn-sm">Aksi</a>
+                            </div>
+                            <div class="card-footer text-secondary small">Diperbarui 2 menit lalu</div>
+                        </div>
+                        BLADE, 'lang' => 'blade'],
+                    ['preview' => <<<'HTML'
+                        <div class="card" style="max-width: 380px;">
+                            <div class="card-header">Header Card</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Judul Card</h5>
+                                <h6 class="card-subtitle mb-2 text-secondary">Subjudul</h6>
+                                <p class="card-text">Teks isi card, biasanya deskripsi singkat.</p>
+                                <a href="#" class="btn btn-brand btn-sm" onclick="return false;">Aksi</a>
+                            </div>
+                            <div class="card-footer text-secondary small">Diperbarui 2 menit lalu</div>
+                        </div>
+                        HTML],
+                    ['p' => '<strong>Card di dalam grid</strong> (mis. daftar produk/post): bungkus tiap card dengan col-md-4, tambahkan <code class="inline">h-100</code> pada card supaya tinggi antar card sejajar meski isinya beda panjang.'],
+                    ['code' => <<<'BLADE'
+                        <div class="row g-3">
+                            @foreach ($posts as $post)
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $post->title }}</h5>
+                                            <p class="card-text">{{ Str::limit($post->body, 80) }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        BLADE, 'lang' => 'blade'],
+                    ['preview' => <<<'HTML'
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card A</h5>
+                                        <p class="card-text">Deskripsi pendek.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card B</h5>
+                                        <p class="card-text">Deskripsi yang jauh lebih panjang dari card lain di sebelahnya, tapi tinggi tetap sejajar berkat h-100.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card C</h5>
+                                        <p class="card-text">Deskripsi pendek.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        HTML],
+
+                    // ----- TABLE -----
+                    ['h3' => 'Tabel (Table)'],
+                    ['p' => 'Semua varian ini tinggal ditumpuk di satu tag <code class="inline">&lt;table&gt;</code>, tidak saling menggantikan.'],
+                    ['table' => [
+                        ['Kelas' => 'table-striped', 'Fungsi' => 'Warna selang-seling tiap baris'],
+                        ['Kelas' => 'table-bordered', 'Fungsi' => 'Garis di semua sisi sel'],
+                        ['Kelas' => 'table-hover', 'Fungsi' => 'Highlight baris saat kursor lewat'],
+                        ['Kelas' => 'table-borderless', 'Fungsi' => 'Tanpa garis sama sekali'],
+                        ['Kelas' => 'table-sm', 'Fungsi' => 'Padding sel lebih rapat'],
+                        ['Kelas' => 'table-dark / table-light', 'Fungsi' => 'Tema gelap/terang untuk seluruh tabel atau thead'],
+                        ['Kelas' => 'table-success, table-warning, table-danger, dst', 'Fungsi' => 'Warna kontekstual di baris/sel tertentu (tr atau td)'],
+                        ['Kelas' => 'table-responsive', 'Fungsi' => 'Bungkus <table> agar bisa di-scroll horizontal di layar kecil'],
+                    ]],
+                    ['code' => <<<'BLADE'
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered align-middle">
+                                <caption>Daftar pengguna terbaru</caption>
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users as $i => $user)
+                                        <tr class="{{ $user->status === 'pending' ? 'table-warning' : '' }}">
+                                            <td>{{ $i + 1 }}</td>
+                                            <td>{{ $user->nama }}</td>
+                                            <td>{{ $user->role }}</td>
+                                            <td>
+                                                <span class="badge text-bg-{{ $user->status === 'aktif' ? 'success' : 'secondary' }}">
+                                                    {{ $user->status }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        BLADE, 'lang' => 'blade'],
+                    ['preview' => <<<'HTML'
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered align-middle mb-0">
+                                <caption>Daftar pengguna terbaru</caption>
+                                <thead class="table-dark">
+                                    <tr><th>#</th><th>Nama</th><th>Role</th><th>Status</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td><td>Budi</td><td>Admin</td>
+                                        <td><span class="badge text-bg-success">aktif</span></td>
+                                    </tr>
+                                    <tr class="table-warning">
+                                        <td>2</td><td>Sari</td><td>Staff</td>
+                                        <td><span class="badge text-bg-secondary">pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td><td>Andi</td><td>User</td>
+                                        <td><span class="badge text-bg-secondary">nonaktif</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        HTML],
+
+                    // ----- FLEXBOX -----
+                    ['h3' => 'Flexbox -- Alternatif Mengatur Posisi'],
+                    ['p' => 'Untuk posisi yang bukan grid kolom (mis. toolbar, header card, sejajarkan judul & tombol), pakai utility flex: <code class="inline">d-flex</code> mengaktifkan flexbox, <code class="inline">justify-content-*</code> mengatur sumbu horizontal (start/center/end/between/around), <code class="inline">align-items-*</code> mengatur sumbu vertikal (start/center/end), <code class="inline">flex-wrap</code> supaya item turun baris kalau sempit, dan <code class="inline">gap-*</code> untuk jarak antar item.'],
+                    ['code' => <<<'BLADE'
+                        <div class="d-flex justify-content-between align-items-center bg-light border rounded p-3">
+                            <span class="fw-semibold">Daftar Post</span>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary" type="button">Filter</button>
+                                <button class="btn btn-sm btn-brand" type="button">Tambah</button>
+                            </div>
+                        </div>
+                        BLADE, 'lang' => 'blade'],
+                    ['preview' => <<<'HTML'
+                        <div class="d-flex justify-content-between align-items-center bg-light border rounded p-3">
+                            <span class="fw-semibold">Daftar Post</span>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary" type="button">Filter</button>
+                                <button class="btn btn-sm btn-brand" type="button">Tambah</button>
+                            </div>
+                        </div>
+                        HTML],
+
+                    // ----- FORM -----
+                    ['h3' => 'Form'],
+                    ['p' => 'form-control untuk input, form-label untuk label, is-invalid + invalid-feedback untuk menampilkan error validasi tepat di bawah field-nya.'],
                     ['code' => <<<'BLADE'
                         <form method="POST">
                             @csrf
@@ -353,6 +604,33 @@ class DocsController extends Controller
                             <button class="btn btn-brand" type="submit">Simpan</button>
                         </form>
                         BLADE, 'lang' => 'blade'],
+                    ['preview' => <<<'HTML'
+                        <form onsubmit="return false;">
+                            <div class="mb-3">
+                                <label class="form-label" for="demo-nama">Nama</label>
+                                <input type="text" id="demo-nama" class="form-control" placeholder="Masukkan nama">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="demo-invalid">Contoh field gagal validasi</label>
+                                <input type="text" id="demo-invalid" class="form-control is-invalid" value="ab">
+                                <div class="invalid-feedback">Nama minimal 3 karakter.</div>
+                            </div>
+                            <button class="btn btn-brand" type="button">Simpan</button>
+                        </form>
+                        HTML],
+
+                    // ----- RINGKASAN CEPAT -----
+                    ['h3' => 'Ringkasan Cepat Kelas Lain'],
+                    ['table' => [
+                        ['Kelas' => 'btn btn-primary / btn btn-brand', 'Fungsi' => 'Tombol biru bawaan / tombol warna khas Sakuci'],
+                        ['Kelas' => 'btn-outline-*, btn-sm, btn-lg', 'Fungsi' => 'Tombol garis tepi & ukuran'],
+                        ['Kelas' => 'alert alert-success/danger/warning/info', 'Fungsi' => 'Notifikasi berwarna'],
+                        ['Kelas' => 'badge text-bg-*', 'Fungsi' => 'Label kecil berwarna (status, jumlah)'],
+                        ['Kelas' => 'shadow-sm, border-0, rounded-3', 'Fungsi' => 'Bayangan, hilangkan garis tepi, sudut membulat'],
+                        ['Kelas' => 'text-secondary, fw-bold, small', 'Fungsi' => 'Warna teks abu, tebal, ukuran kecil'],
+                        ['Kelas' => 'navbar navbar-expand-lg', 'Fungsi' => 'Navigation bar responsif'],
+                        ['Kelas' => 'list-group, list-group-item', 'Fungsi' => 'Daftar bertumpuk (mis. menu di dalam card)'],
+                    ]],
                 ],
             ],
 

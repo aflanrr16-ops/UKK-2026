@@ -32,6 +32,13 @@
                         <h2 class="h5 fw-semibold mb-3">{{ $section['title'] }}</h2>
 
                         @foreach ($section['parts'] as $part)
+                            {{-- Sub-heading --}}
+                            @isset ($part['h3'])
+                                <h3 class="h6 text-uppercase text-brand fw-bold mt-4 mb-3 pb-2 border-bottom">
+                                    {{ $part['h3'] }}
+                                </h3>
+                            @endisset
+
                             {{-- Paragraph --}}
                             @isset ($part['p'])
                                 <p class="mb-3">
@@ -42,7 +49,7 @@
                             {{-- Note/Warning --}}
                             @isset ($part['note'])
                                 <div class="alert alert-info small mb-3">
-                                    <strong>ðŸ’¡ Catatan:</strong> {{ $part['note'] }}
+                                    <strong>💡 Catatan:</strong> {{ $part['note'] }}
                                 </div>
                             @endisset
 
@@ -50,6 +57,16 @@
                             @isset ($part['code'])
                                 <div class="mb-3">
                                     <pre class="code"><code>{{ $part['code'] }}</code></pre>
+                                </div>
+                            @endisset
+
+                            {{-- Live preview: render actual HTML output above its code --}}
+                            @isset ($part['preview'])
+                                <div class="demo-preview mb-3">
+                                    <div class="demo-preview-label">Tampilan</div>
+                                    <div class="demo-preview-body">
+                                        {!! $part['preview'] !!}
+                                    </div>
                                 </div>
                             @endisset
 

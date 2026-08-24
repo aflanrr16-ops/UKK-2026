@@ -95,6 +95,47 @@ code.inline {
     font-weight: 700;
 }
 
+/* Kotak pratinjau komponen di halaman /docs */
+.demo-preview {
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.demo-preview-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-bottom: 1px dashed #cbd5e1;
+}
+
+.demo-preview-body {
+    padding: 18px;
+    background: #fff;
+}
+
+/* Kotak warna untuk contoh grid & spacing di /docs */
+.demo-box {
+    padding: .6rem .5rem;
+    background: var(--brand-subtle);
+    border: 1px solid #fdba8c;
+    border-radius: 6px;
+    color: var(--brand-dark);
+    font-size: .8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.demo-box-alt {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+    color: #3730a3;
+}
+
 /* Halaman error */
 .error-code {
     font-size: 72px;
