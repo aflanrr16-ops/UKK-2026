@@ -17,6 +17,14 @@ class Paginator implements \IteratorAggregate, \Countable, \JsonSerializable
     ) {
     }
 
+    /** Bungkus array biasa (mis. data dummy) jadi Paginator: Paginator::make($items, 10) */
+    public static function make(array $items, int $perPage = 15, ?int $page = null): static
+    {
+        $page = max(1, $page ?? (int) (request('page') ?: 1));
+
+        return new static(array_slice($items, ($page - 1) * $perPage, $perPage), count($items), $perPage, $page);
+    }
+
     public function items(): array
     {
         return $this->items;
@@ -84,10 +92,6 @@ class Paginator implements \IteratorAggregate, \Countable, \JsonSerializable
     /** Navigasi halaman siap pakai (markup Bootstrap): {!! $posts->links() !!} */
     public function links(): string
     {
-        if (! $this->hasPages()) {
-            return '';
-        }
-
         $html = '<nav><ul class="pagination">';
 
         $html .= $this->previousPageUrl()
