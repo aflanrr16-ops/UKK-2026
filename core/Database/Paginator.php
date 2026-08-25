@@ -81,30 +81,30 @@ class Paginator implements \IteratorAggregate, \Countable, \JsonSerializable
         return $this->currentPage < $this->lastPage() ? $this->url($this->currentPage + 1) : null;
     }
 
-    /** Navigasi halaman siap pakai: {!! $posts->links() !!} */
+    /** Navigasi halaman siap pakai (markup Bootstrap): {!! $posts->links() !!} */
     public function links(): string
     {
         if (! $this->hasPages()) {
             return '';
         }
 
-        $html = '<nav class="pagination">';
+        $html = '<nav><ul class="pagination">';
 
         $html .= $this->previousPageUrl()
-            ? '<a href="' . e($this->previousPageUrl()) . '">&laquo; Sebelumnya</a>'
-            : '<span class="disabled">&laquo; Sebelumnya</span>';
+            ? '<li class="page-item"><a class="page-link" href="' . e($this->previousPageUrl()) . '">&laquo;</a></li>'
+            : '<li class="page-item disabled"><span class="page-link">&laquo;</span></li>';
 
         for ($page = 1; $page <= $this->lastPage(); $page++) {
             $html .= $page === $this->currentPage
-                ? '<span class="active">' . $page . '</span>'
-                : '<a href="' . e($this->url($page)) . '">' . $page . '</a>';
+                ? '<li class="page-item active"><span class="page-link">' . $page . '</span></li>'
+                : '<li class="page-item"><a class="page-link" href="' . e($this->url($page)) . '">' . $page . '</a></li>';
         }
 
         $html .= $this->nextPageUrl()
-            ? '<a href="' . e($this->nextPageUrl()) . '">Berikutnya &raquo;</a>'
-            : '<span class="disabled">Berikutnya &raquo;</span>';
+            ? '<li class="page-item"><a class="page-link" href="' . e($this->nextPageUrl()) . '">&raquo;</a></li>'
+            : '<li class="page-item disabled"><span class="page-link">&raquo;</span></li>';
 
-        return $html . '</nav>';
+        return $html . '</ul></nav>';
     }
 
     public function getIterator(): \ArrayIterator
