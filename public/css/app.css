@@ -26,6 +26,67 @@ body {
     font-weight: 700;
 }
 
+/* Navbar -- link aktif vs non-aktif */
+.navbar-nav .nav-link {
+    position: relative;
+    font-weight: 500;
+    color: var(--bs-secondary-color);
+    padding-block: .5rem;
+    transition: color .15s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--brand);
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--brand);
+    font-weight: 700;
+}
+
+.navbar-nav .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: .5rem;
+    right: .5rem;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--brand);
+}
+
+/* Logo navbar merangkap tombol toggle tema gelap/terang. Titik tengah
+   (hijau/merah) tetap menunjukkan status koneksi database seperti biasa;
+   cincin luarnya yang berubah warna mengikuti tema aktif. */
+.logo-toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    line-height: 0;
+    border-radius: 50%;
+    transition: transform .15s ease;
+}
+
+.logo-toggle:hover {
+    transform: scale(1.06);
+}
+
+.logo-toggle:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+}
+
+.logo-ring {
+    fill: #000000;
+    transition: fill .15s ease;
+}
+
+[data-bs-theme="dark"] .logo-ring {
+    fill: #ffffff;
+}
+
 /* Tombol warna khas Sakuci */
 .btn-brand {
     background-color: var(--brand);
@@ -142,5 +203,56 @@ code.inline {
     font-weight: 800;
     line-height: 1;
     color: var(--brand);
+}
+
+/* Varian tema gelap untuk komponen yang warnanya di-hardcode di atas */
+[data-bs-theme="dark"] code.inline {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+/* pre.code sengaja navy gelap di mode terang (biar kontras) -- tapi di mode
+   gelap dia harus ikut warna permukaan Bootstrap, bukan navy sendiri. */
+[data-bs-theme="dark"] pre.code {
+    background: var(--bs-tertiary-bg);
+    color: var(--bs-body-color);
+    border: 1px solid var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] pre.code .cmt {
+    color: var(--bs-secondary-color);
+}
+
+[data-bs-theme="dark"] .demo-preview {
+    border-color: #334155;
+}
+
+[data-bs-theme="dark"] .demo-preview-label {
+    background: #1e293b;
+    color: #94a3b8;
+    border-color: #334155;
+}
+
+[data-bs-theme="dark"] .demo-preview-body {
+    background: var(--bs-body-bg);
+}
+
+[data-bs-theme="dark"] .badge-brand,
+[data-bs-theme="dark"] .bg-brand-subtle,
+[data-bs-theme="dark"] .step-number {
+    background-color: rgba(194, 65, 12, .18) !important;
+    color: #fb923c;
+}
+
+[data-bs-theme="dark"] .demo-box {
+    background-color: rgba(194, 65, 12, .18);
+    border-color: rgba(194, 65, 12, .4);
+    color: #fb923c;
+}
+
+[data-bs-theme="dark"] .demo-box-alt {
+    background-color: rgba(99, 102, 241, .18);
+    border-color: rgba(99, 102, 241, .4);
+    color: #a5b4fc;
 }
 

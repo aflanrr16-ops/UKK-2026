@@ -155,7 +155,7 @@ php sakuci</pre>
         <div class="row row-cols-1 row-cols-md-2 g-4">
             <div class="col">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-white border-0 pt-3 pb-0">
+                    <div class="card-header bg-body border-0 pt-3 pb-0">
                         <span class="fw-semibold">Route</span>
                         <span class="text-secondary small ms-1">routes/web.php</span>
                     </div>
@@ -173,7 +173,7 @@ Route::resource('buku',
 
             <div class="col">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-white border-0 pt-3 pb-0">
+                    <div class="card-header bg-body border-0 pt-3 pb-0">
                         <span class="fw-semibold">Controller</span>
                         <span class="text-secondary small ms-1">app/Controllers</span>
                     </div>
@@ -193,7 +193,7 @@ Route::resource('buku',
 
             <div class="col">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-white border-0 pt-3 pb-0">
+                    <div class="card-header bg-body border-0 pt-3 pb-0">
                         <span class="fw-semibold">Model</span>
                         <span class="text-secondary small ms-1">app/Models</span>
                     </div>
@@ -211,7 +211,7 @@ Buku::create(['judul' => 'PHP']);</pre>
 
             <div class="col">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-white border-0 pt-3 pb-0">
+                    <div class="card-header bg-body border-0 pt-3 pb-0">
                         <span class="fw-semibold">View</span>
                         <span class="text-secondary small ms-1">resources/views</span>
                     </div>

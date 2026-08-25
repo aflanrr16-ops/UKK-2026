@@ -411,7 +411,7 @@ class DocsController extends Controller
                         </div>
                         BLADE, 'lang' => 'blade'],
                     ['preview' => <<<'HTML'
-                        <div class="bg-light border rounded p-3">
+                        <div class="bg-body-tertiary border rounded p-3">
                             <div class="demo-box mb-3">mb-3 &rarr; jarak ke bawah 1rem</div>
                             <div class="demo-box mb-3">mb-3 &rarr; jarak ke bawah 1rem</div>
                             <div class="demo-box mb-0">mb-0 &rarr; tanpa jarak</div>
@@ -575,7 +575,7 @@ class DocsController extends Controller
                         </div>
                         BLADE, 'lang' => 'blade'],
                     ['preview' => <<<'HTML'
-                        <div class="d-flex justify-content-between align-items-center bg-light border rounded p-3">
+                        <div class="d-flex justify-content-between align-items-center bg-body-tertiary border rounded p-3">
                             <span class="fw-semibold">Daftar Post</span>
                             <div class="d-flex gap-2">
                                 <button class="btn btn-sm btn-outline-secondary" type="button">Filter</button>

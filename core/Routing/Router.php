@@ -26,9 +26,18 @@ class Router
     /** Tumpukan atribut group yang sedang aktif. */
     protected array $groupStack = [];
 
+    /** Route yang cocok dengan request saat ini (diisi saat dispatch). */
+    protected ?RouteDefinition $current = null;
+
     public static function instance(): static
     {
         return static::$instance ??= new static();
+    }
+
+    /** Route yang sedang aktif -- null bila belum ada request yang di-dispatch. */
+    public function current(): ?RouteDefinition
+    {
+        return $this->current;
     }
 
     /*
@@ -207,6 +216,7 @@ class Router
     {
         $route = $this->findRoute($request);
 
+        $this->current = $route;
         $request->setRouteParams($route->parameters);
 
         return $this->runThroughMiddleware($request, $route, function (Request $request) use ($route) {

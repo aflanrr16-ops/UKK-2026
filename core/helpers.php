@@ -199,6 +199,22 @@ if (! function_exists('route')) {
     }
 }
 
+if (! function_exists('current_route_name')) {
+    /** Nama route yang cocok dengan request saat ini, mis. 'docs'. Null bila tidak bernama. */
+    function current_route_name(): ?string
+    {
+        return Route::router()->current()?->name;
+    }
+}
+
+if (! function_exists('is_route')) {
+    /** Cek apakah route saat ini punya nama tertentu: is_route('docs') */
+    function is_route(string ...$names): bool
+    {
+        return in_array(current_route_name(), $names, true);
+    }
+}
+
 if (! function_exists('csrf_token')) {
     function csrf_token(): string
     {
