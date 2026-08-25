@@ -150,16 +150,6 @@ switch ($command) {
 
     /* -------------------------------------------------------------- */
     case 'serve':
-        bootConfig($app);
-
-        if (! password_verify('indrabsus', (string) env('APPCODE', ''))) {
-            out();
-            fail('✘ APPCODE di .env tidak valid.');
-            out('    Isi APPCODE dengan hash bcrypt yang benar sebelum menjalankan server.', 'gray');
-            out();
-            exit(1);
-        }
-
         $host = $arguments[0] ?? '127.0.0.1';
         $port = $arguments[1] ?? '8000';
 
@@ -504,19 +494,6 @@ switch ($command) {
         break;
 
     /* -------------------------------------------------------------- */
-    case 'code':
-        $hash = password_hash('indrabsus', PASSWORD_DEFAULT);
-
-        out();
-        out('  APPCODE baru:', 'bold');
-        out('  ' . $hash, 'green');
-        out();
-        out('  Tempel ke .env:', 'gray');
-        out('  APPCODE=' . $hash, 'cyan');
-        out();
-        break;
-
-    /* -------------------------------------------------------------- */
     case 'view:clear':
         $files = glob(BASE_PATH . '/storage/framework/views/*.php') ?: [];
 
@@ -539,7 +516,6 @@ switch ($command) {
 
         foreach ([
             'serve [host] [port]'    => 'Jalankan server pengembangan (default 127.0.0.1:8000)',
-            'code'                   => 'Generate APPCODE untuk .env',
             'migrate'                => 'Jalankan file .sql di database/migrations',
             'migrate:fresh'          => 'Hapus SEMUA tabel lalu mulai dari nol',
             'db:check'               => 'Uji koneksi database sesuai file .env',
