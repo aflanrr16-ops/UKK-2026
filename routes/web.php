@@ -56,6 +56,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
 
     Route::get('/database/export', [DatabaseController::class, 'export'])->name('admin.database.export');
+Route::get('/kategori/create',[App\Controller\KategoriController::class,'create'])->name('kategori.create');
+Route::post('/kategori', [App\Controllers\KategoriController::class, 'store'])->name('kategori.store');
 });
 
 /*

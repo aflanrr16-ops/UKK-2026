@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
-
+<h1>kategori</h1>
+<a href="{{ route('kategori.create') }} class="btn btn-primary mb-3">Tambah Kategori</a>
 <table class="table table-stripe table-hover">
 <thead>
     <tr>
@@ -25,4 +26,5 @@
 @endforeach
 </tbody>
 </table>
+{!! $kategori->links() !!}
 @endsection
