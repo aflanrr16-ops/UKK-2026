@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <h1>kategori</h1>
-<a href="{{ route('kategori.create') }} class="btn btn-primary mb-3">Tambah Kategori</a>
+<a href="{{ route('admin.kategori.create') }}" class="btn btn-primary mb-3">Tambah Kategori</a>
 <table class="table table-stripe table-hover">
 <thead>
     <tr>
@@ -14,7 +14,7 @@
 </thead>
 <tbody>
     @php $no = 1;@endphp
-    @foreach ($kategori as $item)
+    @foreach ($data as $item)
     <tr>
         <td>{{ $no++}}</td>
         <td>{{ $item->kode_kategori }}</td>
@@ -26,5 +26,5 @@
 @endforeach
 </tbody>
 </table>
-{!! $kategori->links() !!}
+{!! $data->links() !!}
 @endsection

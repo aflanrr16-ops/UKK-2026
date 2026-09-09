@@ -6,6 +6,7 @@ use App\Controllers\Core\DatabaseController;
 use App\Controllers\Core\DocsController;
 use App\Controllers\Core\RoleController;
 use App\Controllers\Core\UserController;
+use App\Controllers\KategoriController;
 use Sakuci\Route;
 
 /*
@@ -56,8 +57,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
 
     Route::get('/database/export', [DatabaseController::class, 'export'])->name('admin.database.export');
-Route::get('/kategori/create',[App\Controller\KategoriController::class,'create'])->name('kategori.create');
-Route::post('/kategori', [App\Controllers\KategoriController::class, 'store'])->name('kategori.store');
+Route::get('/kategori', [App\Controllers\KategoriController::class, 'index'])->name('admin.kategori.index');
+Route::get('/kategori/create', [KategoriController::class, 'create'])->name('admin.kategori.create');
+Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
 });
 
 /*

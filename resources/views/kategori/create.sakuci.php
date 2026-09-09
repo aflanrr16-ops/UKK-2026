@@ -6,10 +6,10 @@
     <form action="{{ route('kategori.store') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="nama">Kode kategori</label>
+            <label for="nama">Nama kategori</label>
             <input type="text" class="form-control" id="nama" name="nama" required>
 </div>
-<button type="submit" class="btn btn-primary">Simpan</button>
+<button type="submit" class="btn btn-primary mt-3">Simpan </button>
 </form>
 </div>
 @endsection
