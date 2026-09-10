@@ -20,8 +20,13 @@
         <td>{{ $item->kode_kategori }}</td>
         <td>{{ $item->nama_kategori }}</td>
         <td>{{ $item->keterangan }}</td>
-        <td><button class="btn btn-success">edit</button><button class="btn btn-danger">hapus</button></td>
-
+        <td>
+            <a href="{{ route('admin.kategori.edit', ['kategori' => $item->id_kategori]) }}" class="btn btn-warning btn-sm">Edit</a>
+            <form action="{{ route('kategori.destroy', ['kategori' => $item->id_kategori]) }}" method="POST" style="display: inline-block;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')">Hapus</button>
+            </form>
 </tr>
 @endforeach
 </tbody>
