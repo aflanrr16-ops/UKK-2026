@@ -7,6 +7,7 @@ use App\Controllers\Core\DocsController;
 use App\Controllers\Core\RoleController;
 use App\Controllers\Core\UserController;
 use App\Controllers\KategoriController;
+use App\Controllers\AlatController;
 use Sakuci\Route;
 
 /*
@@ -46,8 +47,6 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
 
-    Route::get('/kategori', [KategoriController::class, 'index'])->name('admin.kategori.index.');
-
     Route::get('/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/roles', [RoleController::class, 'store'])->name('admin.roles.store');
     Route::put('/roles/{role}', [RoleController::class, 'update'])->name('admin.roles.update');
@@ -57,12 +56,19 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
 
     Route::get('/database/export', [DatabaseController::class, 'export'])->name('admin.database.export');
-Route::get('/kategori', [App\Controllers\KategoriController::class, 'index'])->name('kategori.index');
-Route::get('/kategori/create', [KategoriController::class, 'create'])->name('admin.kategori.create');
-Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
-Route::get('/kategori/edit/{id_kategori}', [KategoriController::class, 'edit'])->name('admin.kategori.edit');
-Route::put('/kategori/update/{id_kategori}', [KategoriController::class, 'update'])->name('kategori.update');
-Route::delete('/kategori/destroy/{id_kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+    Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
+    Route::get('admin/kategori/create', [KategoriController::class, 'create'])->name('admin.kategori.create');
+    Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
+    Route::get('admin/kategori/{id_kategori}/edit', [kategoriController::class, 'edit'] )->name('admin.kategori.edit');
+    Route::put('/kategori/{id_kategori}', [kategoriController::class, 'update'] )->name('kategori.update');
+    Route::delete('/kategori/{id_kategori}', [kategoriController::class, 'destroy'] )->name('kategori.destroy');
+
+    Route::get('/alat', [AlatController::class, 'index'])->name('alat.index');
+    Route::get('/alat/create', [alatController::class, 'create'])->name('alat.create');
+    Route::post('/alat/store', [alatController::class, 'store'])->name('alat.store');
+    Route::get('/alat/{id_alat}/edit', [alatController::class, 'edit'] )->name('alat.edit');
+    Route::put('/alat/{id_alat}', [alatController::class, 'update'] )->name('alat.update');
+    Route::delete('/alat/{id_alat}', [alatController::class, 'delete'] )->name('alat.delete');
 });
 
 /*
@@ -99,4 +105,3 @@ Route::group(['prefix' => 'siswa', 'middleware' => 'siswa'], function () {
 |     Route::get('/dashboard', [DashboardController::class, 'index']);
 | });
 */
-

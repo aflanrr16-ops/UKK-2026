@@ -65,7 +65,7 @@ class KategoriController extends Controller
     public function destroy(Request $request, $id_kategori)
     {
         $kategori = Kategori::findOrFail($id_kategori);
-        $kategori->destroy();
+        $kategori->destroy($id_kategori);
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus.');
     }

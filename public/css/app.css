@@ -1,12 +1,12 @@
-﻿/*
+/*
 | Lapisan tema di atas Bootstrap.
 | Bootstrap dimuat lebih dulu, file ini hanya menimpa seperlunya.
 */
 
 :root {
-    --brand: #c2410c;
-    --brand-dark: #9a3412;
-    --brand-subtle: #fff7ed;
+    --brand: #c20c76dd;
+    --brand-dark: #00a183ab;
+    --brand-subtle: #edf2ff;
 }
 
 body {
