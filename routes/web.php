@@ -8,6 +8,8 @@ use App\Controllers\Core\RoleController;
 use App\Controllers\Core\UserController;
 use App\Controllers\KategoriController;
 use App\Controllers\AlatController;
+use App\Controllers\PeminjamanController;
+use App\Controllers\PeminjamPortalController;
 use Sakuci\Route;
 
 /*
@@ -69,6 +71,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/alat/{id_alat}/edit', [alatController::class, 'edit'] )->name('alat.edit');
     Route::put('/alat/{id_alat}', [alatController::class, 'update'] )->name('alat.update');
     Route::delete('/alat/{id_alat}', [alatController::class, 'delete'] )->name('alat.delete');
+
+    Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
+    Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
+    Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+    Route::get('/peminjaman/{id}/edit', [PeminjamanController::class, 'edit'])->name('peminjaman.edit');
+    Route::post('/peminjaman/{id}/update', [PeminjamanController::class, 'update'])->name('peminjaman.update');
+    Route::post('/peminjaman/{id}/delete', [PeminjamanController::class, 'delete'])->name('peminjaman.delete');
+
 });
 
 /*
@@ -86,6 +96,10 @@ Route::group(['prefix' => 'siswa', 'middleware' => 'siswa'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('siswa.dashboard');
 });
 // @role:siswa:end
+// @role:pengguna:start
+Route::group(['prefix' => 'pengguna', 'middleware' => 'pengguna'], function () {
+});
+// @role:pengguna:end
 // @generated-roles:end
 
 /*
