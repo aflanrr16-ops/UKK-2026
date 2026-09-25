@@ -1,227 +1,140 @@
 @extends('layouts.app')
 
-@section('title', config('app.name') . ' -- Kerangka PHP Ringan')
+@section('title', config('app.name') . ' -- Portal Peminjaman Alat & Inventaris Sekolah')
 
 @section('content')
 
-    {{-- Hero --}}
-    <section class="text-center py-4 py-lg-5">
-        <span class="badge rounded-pill badge-brand px-3 py-2 mb-3">aflan</span>
+    {{-- Hero Section: Clean Academic & Modern Tech Vibe --}}
+    <section class="d-flex align-items-center justify-content-center min-vh-100 py-5 position-relative overflow-hidden" 
+             style="background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%); color: #1e293b;">
+        
+        {{-- Background Geometric Shapes / Soft Blobs --}}
+        <div class="position-absolute top-0 start-0 w-100 h-100 pointer-event-none opacity-40" 
+             style="background-image: radial-gradient(#3b82f6 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+        
+        <div class="container position-relative py-5" style="z-index: 1;">
+            <div class="row align-items-center g-5">
+                
+                {{-- Kolom Kiri: Teks & Aksi Utama --}}
+                <div class="col-lg-6 text-center text-lg-start">
+                    
+                    {{-- Badge Status Sekolah --}}
+                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 mb-4 rounded-pill bg-white shadow-sm border border-primary border-opacity-25">
+                        <span class="badge bg-primary rounded-pill px-2 py-1">RESMI SEKOLAH</span>
+                        <span class="fw-semibold small text-primary">Sistem Inventaris & Lab Terpadu</span>
+                    </div>
 
-        <h1 class="display-5 fw-bold mb-3">
-            SELAMAT DATANG PEMINJAMAN ALAT,<br class="d-none d-md-inline">
-            <span class="text-brand">tanpa Composer</span>
-        </h1>
+                    {{-- Heading Utama --}}
+                    <h1 class="display-4 fw-bold mb-4 text-dark lh-tight" style="letter-spacing: -0.02em;">
+                        Pinjam Alat Praktikum & Sekolah Jadi <span class="text-primary position-relative">Lebih Tertib<span class="position-absolute bottom-0 start-0 w-100 bg-warning opacity-25 rounded" style="height: 8px; z-index: -1;"></span></span>
+                    </h1>
 
-        <p class="lead text-secondary mx-auto mb-4" style="max-width: 620px;">
-            Route, Model, View, dan Controller dalam satu paket ringan.
-            Cukup PHP OOP murni -- salin foldernya, jalankan, selesai.
-        </p>
+                    {{-- Subtitle --}}
+                    <p class="lead mb-4 text-muted" style="font-size: 1.1rem; line-height: 1.7;">
+                        Platform digital peminjaman inventaris sekolah mulai dari alat laboratorium sains, perangkat multimedia, hingga perlengkapan olahraga. Cepat, transparan, dan terdata rapi.
+                    </p>
 
-        <div class="d-flex flex-wrap gap-2 justify-content-center">
-            <a class="btn btn-brand btn-lg px-4" href="#langkah">Mulai dari sini</a>
-            <a class="btn btn-outline-brand btn-lg px-4" href="https://github.com/indrabsus/sakuci-framework" target="_blank">GitHub</a>
-        </div>
+                    {{-- Tombol Aksi --}}
+                    <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3 mb-5">
+                        <a href="/peminjaman" class="btn btn-primary px-4 py-3 fw-semibold shadow rounded-pill d-inline-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-box-seam fs-5"></i>Ajukan Peminjaman
+                        </a>
+                        <a href="/riwayat" class="btn btn-outline-dark px-4 py-3 fw-semibold rounded-pill d-inline-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-clock-history fs-5"></i>Cek Status Barang
+                        </a>
+                    </div>
 
-        <p class="text-secondary small mt-3 mb-0">
-            Panduan langkah demi langkah ada di berkas
-            <code class="inline">TUTORIAL.md</code>
-        </p>
-    </section>
-
-    {{-- Instalasi --}}
-    <section class="row g-4 align-items-start mb-5">
-        <div class="col-lg-12">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <h2 class="h5 fw-semibold mb-3">📥 Instalasi</h2>
-
-                    <p class="text-secondary mb-3">Pilih salah satu cara untuk memulai:</p>
-
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <h3 class="h6 fw-medium mb-2">Dari GitHub</h3>
-                            <pre class="code"><span class="cmt"># Clone repository</span>
-git clone https://github.com/indrabsus/sakuci-framework.git
-cd sakuci-framework
-
-<span class="cmt"># Siapkan .env</span>
-cp .env.example .env
-
-<span class="cmt"># Jalankan server</span>
-php sakuci serve</pre>
+                    {{-- Statistik Singkat Sekolah --}}
+                    <div class="row text-start g-3 pt-3 border-top border-secondary border-opacity-10">
+                        <div class="col-4">
+                            <h4 class="fw-bold text-primary mb-0">500+</h4>
+                            <small class="text-muted fw-medium">Item Tersedia</small>
                         </div>
-
-                        <div class="col-md-6">
-                            <h3 class="h6 fw-medium mb-2">Manual</h3>
-                            <ol class="mb-0 ps-4">
-                                <li>Download folder dari <a href="https://github.com/indrabsus/sakuci-framework" target="_blank">GitHub</a></li>
-                                <li>Ekstrak ke folder proyek</li>
-                                <li>Salin <code class="inline">.env.example</code> jadi <code class="inline">.env</code></li>
-                                <li>Jalankan <code class="inline">php sakuci serve</code></li>
-                                <li>Buka <code class="inline">http://127.0.0.1:8000</code></li>
-                            </ol>
+                        <div class="col-4">
+                            <h4 class="fw-bold text-success mb-0">100%</h4>
+                            <small class="text-muted fw-medium">Tercatat Sistem</small>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="fw-bold text-warning mb-0">24/7</h4>
+                            <small class="text-muted fw-medium">Akses Portal</small>
                         </div>
                     </div>
+
                 </div>
-            </div>
-        </div>
-    </section>
 
-    {{-- Langkah berikutnya --}}
-    <section id="langkah" class="row g-4 align-items-start mb-5">
-        <div class="col-lg-7">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <h2 class="h5 fw-semibold mb-3">Langkah berikutnya</h2>
+                {{-- Kolom Kanan: Ilustrasi Kartu / Panel Interaktif Sekolah --}}
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white p-2">
+                        <div class="card-body p-4 p-lg-5 bg-light rounded-4">
+                            
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h5 class="fw-bold text-dark m-0"><i class="bi bi-grid-fill text-primary me-2"></i>Kategori Inventaris</h5>
+                                <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill small fw-semibold">Status: Ready</span>
+                            </div>
 
-                    <ul class="list-unstyled d-grid gap-3 mb-0">
-                        <li class="d-flex gap-3">
-                            <span class="step-number">1</span>
-                            <div>
-                                <div class="fw-medium">Atur koneksi database</div>
-                                <div class="text-secondary small">
-                                    Edit berkas <code class="inline">.env</code>, lalu uji dengan
-                                    <code class="inline">php sakuci db:check</code>
+                            <div class="row g-3">
+                                {{-- Item Lab --}}
+                                <div class="col-12">
+                                    <div class="p-3 bg-white rounded-3 shadow-sm d-flex align-items-center gap-3 border-start border-4 border-primary">
+                                        <div class="bg-primary-subtle text-primary p-2 rounded-2">
+                                            <i class="bi bi-eyedropper fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1 text-dark">Alat Laboratorium (Sains & Komputer)</h6>
+                                            <p class="small text-muted mb-0">Mikroskop, Tabung Reaksi, Proyektor, Laptop Lab.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Item Olahraga --}}
+                                <div class="col-12">
+                                    <div class="p-3 bg-white rounded-3 shadow-sm d-flex align-items-center gap-3 border-start border-4 border-success">
+                                        <div class="bg-success-subtle text-success p-2 rounded-2">
+                                            <i class="bi bi-trophy fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1 text-dark">Perlengkapan Olahraga & Ekstrakurikuler</h6>
+                                            <p class="small text-muted mb-0">Bola Basket, Raket Badminton, Matras Senam.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Item Multimedia --}}
+                                <div class="col-12">
+                                    <div class="p-3 bg-white rounded-3 shadow-sm d-flex align-items-center gap-3 border-start border-4 border-warning">
+                                        <div class="bg-warning-subtle text-warning p-2 rounded-2">
+                                            <i class="bi bi-camera-video fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1 text-dark">Media Pembelajaran & Acara Sekolah</h6>
+                                            <p class="small text-muted mb-0">Kamera DSLR, Sound System Portable, Mic Wireless.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </li>
-                        <li class="d-flex gap-3">
-                            <span class="step-number">2</span>
-                            <div>
-                                <div class="fw-medium">Buat tabel</div>
-                                <div class="text-secondary small">
-                                    <code class="inline">php sakuci make:migration create_buku_table</code>
-                                    lalu <code class="inline">php sakuci migrate</code>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex gap-3">
-                            <span class="step-number">3</span>
-                            <div>
-                                <div class="fw-medium">Buat model, controller, dan view</div>
-                                <div class="text-secondary small">
-                                    <code class="inline">make:model</code>,
-                                    <code class="inline">make:controller</code>,
-                                    <code class="inline">make:view</code>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex gap-3">
-                            <span class="step-number">4</span>
-                            <div>
-                                <div class="fw-medium">Daftarkan route</div>
-                                <div class="text-secondary small">
-                                    Tulis di <code class="inline">routes/web.php</code>, cek dengan
-                                    <code class="inline">php sakuci route:list</code>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-lg-5">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <h2 class="h5 fw-semibold mb-3">Perintah yang sering dipakai</h2>
-
-                    <pre class="code"><span class="cmt"># jalankan server</span>
-php sakuci serve
-
-<span class="cmt"># uji koneksi database</span>
-php sakuci db:check
-
-<span class="cmt"># lihat semua route</span>
-php sakuci route:list
-
-<span class="cmt"># bantuan lengkap</span>
-php sakuci</pre>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- Empat pilar --}}
-    <section>
-        <h2 class="h5 fw-semibold mb-3">Empat pilar</h2>
-
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            <div class="col">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-body border-0 pt-3 pb-0">
-                        <span class="fw-semibold">Route</span>
-                        <span class="text-secondary small ms-1">routes/web.php</span>
-                    </div>
-                    <div class="card-body">
-                        <pre class="code">Route::get('/buku',
-    [BukuController::class, 'index'])
-    ->name('buku.index');
-
-<span class="cmt">// 7 route CRUD sekaligus</span>
-Route::resource('buku',
-    BukuController::class);</pre>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-body border-0 pt-3 pb-0">
-                        <span class="fw-semibold">Controller</span>
-                        <span class="text-secondary small ms-1">app/Controllers</span>
-                    </div>
-                    <div class="card-body">
-                        <pre class="code">class BukuController extends Controller
-{
-    public function index()
-    {
-        return view('buku.index', [
-            'buku' => Buku::all(),
-        ]);
-    }
-}</pre>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-body border-0 pt-3 pb-0">
-                        <span class="fw-semibold">Model</span>
-                        <span class="text-secondary small ms-1">app/Models</span>
-                    </div>
-                    <div class="card-body">
-                        <pre class="code">Buku::all();
-Buku::find(1);
-Buku::where('stok', '>', 0)
-    ->latest()
-    ->paginate(10);
-
-Buku::create(['judul' => 'PHP']);</pre>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-body border-0 pt-3 pb-0">
-                        <span class="fw-semibold">View</span>
-                        <span class="text-secondary small ms-1">resources/views</span>
-                    </div>
-                    <div class="card-body">
-                        <pre class="code">@@extends('layouts.app')
-
-@@section('content')
-    @@foreach ($buku as $b)
-        &lt;h2&gt;&#123;&#123; $b-&gt;judul &#125;&#125;&lt;/h2&gt;
-    @@endforeach
-@@endsection</pre>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
 @endsection
+
+@push('styles')
+<style>
+    /* Styling Tambahan Khusus Tema Sekolah */
+    .bg-primary-subtle { background-color: rgba(13, 110, 253, 0.1); }
+    .bg-success-subtle { background-color: rgba(25, 135, 84, 0.1); }
+    .bg-warning-subtle { background-color: rgba(255, 193, 7, 0.1); }
+    
+    .card {
+        transition: transform 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-4px);
+    }
+</style>
+@endpush

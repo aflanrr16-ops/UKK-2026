@@ -10,7 +10,7 @@
         <div>
             <!-- Menggunakan text-body agar otomatis menyesuaikan mode (hitam di terang, putih/terang di gelap) -->
             <h2 class="fw-bold mb-1">Daftar Alat</h2>
-            <p class="text-muted small mb-0">Kelola data inventaris alat peminjaman dengan mudah.</p>
+            <p class="text-muted small mb-0">Kelola data alat peminjaman dengan mudah.</p>
         </div>
         <a href="{{ route('alat.create') }}" class="btn btn-primary shadow-sm">
             <i class="bi bi-plus-lg me-1"></i> Tambah Alat Baru

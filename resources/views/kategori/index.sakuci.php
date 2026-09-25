@@ -9,7 +9,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold mb-1">Daftar Kategori</h2>
-            <p class="text-muted small mb-0">Kelola kategori alat inventaris dengan mudah.</p>
+            <p class="text-muted small mb-0">Kelola kategori alat dengan mudah.</p>
         </div>
         <a href="{{ route('admin.kategori.create') }}" class="btn btn-primary shadow-sm">
             <i class="bi bi-plus-lg me-1"></i> Tambah Kategori Baru
