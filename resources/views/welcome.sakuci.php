@@ -144,7 +144,7 @@
                 </p>
 
                 <div class="d-flex justify-content-center">
-                    <a href="/peminjaman" class="btn btn-formal-primary btn-lg px-4 py-2.5 rounded-3 fs-6 d-inline-flex align-items-center gap-2">
+                    <a href="{{ route('login') }}" class="btn btn-formal-primary btn-lg px-4 py-2.5 rounded-3 fs-6 d-inline-flex align-items-center gap-2">
                         <span>Login</span>
                         <i class="bi bi-arrow-right"></i>
                     </a>
