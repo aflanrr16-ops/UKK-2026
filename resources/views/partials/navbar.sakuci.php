@@ -15,36 +15,42 @@
                     title="Ganti tema terang/gelap">
                 <svg width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block;" aria-hidden="true">
                     <circle class="logo-ring" cx="16" cy="16" r="15"/>
-                    <circle cx="16" cy="16" r="9" fill="{{ $dbConnected ? '#28a745' : '#dc3545' }}"/>
+                    <circle cx="16" cy="16" r="9" fill="{{ $dbConnected ? '#117064' : '#dc3545' }}"/>
                 </svg>
             </button>
             <a class="navbar-brand fw-semibold m-0" href="{{ route('home') }}">{{ config('app.name') }}</a>
         </div>
 
-        <button class="navbar-toggler border-0" type="button"
+        {{-- Tombol Toggle Garis Tiga (Hamburger Menu) --}}
+        <button class="navbar-toggler border-0 shadow-none p-2" type="button"
                 data-bs-toggle="collapse" data-bs-target="#menuUtama"
                 aria-controls="menuUtama" aria-expanded="false" aria-label="Buka menu">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        {{-- Tambahkan menu aplikasi Anda di sini --}}
+        {{-- Menu Utama Aplikasi --}}
         <div class="collapse navbar-collapse" id="menuUtama">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                {{-- Beranda SELALU TAMPIL untuk siapa saja --}}
                 <li class="nav-item">
                     <a class="nav-link {{ is_route('home') ? 'active' : '' }}" href="{{ route('home') }}">Beranda</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ is_route('kategori.index') ? 'active' : '' }}" href="{{ route('kategori.index') }}">Kategori</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ is_route('alat.index') ? 'active' : '' }}" href="{{ route('alat.index') }}">Alat</a>
-                </li>
-                    <a class="nav-link {{ is_route('peminjaman.index') ? 'active' : '' }}" href="{{ route('peminjaman.index') }}">Peminjaman</a>
-                </li>
+
                 @php
                     $currentUser = \App\Models\User::current();
                 @endphp
+
+                {{-- HANYA TAMPIL JIKA SUDAH LOGIN --}}
                 @if ($currentUser)
+                    <li class="nav-item">
+                        <a class="nav-link {{ is_route('kategori.index') ? 'active' : '' }}" href="{{ route('kategori.index') }}">Kategori</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ is_route('alat.index') ? 'active' : '' }}" href="{{ route('alat.index') }}">Alat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ is_route('peminjaman.index') ? 'active' : '' }}" href="{{ route('peminjaman.index') }}">Peminjaman</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link {{ is_route('admin.dashboard', 'dashboard') ? 'active' : '' }}"
                            href="{{ $currentUser->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}">Dashboard</a>
@@ -55,6 +61,7 @@
                             <button type="submit" class="btn btn-sm btn-outline-secondary w-100 mt-2 mt-lg-0">Logout ({{ $currentUser->username }})</button>
                         </form>
                     </li>
+                {{-- HANYA TAMPIL JIKA BELUM LOGIN --}}
                 @else
                     @php
                         $canRegister = false;

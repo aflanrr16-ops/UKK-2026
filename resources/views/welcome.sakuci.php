@@ -1,140 +1,257 @@
 @extends('layouts.app')
 
-@section('title', config('app.name') . ' -- Portal Peminjaman Alat & Inventaris Sekolah')
+@section('title', config('app.name', 'Studio & Sound') . ' -- Portal Peminjaman Alat Seni dan Musik Sekolah')
 
 @section('content')
 
-    {{-- Hero Section: Clean Academic & Modern Tech Vibe --}}
-    <section class="d-flex align-items-center justify-content-center min-vh-100 py-5 position-relative overflow-hidden" 
-             style="background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%); color: #1e293b;">
+{{-- Style Kustom Formal --}}
+<style>
+    /* ----------------------------------------------------
+       THEME VARIABLES (FORMAL & CLEAN THEME)
+    ---------------------------------------------------- */
+    :root {
+        --bg-main: #f8fafc;
+        --card-bg: #ffffff;
+        --card-border: #e2e8f0;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-muted: #64748b;
+        --brand-primary: #1e3a8a; /* Deep Navy */
+        --brand-accent: #2563eb;  /* Royal Blue */
+        --success-color: #059669;
+        --warning-color: #d97706;
+    }
+
+    [data-bs-theme="dark"] {
+        --bg-main: #0f172a;
+        --card-bg: #1e293b;
+        --card-border: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --brand-primary: #3b82f6;
+        --brand-accent: #60a5fa;
+    }
+
+    /* ----------------------------------------------------
+       LAYOUT & CONTAINER ADJUSTMENTS
+    ---------------------------------------------------- */
+    .formal-hero-section {
+        background-color: var(--bg-main);
+        /* Pengaturan rapat ke atas */
+        margin-top: -1.5rem; 
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+        transition: background-color 0.3s ease;
+    }
+
+    /* ----------------------------------------------------
+       TYPOGRAPHY & ACCENTS
+    ---------------------------------------------------- */
+    .fw-bold-custom { font-weight: 700; }
+    .fw-black { font-weight: 800; }
+    .leading-relaxed { line-height: 1.6; }
+
+    .text-formal-title { color: var(--text-primary); }
+    .text-formal-subtitle { color: var(--text-secondary); }
+    .text-formal-muted { color: var(--text-muted); }
+    
+    .text-brand { color: var(--brand-primary) !important; }
+
+    /* Badge Formal */
+    .badge-formal {
+        background-color: rgba(37, 99, 235, 0.1);
+        color: var(--brand-accent);
+        border: 1px solid rgba(37, 99, 235, 0.2);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+    }
+
+    /* ----------------------------------------------------
+       BUTTONS
+    ---------------------------------------------------- */
+    .btn-formal-primary {
+        background-color: #1e3a8a !important;
+        border-color: #1e3a8a !important;
+        color: #ffffff !important;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-formal-primary:hover {
+        background-color: #1e40af !important;
+        border-color: #1e40af !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+    }
+
+    /* ----------------------------------------------------
+       CARDS & CONTAINER
+    ---------------------------------------------------- */
+    .card-formal {
+        background: var(--card-bg) !important;
+        border: 1px solid var(--card-border) !important;
+        border-radius: 0.75rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-formal:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-icon-square {
+        width: 48px;
+        height: 48px;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bg-icon-blue { background: rgba(37, 99, 235, 0.1); color: #2563eb; }
+    .bg-icon-amber { background: rgba(217, 119, 6, 0.1); color: #d97706; }
+    .bg-icon-purple { background: rgba(147, 51, 234, 0.1); color: #9333ea; }
+    .bg-icon-emerald { background: rgba(5, 150, 105, 0.1); color: #059669; }
+
+</style>
+
+{{-- Section Formal Utama (Full Width & Position Shifted Up) --}}
+<section class="formal-hero-section">
+    {{-- Container Full Width --}}
+    <div class="container-fluid px-4 px-lg-5">
         
-        {{-- Background Geometric Shapes / Soft Blobs --}}
-        <div class="position-absolute top-0 start-0 w-100 h-100 pointer-event-none opacity-40" 
-             style="background-image: radial-gradient(#3b82f6 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
-        
-        <div class="container position-relative py-5" style="z-index: 1;">
-            <div class="row align-items-center g-5">
+        {{-- Header Section --}}
+        <div class="row justify-content-center text-center mb-4 pt-2">
+            <div class="col-lg-10 col-xl-8">
                 
-                {{-- Kolom Kiri: Teks & Aksi Utama --}}
-                <div class="col-lg-6 text-center text-lg-start">
-                    
-                    {{-- Badge Status Sekolah --}}
-                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 mb-4 rounded-pill bg-white shadow-sm border border-primary border-opacity-25">
-                        <span class="badge bg-primary rounded-pill px-2 py-1">RESMI SEKOLAH</span>
-                        <span class="fw-semibold small text-primary">Sistem Inventaris & Lab Terpadu</span>
-                    </div>
-
-                    {{-- Heading Utama --}}
-                    <h1 class="display-4 fw-bold mb-4 text-dark lh-tight" style="letter-spacing: -0.02em;">
-                        Pinjam Alat Praktikum & Sekolah Jadi <span class="text-primary position-relative">Lebih Tertib<span class="position-absolute bottom-0 start-0 w-100 bg-warning opacity-25 rounded" style="height: 8px; z-index: -1;"></span></span>
-                    </h1>
-
-                    {{-- Subtitle --}}
-                    <p class="lead mb-4 text-muted" style="font-size: 1.1rem; line-height: 1.7;">
-                        Platform digital peminjaman inventaris sekolah mulai dari alat laboratorium sains, perangkat multimedia, hingga perlengkapan olahraga. Cepat, transparan, dan terdata rapi.
-                    </p>
-
-                    {{-- Tombol Aksi --}}
-                    <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3 mb-5">
-                        <a href="/peminjaman" class="btn btn-primary px-4 py-3 fw-semibold shadow rounded-pill d-inline-flex align-items-center justify-content-center gap-2">
-                            <i class="bi bi-box-seam fs-5"></i>Ajukan Peminjaman
-                        </a>
-                        <a href="/riwayat" class="btn btn-outline-dark px-4 py-3 fw-semibold rounded-pill d-inline-flex align-items-center justify-content-center gap-2">
-                            <i class="bi bi-clock-history fs-5"></i>Cek Status Barang
-                        </a>
-                    </div>
-
-                    {{-- Statistik Singkat Sekolah --}}
-                    <div class="row text-start g-3 pt-3 border-top border-secondary border-opacity-10">
-                        <div class="col-4">
-                            <h4 class="fw-bold text-primary mb-0">500+</h4>
-                            <small class="text-muted fw-medium">Item Tersedia</small>
-                        </div>
-                        <div class="col-4">
-                            <h4 class="fw-bold text-success mb-0">100%</h4>
-                            <small class="text-muted fw-medium">Tercatat Sistem</small>
-                        </div>
-                        <div class="col-4">
-                            <h4 class="fw-bold text-warning mb-0">24/7</h4>
-                            <small class="text-muted fw-medium">Akses Portal</small>
-                        </div>
-                    </div>
-
+                {{-- Badge Status --}}
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill badge-formal mb-3">
+                    <i class="bi bi-shield-check"></i>
+                    <span class="small text-uppercase fw-bold">Portal Resmi Peminjaman Digital</span>
                 </div>
+                
+                {{-- Judul Utama --}}
+                <h1 class="display-5 fw-black text-formal-title mb-3">
+                    Sistem Pengelolaan & Peminjaman <br>
+                    <span class="text-brand">Peralatan Seni & Musik Sekolah</span>
+                </h1>
+                
+                {{-- Subtitle --}}
+                <p class="lead text-formal-subtitle mb-4 px-md-5 fs-6 leading-relaxed">
+                    Layanan terpadu untuk memfasilitasi pencatatan, peminjaman, dan pengawasan fasilitas serta sarana prasarana kesenian sekolah secara terstruktur dan akuntabel.
+                </p>
 
-                {{-- Kolom Kanan: Ilustrasi Kartu / Panel Interaktif Sekolah --}}
-                <div class="col-lg-6">
-                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white p-2">
-                        <div class="card-body p-4 p-lg-5 bg-light rounded-4">
-                            
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h5 class="fw-bold text-dark m-0"><i class="bi bi-grid-fill text-primary me-2"></i>Kategori Inventaris</h5>
-                                <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill small fw-semibold">Status: Ready</span>
-                            </div>
-
-                            <div class="row g-3">
-                                {{-- Item Lab --}}
-                                <div class="col-12">
-                                    <div class="p-3 bg-white rounded-3 shadow-sm d-flex align-items-center gap-3 border-start border-4 border-primary">
-                                        <div class="bg-primary-subtle text-primary p-2 rounded-2">
-                                            <i class="bi bi-eyedropper fs-4"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="fw-bold mb-1 text-dark">Alat Laboratorium (Sains & Komputer)</h6>
-                                            <p class="small text-muted mb-0">Mikroskop, Tabung Reaksi, Proyektor, Laptop Lab.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Item Olahraga --}}
-                                <div class="col-12">
-                                    <div class="p-3 bg-white rounded-3 shadow-sm d-flex align-items-center gap-3 border-start border-4 border-success">
-                                        <div class="bg-success-subtle text-success p-2 rounded-2">
-                                            <i class="bi bi-trophy fs-4"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="fw-bold mb-1 text-dark">Perlengkapan Olahraga & Ekstrakurikuler</h6>
-                                            <p class="small text-muted mb-0">Bola Basket, Raket Badminton, Matras Senam.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Item Multimedia --}}
-                                <div class="col-12">
-                                    <div class="p-3 bg-white rounded-3 shadow-sm d-flex align-items-center gap-3 border-start border-4 border-warning">
-                                        <div class="bg-warning-subtle text-warning p-2 rounded-2">
-                                            <i class="bi bi-camera-video fs-4"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="fw-bold mb-1 text-dark">Media Pembelajaran & Acara Sekolah</h6>
-                                            <p class="small text-muted mb-0">Kamera DSLR, Sound System Portable, Mic Wireless.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                <div class="d-flex justify-content-center">
+                    <a href="/peminjaman" class="btn btn-formal-primary btn-lg px-4 py-2.5 rounded-3 fs-6 d-inline-flex align-items-center gap-2">
+                        <span>Login</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
-
             </div>
         </div>
-    </section>
+
+        {{-- Row Kartu Statistik (Full Grid) --}}
+        <div class="row g-3 mb-4">
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-formal h-100 p-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="stat-icon-square bg-icon-blue">
+                            <i class="bi bi-headset fs-4"></i>
+                        </div>
+                        <span class="badge bg-light text-dark border rounded-pill px-2.5 py-1">Inventaris</span>
+                    </div>
+                    <span class="small text-formal-muted fw-medium d-block mb-1">Peralatan Lab &amp; Multimedia</span>
+                    <h3 class="fw-bold-custom text-formal-title mb-0">50+ Unit</h3>
+                    <span class="small text-formal-muted">Siap Digunakan</span>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-formal h-100 p-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="stat-icon-square bg-icon-amber">
+                            <i class="bi bi-box-seam fs-4"></i>
+                        </div>
+                        <span class="badge bg-light text-dark border rounded-pill px-2.5 py-1">Tradisional</span>
+                    </div>
+                    <span class="small text-formal-muted fw-medium d-block mb-1">Paket Alat Tradisional</span>
+                    <h3 class="fw-bold-custom text-formal-title mb-0">25 Set</h3>
+                    <span class="small text-formal-muted">Seni Tari &amp; Gamelan</span>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-formal h-100 p-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="stat-icon-square bg-icon-purple">
+                            <i class="bi bi-arrow-repeat fs-4"></i>
+                        </div>
+                        <span class="badge bg-light text-dark border rounded-pill px-2.5 py-1">Proses</span>
+                    </div>
+                    <span class="small text-formal-muted fw-medium d-block mb-1">Peminjaman Aktif</span>
+                    <h3 class="fw-bold-custom text-formal-title mb-0">8 Transaksi</h3>
+                    <span class="small text-formal-muted">Sedang Dipinjam</span>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-formal h-100 p-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="stat-icon-square bg-icon-emerald">
+                            <i class="bi bi-check2-circle fs-4"></i>
+                        </div>
+                        <span class="badge bg-light text-dark border rounded-pill px-2.5 py-1">Selesai</span>
+                    </div>
+                    <span class="small text-formal-muted fw-medium d-block mb-1">Pengembalian</span>
+                    <h3 class="fw-bold-custom text-formal-title mb-0">5 Transaksi</h3>
+                    <span class="small text-formal-muted">Selesai Dikembalikan</span>
+                </div>
+            </div>
+        </div>
+
+        {{-- Section "Informasi Layanan" --}}
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-formal p-4 p-md-4">
+                    <div class="row align-items-center g-4">
+                        <div class="col-lg-8">
+                            <h5 class="fw-bold-custom text-formal-title mb-2 d-flex align-items-center gap-2">
+                                <i class="bi bi-info-circle text-brand fs-5"></i>
+                                Tentangan Portal Peminjaman Sarana
+                            </h5>
+                            <p class="text-formal-subtitle mb-2 leading-relaxed">
+                                Portal ini dirancang untuk mempermudah operasional manajemen studio, peminjaman instrumen musik, serta peralatan pertunjukan seni secara sistematis dan teratur di lingkungan sekolah.
+                            </p>
+                            <p class="text-formal-muted mb-0 small leading-relaxed">
+                                Memaksimalkan transparansi ketersediaan unit, pemantauan pengembalian barang, serta penyediaan data inventaris guna mendukung kegiatan ekstrakurikuler dan akademis.
+                            </p>
+                        </div>
+                        <div class="col-lg-4 border-start-lg">
+                            <div class="ps-lg-3">
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <i class="bi bi-file-earmark-check text-success fs-3"></i>
+                                    <div>
+                                        <div class="fw-bold-custom text-formal-title small">Pencatatan Terpusat</div>
+                                        <div class="small text-formal-muted">Data peminjaman terekam real-time</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <i class="bi bi-clock-history text-brand fs-3"></i>
+                                    <div>
+                                        <div class="fw-bold-custom text-formal-title small">Proses Efisien</div>
+                                        <div class="small text-formal-muted">Pengajuan peminjaman lebih cepat</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
 
 @endsection
-
-@push('styles')
-<style>
-    /* Styling Tambahan Khusus Tema Sekolah */
-    .bg-primary-subtle { background-color: rgba(13, 110, 253, 0.1); }
-    .bg-success-subtle { background-color: rgba(25, 135, 84, 0.1); }
-    .bg-warning-subtle { background-color: rgba(255, 193, 7, 0.1); }
-    
-    .card {
-        transition: transform 0.3s ease;
-    }
-    .card:hover {
-        transform: translateY(-4px);
-    }
-</style>
-@endpush
