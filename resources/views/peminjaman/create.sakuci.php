@@ -18,7 +18,7 @@
                             <i class="bi bi-journal-plus fs-4"></i>
                         </div>
                         <div>
-                            <h4 class="fw-bold mb-1 text-white">Form Peminjaman Alat</h4>
+                            <h4 class="fw-bold mb-1 text-white">Form. Peminjaman Alat</h4>
                             <p class="text-white-50 small mb-0">Silakan lengkapi data transaksi peminjaman inventaris sekolah</p>
                         </div>
                     </div>
