@@ -2,69 +2,247 @@
 
 namespace App\Controllers;
 
-use Sakuci\Controller;
-use Sakuci\Http\Request;
 use App\Models\Peminjaman;
-use App\Models\User;
 use App\Models\Alat;
+use App\Models\User;
+use App\Models\LogAktifitas;
+use Sakuci\Http\Request;
 
-class PeminjamanController extends Controller
+class PeminjamanController
 {
+    // ==========================================
+    // BAGIAN ADMIN: Kelola Semua Peminjaman
+    // ==========================================
+
     public function index(Request $request)
     {
-        // Mengambil data peminjaman dengan pagination
         $datap = Peminjaman::orderBy('id_peminjaman', 'desc')->paginate(4);
         return view('peminjaman.index', compact('datap'));
     }
 
     public function create(Request $request)
     {
-        // Biasanya butuh data user dan alat untuk pilihan dropdown di form
-        $users = User::all();
         $alat = Alat::all();
-        return view('peminjaman.create', compact('users', 'alat'));
+        $users = User::all();
+        return view('peminjaman.create', compact('alat', 'users'));
     }
 
     public function store(Request $request)
     {
-        $datap = $request->validate([
-            'id_user'        => 'required|integer',
-            'id_alat'        => 'required|integer',
-            'jumlah'         => 'required|integer|min:1',
-            'tanggal_pinjam' => 'required|date',
+        $data = $request->all();
+        
+        if (!isset($data['status']) || empty($data['status'])) {
+            $data['status'] = 'Pending';
+        }
+
+        Peminjaman::create($data);
+
+        // Pencatatan Log Aktivitas Admin
+        $currentUser = User::current();
+        LogAktifitas::create([
+            'id_user'   => $currentUser->id ?? null,
+            'aktifitas' => 'Admin menambahkan data peminjaman baru.'
         ]);
 
-        // Set status awal peminjaman
-        $datap['status'] = 'Pending';
-        $datap['denda'] = 0;
-
-        Peminjaman::create($datap);
-        return redirect(route('peminjaman.index'))->with('success', 'Data peminjaman berhasil ditambahkan.');
+        return redirect(route('peminjaman.index'))->with('success', 'Data peminjaman berhasil ditambahkan!');
     }
 
-    public function edit(Request $request, $id_peminjaman)
+    public function edit(Request $request, $id)
     {
-        $datap = Peminjaman::findOrFail($id_peminjaman);
-        $users = User::all();
+        $data = Peminjaman::where('id_peminjaman', $id)->first();
+        if (!$data) {
+            return redirect(route('peminjaman.index'))->with('error', 'Data peminjaman tidak ditemukan.');
+        }
+
         $alat = Alat::all();
-        return view('peminjaman.edit', compact('data', 'users', 'alat'));
+        $users = User::all();
+        return view('peminjaman.edit', compact('data', 'alat', 'users'));
     }
 
-    public function update(Request $request, $id_peminjaman)
+    public function update(Request $request, $id)
     {
-        $datap = $request->all();
+        $peminjaman = Peminjaman::where('id_peminjaman', $id)->first();
+        if (!$peminjaman) {
+            return redirect(route('peminjaman.index'))->with('error', 'Data peminjaman tidak ditemukan.');
+        }
 
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
-        $peminjaman->update($datap);
+        $input = $request->all();
+
+        if (empty($input['id_alat'])) {
+            $input['id_alat'] = $peminjaman->id_alat;
+        }
+        if (empty($input['id_user'])) {
+            $input['id_user'] = $peminjaman->id_user;
+        }
+
+        // Penanganan input denda kosong/null agar tidak error 1366 saat disimpan
+        if (!isset($input['denda']) || $input['denda'] === '' || $input['denda'] === null) {
+            $input['denda'] = 0;
+        }
+
+        $peminjaman->update($input);
+
+        // Pencatatan Log Aktivitas Admin
+        $currentUser = User::current();
+        LogAktifitas::create([
+            'id_user'   => $currentUser->id ?? null,
+            'aktifitas' => 'Admin memperbarui data transaksi peminjaman (ID: ' . $id . ').'
+        ]);
+
+        return redirect(route('peminjaman.index'))->with('success', 'Data peminjaman berhasil diperbarui!');
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $peminjaman = Peminjaman::where('id_peminjaman', $id)->first();
+        if ($peminjaman) {
+            $peminjaman->delete();
+
+            // Pencatatan Log Aktivitas Admin
+            $currentUser = User::current();
+            LogAktifitas::create([
+                'id_user'   => $currentUser->id ?? null,
+                'aktifitas' => 'Admin menghapus data peminjaman (ID: ' . $id . ').'
+            ]);
+        }
+
+        return redirect(route('peminjaman.index'))->with('success', 'Data peminjaman berhasil dihapus!');
+    }
+
+
+    // ==========================================
+    // BAGIAN PEMINJAM / SISWA: Pengajuan Mandiri
+    // ==========================================
+
+    public function indexPeminjam(Request $request)
+    {
+        $currentUser = User::current();
         
-        return redirect(route('peminjaman.index'))->with('success', 'Data peminjaman berhasil diubah.');
+        if (!$currentUser) {
+            return redirect(route('login'))->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $datap = Peminjaman::where('id_user', $currentUser->id)
+                           ->orderBy('id_peminjaman', 'desc')
+                           ->paginate(10);
+
+        return view('peminjam.index_peminjam', compact('datap'));
     }
 
-    public function delete(Request $request, $id_peminjaman)
+    public function createPeminjam(Request $request)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
-        $peminjaman->delete();
+        $alat = Alat::all();
+        return view('peminjam.create_peminjam', compact('alat'));
+    }
 
-        return redirect()->route('peminjaman.index')->with('success', 'Data peminjaman berhasil dihapus.');
+    public function storePeminjam(Request $request)
+    {
+        $currentUser = User::current();
+        
+        if (!$currentUser) {
+            return redirect(route('login'))->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $data = $request->all();
+        
+        // Memastikan id_user dikunci menggunakan data session login (mencegah manipulasi input)
+        $data['id_user'] = $currentUser->id;
+        $data['status'] = 'Pending';
+
+        Peminjaman::create($data);
+
+        // Pencatatan Log Aktivitas Siswa
+        LogAktifitas::create([
+            'id_user'   => $currentUser->id,
+            'aktifitas' => 'Peminjam ' . ($currentUser->username ?? 'Siswa') . ' mengajukan permohonan peminjaman alat baru.'
+        ]);
+
+        // DIUBAH KE rute riwayat yang sesuai web.php
+        return redirect(route('peminjam.riwayat'))->with('success', 'Pengajuan peminjaman berhasil dikirim dan masuk ke daftar riwayat!');
+    }
+
+
+    // ==========================================
+    // BAGIAN PETUGAS: Verifikasi, Persetujuan & Dashboard
+    // ==========================================
+
+    public function dashboardPetugas(Request $request)
+    {
+        $currentUser = User::current();
+
+        // Menghitung statistik berdasarkan status transaksi di database
+        $totalPending  = Peminjaman::where('status', 'Pending')->count();
+        $totalDipinjam = Peminjaman::where('status', 'Disetujui')->count();
+        $totalSelesai  = Peminjaman::where('status', 'Dikembalikan')->count();
+
+        // Mengirimkan variabel ke view dashboard petugas
+        return view('petugas.dashboard', [
+            'user'          => $currentUser,
+            'totalPending'  => $totalPending,
+            'totalDipinjam' => $totalDipinjam,
+            'totalSelesai'  => $totalSelesai,
+        ]);
+    }
+
+    public function indexPetugas(Request $request)
+    {
+        $datap = Peminjaman::orderBy('id_peminjaman', 'desc')->paginate(10);
+        
+        foreach ($datap as $item) {
+            $item->data_alat = Alat::where('id_alat', $item->id_alat)->first();
+            $item->data_user = User::where('id', $item->id_user)->first();
+        }
+
+        return view('petugas.peminjaman', compact('datap'));
+    }
+
+    public function setujuiPetugas(Request $request, $id)
+    {
+        $peminjaman = Peminjaman::where('id_peminjaman', $id)->first();
+
+        if (!$peminjaman) {
+            return redirect(route('petugas.peminjaman.index'))->with('error', 'Data peminjaman tidak ditemukan.');
+        }
+
+        $peminjaman->update([
+            'status' => 'Disetujui'
+        ]);
+
+        // Pencatatan Log Aktivitas Petugas
+        $currentUser = User::current();
+        LogAktifitas::create([
+            'id_user'   => $currentUser->id ?? null,
+            'aktifitas' => 'Petugas menyetujui transaksi peminjaman (ID: ' . $id . ').'
+        ]);
+
+        return redirect(route('petugas.peminjaman.index'))->with('success', 'Peminjaman alat berhasil disetujui!');
+    }
+
+    public function tolakPetugas(Request $request, $id)
+    {
+        $peminjaman = Peminjaman::where('id_peminjaman', $id)->first();
+
+        if (!$peminjaman) {
+            return redirect(route('petugas.peminjaman.index'))->with('error', 'Data peminjaman tidak ditemukan.');
+        }
+
+        // Hanya pengajuan yang masih menunggu yang boleh ditolak
+        $statusSekarang = strtolower($peminjaman->status);
+        if ($statusSekarang !== 'pending' && $statusSekarang !== 'menunggu') {
+            return redirect(route('petugas.peminjaman.index'))->with('error', 'Hanya pengajuan berstatus Pending yang bisa ditolak.');
+        }
+
+        $peminjaman->update([
+            'status' => 'Ditolak'
+        ]);
+
+        // Pencatatan Log Aktivitas Petugas
+        $currentUser = User::current();
+        LogAktifitas::create([
+            'id_user'   => $currentUser->id ?? null,
+            'aktifitas' => 'Petugas menolak transaksi peminjaman (ID: ' . $id . ').'
+        ]);
+
+        return redirect(route('petugas.peminjaman.index'))->with('success', 'Peminjaman alat ditolak.');
     }
 }

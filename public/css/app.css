@@ -4,8 +4,8 @@
 */
 
 :root {
-    --brand: #520cc291;
-    --brand-dark: #00a183ab;
+    --brand: #A855F7;
+    --brand-dark: #A855F7;
     --brand-subtle: #edf2ff;
 }
 
@@ -256,3 +256,42 @@ code.inline {
     color: #a5b4fc;
 }
 
+/* =========================================================
+   Kustomisasi Sidebar Offcanvas (Mirip azka.ukk.sakuci.id)
+   ========================================================= */
+
+/* Pengaturan warna latar & lebar sidebar */
+.offcanvas-start {
+    width: 280px !important;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+/* Style item navigasi / link di dalam sidebar */
+.offcanvas-body .nav-pills .nav-link {
+    color: var(--bs-body-color);
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all .15s ease-in-out;
+}
+
+.offcanvas-body .nav-pills .nav-link:hover {
+    background-color: var(--bs-tertiary-bg);
+    color: var(--brand);
+}
+
+.offcanvas-body .nav-pills .nav-link.active {
+    background-color: var(--brand);
+    color: #ffffff !important;
+}
+
+/* Dukungan mode gelap (dark mode) untuk sidebar */
+[data-bs-theme="dark"] .offcanvas-start {
+    background-color: #1e293b;
+    color: #e2e8f0;
+}
+
+[data-bs-theme="dark"] .offcanvas-body .nav-pills .nav-link:hover {
+    background-color: #334155;
+    color: #ffffff;
+}

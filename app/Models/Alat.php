@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Sakuci\Database\Model;
 
 class Alat extends Model
