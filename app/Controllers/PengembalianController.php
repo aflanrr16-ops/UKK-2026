@@ -70,28 +70,50 @@ class PengembalianController extends Controller
         $validatedData = $request->validate([
             'id_peminjaman'        => 'required|integer',
             'tanggal_pengembalian' => 'required|date',
-            'terlambat_hari'       => 'nullable|integer|min:0',
-            'denda'                => 'nullable|integer|min:0',
             'kondisi_barang'       => 'nullable|string|max:100',
             'catatan'              => 'nullable|string',
         ]);
 
-        $validatedData['terlambat_hari'] = $validatedData['terlambat_hari'] ?? 0;
-        $validatedData['denda']          = $validatedData['denda'] ?? 0;
+        // 1. Ambil data peminjaman untuk cek tanggal jatuh tempo
+        $peminjaman = Peminjaman::findOrFail($validatedData['id_peminjaman']);
+        $tglJatuhTempo = $peminjaman->tanggal_kembali ?? $peminjaman->tanggal_selesai ?? date('Y-m-d');
+
+        // 2. Hitung otomatis selisih hari dan denda menggunakan PHP (DateTime)
+        $tglRencana = new \DateTime($tglJatuhTempo);
+        $tglAktual = new \DateTime($validatedData['tanggal_pengembalian']);
+        
+        $tglRencana->setTime(0, 0, 0);
+        $tglAktual->setTime(0, 0, 0);
+
+        $selisihHari = 0;
+        $denda = 0;
+
+        if ($tglAktual > $tglRencana) {
+            $interval = $tglRencana->diff($tglAktual);
+            $selisihHari = $interval->days;
+            
+            // Tentukan tarif denda per hari (Contoh: Rp 2.000 per hari, silakan ubah sesuai kebutuhan)
+            $tarifDendaPerHari = 2000; 
+            $denda = $selisihHari * $tarifDendaPerHari;
+        }
+
+        // 3. Masukkan hasil perhitungan otomatis ke database
+        $validatedData['terlambat_hari'] = $selisihHari;
+        $validatedData['denda']          = $denda;
         $validatedData['kondisi_barang'] = $validatedData['kondisi_barang'] ?? 'Baik';
 
         Pengembalian::create($validatedData);
 
-        $peminjaman = Peminjaman::findOrFail($validatedData['id_peminjaman']);
+        // Update status peminjaman jadi Dikembalikan
         $peminjaman->update(['status' => 'Dikembalikan']);
 
         $currentUser = User::current();
         LogAktifitas::create([
             'id_user'   => $currentUser->id ?? null,
-            'aktifitas' => 'Admin mencatat pengembalian alat (Peminjaman ID: ' . $validatedData['id_peminjaman'] . ').'
+            'aktifitas' => 'Admin mencatat pengembalian alat (Peminjaman ID: ' . $validatedData['id_peminjaman'] . '). Terlambat: ' . $selisihHari . ' hari.'
         ]);
 
-        return redirect(route('pengembalian.index'))->with('success', 'Data pengembalian berhasil ditambahkan.');
+        return redirect(route('pengembalian.index'))->with('success', 'Data pengembalian berhasil ditambahkan. Terlambat: ' . $selisihHari . ' hari, Denda: Rp ' . number_format($denda, 0, ',', '.'));
     }
 
     public function edit(Request $request, $id_pengembalian)
@@ -121,11 +143,32 @@ class PengembalianController extends Controller
         $validatedData = $request->validate([
             'id_peminjaman'        => 'required|integer',
             'tanggal_pengembalian' => 'required|date',
-            'terlambat_hari'       => 'nullable|integer|min:0',
-            'denda'                => 'nullable|integer|min:0',
             'kondisi_barang'       => 'nullable|string|max:100',
             'catatan'              => 'nullable|string',
         ]);
+
+        // Hitung ulang otomatis saat di-update jika tanggal pengembalian diubah
+        $peminjaman = Peminjaman::findOrFail($validatedData['id_peminjaman']);
+        $tglJatuhTempo = $peminjaman->tanggal_kembali ?? $peminjaman->tanggal_selesai ?? date('Y-m-d');
+
+        $tglRencana = new \DateTime($tglJatuhTempo);
+        $tglAktual = new \DateTime($validatedData['tanggal_pengembalian']);
+        
+        $tglRencana->setTime(0, 0, 0);
+        $tglAktual->setTime(0, 0, 0);
+
+        $selisihHari = 0;
+        $denda = 0;
+
+        if ($tglAktual > $tglRencana) {
+            $interval = $tglRencana->diff($tglAktual);
+            $selisihHari = $interval->days;
+            $tarifDendaPerHari = 2000; 
+            $denda = $selisihHari * $tarifDendaPerHari;
+        }
+
+        $validatedData['terlambat_hari'] = $selisihHari;
+        $validatedData['denda']          = $denda;
 
         $pengembalian = Pengembalian::findOrFail($id_pengembalian);
         $pengembalian->update($validatedData);
@@ -187,13 +230,29 @@ class PengembalianController extends Controller
             'catatan'              => 'nullable|string',
         ]);
 
-        $validatedData['terlambat_hari'] = 0;
-        $validatedData['denda']          = 0;
+        $peminjaman = Peminjaman::findOrFail($validatedData['id_peminjaman']);
+        $tglJatuhTempo = $peminjaman->tanggal_kembali ?? $peminjaman->tanggal_selesai ?? date('Y-m-d');
+
+        $tglRencana = new \DateTime($tglJatuhTempo);
+        $tglAktual = new \DateTime($validatedData['tanggal_pengembalian']);
+        
+        $tglRencana->setTime(0, 0, 0);
+        $tglAktual->setTime(0, 0, 0);
+
+        $selisihHari = 0;
+        $denda = 0;
+
+        if ($tglAktual > $tglRencana) {
+            $interval = $tglRencana->diff($tglAktual);
+            $selisihHari = $interval->days;
+            $denda = $selisihHari * 2000;
+        }
+
+        $validatedData['terlambat_hari'] = $selisihHari;
+        $validatedData['denda']          = $denda;
         $validatedData['kondisi_barang'] = $validatedData['kondisi_barang'] ?? 'Baik';
 
         Pengembalian::create($validatedData);
-
-        $peminjaman = Peminjaman::findOrFail($validatedData['id_peminjaman']);
         $peminjaman->update(['status' => 'Dikembalikan']);
 
         LogAktifitas::create([

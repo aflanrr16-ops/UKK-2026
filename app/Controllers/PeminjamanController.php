@@ -16,7 +16,11 @@ class PeminjamanController
 
     public function index(Request $request)
     {
-        $datap = Peminjaman::orderBy('id_peminjaman', 'desc')->paginate(4);
+        // DITAMBAHKAN ->with('pengembalian') agar data denda dan tanggal kembali dari pengembalian ikut terpanggil di admin
+        $datap = Peminjaman::with('pengembalian')
+                           ->orderBy('id_peminjaman', 'desc')
+                           ->paginate(4);
+                           
         return view('peminjaman.index', compact('datap'));
     }
 
@@ -75,14 +79,12 @@ class PeminjamanController
             $input['id_user'] = $peminjaman->id_user;
         }
 
-        // Penanganan input denda kosong/null agar tidak error 1366 saat disimpan
         if (!isset($input['denda']) || $input['denda'] === '' || $input['denda'] === null) {
             $input['denda'] = 0;
         }
 
         $peminjaman->update($input);
 
-        // Pencatatan Log Aktivitas Admin
         $currentUser = User::current();
         LogAktifitas::create([
             'id_user'   => $currentUser->id ?? null,
@@ -98,7 +100,6 @@ class PeminjamanController
         if ($peminjaman) {
             $peminjaman->delete();
 
-            // Pencatatan Log Aktivitas Admin
             $currentUser = User::current();
             LogAktifitas::create([
                 'id_user'   => $currentUser->id ?? null,
@@ -122,7 +123,8 @@ class PeminjamanController
             return redirect(route('login'))->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        $datap = Peminjaman::where('id_user', $currentUser->id)
+        $datap = Peminjaman::with('pengembalian')
+                           ->where('id_user', $currentUser->id)
                            ->orderBy('id_peminjaman', 'desc')
                            ->paginate(10);
 
@@ -144,20 +146,16 @@ class PeminjamanController
         }
 
         $data = $request->all();
-        
-        // Memastikan id_user dikunci menggunakan data session login (mencegah manipulasi input)
         $data['id_user'] = $currentUser->id;
         $data['status'] = 'Pending';
 
         Peminjaman::create($data);
 
-        // Pencatatan Log Aktivitas Siswa
         LogAktifitas::create([
             'id_user'   => $currentUser->id,
             'aktifitas' => 'Peminjam ' . ($currentUser->username ?? 'Siswa') . ' mengajukan permohonan peminjaman alat baru.'
         ]);
 
-        // DIUBAH KE rute riwayat yang sesuai web.php
         return redirect(route('peminjam.riwayat'))->with('success', 'Pengajuan peminjaman berhasil dikirim dan masuk ke daftar riwayat!');
     }
 
@@ -170,12 +168,10 @@ class PeminjamanController
     {
         $currentUser = User::current();
 
-        // Menghitung statistik berdasarkan status transaksi di database
         $totalPending  = Peminjaman::where('status', 'Pending')->count();
         $totalDipinjam = Peminjaman::where('status', 'Disetujui')->count();
         $totalSelesai  = Peminjaman::where('status', 'Dikembalikan')->count();
 
-        // Mengirimkan variabel ke view dashboard petugas
         return view('petugas.dashboard', [
             'user'          => $currentUser,
             'totalPending'  => $totalPending,
@@ -208,7 +204,6 @@ class PeminjamanController
             'status' => 'Disetujui'
         ]);
 
-        // Pencatatan Log Aktivitas Petugas
         $currentUser = User::current();
         LogAktifitas::create([
             'id_user'   => $currentUser->id ?? null,
@@ -226,7 +221,6 @@ class PeminjamanController
             return redirect(route('petugas.peminjaman.index'))->with('error', 'Data peminjaman tidak ditemukan.');
         }
 
-        // Hanya pengajuan yang masih menunggu yang boleh ditolak
         $statusSekarang = strtolower($peminjaman->status);
         if ($statusSekarang !== 'pending' && $statusSekarang !== 'menunggu') {
             return redirect(route('petugas.peminjaman.index'))->with('error', 'Hanya pengajuan berstatus Pending yang bisa ditolak.');
@@ -236,7 +230,6 @@ class PeminjamanController
             'status' => 'Ditolak'
         ]);
 
-        // Pencatatan Log Aktivitas Petugas
         $currentUser = User::current();
         LogAktifitas::create([
             'id_user'   => $currentUser->id ?? null,

@@ -169,12 +169,12 @@
                     <div>
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <span class="fs-8 fw-semibold text-secondary">Kapasitas Digunakan</span>
-                            <span class="fs-8 fw-bold text-purple">{{ $activeCount ?? 0 }} / 3 Alat</span>
+                            <span class="fs-8 fw-bold text-purple">{{ $activeCount ?? 0 }} / 10 Alat</span>
                         </div>
                         <div class="progress rounded-pill mb-3" style="height: 10px; background-color: rgba(168, 85, 247, 0.12);">
                             @php
                                 $active = $activeCount ?? 0;
-                                $percentage = min(($active / 3) * 100, 100);
+                                $percentage = min(($active / 10) * 100, 100);
                             @endphp
                             <div class="progress-bar rounded-pill" role="progressbar" 
                                  style="width: {{ $percentage }}%; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);" 

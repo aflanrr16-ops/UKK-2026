@@ -55,6 +55,9 @@
                         // Ambil nama alat dengan aman
                         $alatObj = $peminjaman->alat ?? \App\Models\Alat::find($peminjaman->id_alat ?? null);
                         $namaAlatFinal = $alatObj->nama_alat ?? $alatObj->nama ?? $alatObj->name ?? ('Alat #' . ($peminjaman->id_alat ?? ''));
+                        
+                        // Cek apakah ada data pengembalian terkait dari admin
+                        $pengembalianData = $peminjaman->pengembalian;
                     @endphp
                     <tr>
                         <td class="px-3 text-center text-body-secondary fw-medium">
@@ -78,15 +81,20 @@
                                 <i class="bi bi-calendar-event me-1"></i>{{ $peminjaman->tanggal_pinjam ? date('d M Y', strtotime($peminjaman->tanggal_pinjam)) : '-' }}
                             </span>
                         </td>
+                        
+                        <!-- TANGGAL KEMBALI: Mengambil tanggal pengembalian aktual dari admin -->
                         <td>
                             <span class="text-body-secondary fs-8 fw-medium">
-                                @if($peminjaman->tanggal_kembali)
+                                @if($pengembalianData && $pengembalianData->tanggal_pengembalian)
+                                    <i class="bi bi-calendar-check text-success me-1"></i>{{ date('d M Y', strtotime($pengembalianData->tanggal_pengembalian)) }}
+                                @elseif($peminjaman->tanggal_kembali)
                                     <i class="bi bi-calendar-check me-1"></i>{{ date('d M Y', strtotime($peminjaman->tanggal_kembali)) }}
                                 @else
                                     <span class="text-muted">-</span>
                                 @endif
                             </span>
                         </td>
+
                         <td class="text-center">
                             @if($peminjaman->status == 'Pending')
                                 <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-1.5 fw-semibold fs-8">
@@ -106,13 +114,19 @@
                                 </span>
                             @endif
                         </td>
+
+                        <!-- DENDA: Mengambil nominal denda otomatis dari pengembalian admin -->
                         <td class="px-3 text-end">
-                            @if(($peminjaman->denda ?? 0) > 0)
+                            @php
+                                $dendaFinal = ($pengembalianData ? $pengembalianData->denda : null) ?? ($peminjaman->denda ?? 0);
+                            @endphp
+
+                            @if($dendaFinal > 0)
                                 <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1.5 rounded-2 fs-8 fw-bold">
-                                    Rp {{ number_format($peminjaman->denda, 0, ',', '.') }}
+                                    Rp {{ number_format($dendaFinal, 0, ',', '.') }}
                                 </span>
                             @else
-                                <span class="text-body-tertiary fs-8 fw-semibold">-</span>
+                                <span class="text-body-tertiary fs-8 fw-semibold">Rp 0</span>
                             @endif
                         </td>
                     </tr>

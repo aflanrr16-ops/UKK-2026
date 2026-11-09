@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', config('app.name') . ' -- Daftar Peminjaman')
+@section('title', config('app.name') . ' — Daftar Peminjaman')
 
 @section('content')
 <div class="container-fluid py-4 px-3 px-md-4">
@@ -111,7 +111,13 @@
 
                             <!-- TGL KEMBALI -->
                             <td class="px-3">
-                                <span class="text-secondary small">{{ $peminjaman->tanggal_kembali ?? '-' }}</span>
+                                <span class="text-secondary small">
+                                    @if($peminjaman->pengembalian && $peminjaman->pengembalian->tanggal_pengembalian)
+                                        {{ $peminjaman->pengembalian->tanggal_pengembalian }}
+                                    @else
+                                        {{ $peminjaman->tanggal_kembali ?? '-' }}
+                                    @endif
+                                </span>
                             </td>
 
                             <!-- STATUS -->
@@ -132,9 +138,19 @@
                                 @endif
                             </td>
 
-                            <!-- DENDA -->
+                            <!-- DENDA: Mengambil dari tabel pengembalian jika ada -->
                             <td class="px-3">
-                                <span class="text-danger fw-semibold small">Rp {{ number_format($peminjaman->denda ?? 0, 0, ',', '.') }}</span>
+                                @php
+                                    $dendaFinal = ($peminjaman->pengembalian ? $peminjaman->pengembalian->denda : null) ?? ($peminjaman->denda ?? 0);
+                                @endphp
+
+                                @if($dendaFinal > 0)
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1.5 rounded-2 small fw-bold">
+                                        Rp {{ number_format($dendaFinal, 0, ',', '.') }}
+                                    </span>
+                                @else
+                                    <span class="text-secondary small">Rp 0</span>
+                                @endif
                             </td>
 
                             <!-- AKSI -->

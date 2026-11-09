@@ -112,14 +112,14 @@
                                 </div>
                             </div>
 
-                            <!-- Tanggal Kembali -->
+                            <!-- Tanggal Kembali (DIUBAH JADI WAJIB / REQUIRED) -->
                             <div class="col-12 col-md-6">
-                                <label for="tanggal_kembali" class="form-label fw-semibold fs-7 text-body-emphasis">Rencana Tanggal Kembali <span class="text-secondary fw-normal fs-8">(Opsional)</span></label>
+                                <label for="tanggal_kembali" class="form-label fw-semibold fs-7 text-body-emphasis">Rencana Tanggal Kembali <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-body-tertiary border-end-0 rounded-start-3 text-secondary">
                                         <i class="bi bi-calendar-check"></i>
                                     </span>
-                                    <input type="date" name="tanggal_kembali" id="tanggal_kembali" class="form-control form-control-lg fs-7 rounded-end-3 border-start-0" style="min-height: 48px;">
+                                    <input type="date" name="tanggal_kembali" id="tanggal_kembali" class="form-control form-control-lg fs-7 rounded-end-3 border-start-0" required style="min-height: 48px;">
                                 </div>
                             </div>
                         </div>

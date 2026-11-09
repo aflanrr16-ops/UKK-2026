@@ -8,10 +8,8 @@
     <div class="row justify-content-center">
         <div class="col-xl-9 col-lg-10">
             
-            <!-- Card Pembungkus Form dengan Gaya Modern Two-Column Layout -->
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-body">
                 
-                <!-- Header Card Bergaya Modern Banner Ungu Lembut -->
                 <div class="card-header border-0 py-4 px-4 px-md-5 d-flex align-items-center justify-content-between header-gradient-modern">
                     <div class="d-flex align-items-center gap-3">
                         <div class="header-icon-wrapper rounded-3 d-flex align-items-center justify-content-center text-white shadow-sm" style="width: 48px; height: 48px; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);">
@@ -64,27 +62,27 @@
                                            value="{{ old('tanggal_pengembalian', date('Y-m-d\TH:i')) }}" required>
                                 </div>
 
-                                <!-- Terlambat (Hari) -->
+                                <!-- Info Keterlambatan Otomatis (Pengganti Input Manual) -->
                                 <div class="mb-3">
-                                    <label for="terlambat_hari" class="form-label fw-semibold small text-body-emphasis">
+                                    <label class="form-label fw-semibold small text-body-emphasis">
                                         <i class="bi bi-clock-history text-purple me-1"></i> Terlambat (Hari)
                                     </label>
-                                    <input type="number" min="0" name="terlambat_hari" id="terlambat_hari" 
-                                           class="form-control rounded-3 shadow-none py-2 bg-light-subtle" 
-                                           value="{{ old('terlambat_hari', 0) }}">
+                                    <div class="form-control rounded-3 shadow-none py-2 bg-light-subtle text-muted small">
+                                        <i class="bi bi-cpu me-1"></i> Dihitung otomatis oleh sistem (PHP).
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Kolom Kanan -->
                             <div class="col-md-6">
-                                <!-- Denda (Rp) -->
+                                <!-- Info Denda Otomatis (Pengganti Input Manual) -->
                                 <div class="mb-3">
-                                    <label for="denda" class="form-label fw-semibold small text-body-emphasis">
+                                    <label class="form-label fw-semibold small text-body-emphasis">
                                         <i class="bi bi-cash-stack text-purple me-1"></i> Denda (Rp)
                                     </label>
-                                    <input type="number" min="0" name="denda" id="denda" 
-                                           class="form-control rounded-3 shadow-none py-2 bg-light-subtle" 
-                                           value="{{ old('denda', 0) }}">
+                                    <div class="form-control rounded-3 shadow-none py-2 bg-light-subtle text-muted small">
+                                        <i class="bi bi-cpu me-1"></i> Dihitung otomatis (Rp 2.000 / hari terlambat).
+                                    </div>
                                 </div>
 
                                 <!-- Kondisi Barang -->
@@ -114,7 +112,7 @@
 
                         <!-- Info Box Catatan Kecil -->
                         <div class="p-3 rounded-3 bg-purple-subtle border border-purple-subtle text-purple small mt-3">
-                            <i class="bi bi-info-circle-fill me-1"></i> Pastikan pemeriksaan fisik kondisi barang dan perhitungan denda (jika ada keterlambatan/kerusakan) sudah sesuai sebelum data disimpan.
+                            <i class="bi bi-info-circle-fill me-1"></i> Sistem akan otomatis mendeteksi keterlambatan dan menghitung besaran denda saat data disimpan.
                         </div>
 
                         <!-- Action Buttons di Bawah -->
