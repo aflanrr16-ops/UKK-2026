@@ -14,7 +14,7 @@
                     <h2 class="fw-bold mb-1 text-body d-flex align-items-center gap-2">
                         <i class="bi bi-tags" style="color: #A855F7;"></i> Tambah Kategori
                     </h2>
-                    <p class="text-secondary small mb-0">Tambahkan kelompok inventaris baru ke dalam sistem.</p>
+                    <p class="text-secondary small mb-0">Tambahkan kelompok Alat Sekolah baru ke dalam sistem.</p>
                 </div>
                 <a href="{{ route('kategori.index') }}" class="btn btn-outline-secondary rounded-3 px-3 shadow-sm btn-sm">
                     <i class="bi bi-arrow-left me-1"></i> Kembali
@@ -35,7 +35,7 @@
                         </div>
                         <div>
                             <h5 class="fw-bold mb-0 text-body">Tambah Kategori Baru</h5>
-                            <span class="text-secondary small">Tambahkan kelompok inventaris baru ke sistem</span>
+                            <span class="text-secondary small">Tambahkan kelompok alat sekolah baru ke sistem</span>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                                 <input type="text" name="nama_kategori" id="nama_kategori" 
                                        class="form-control bg-body-tertiary border-secondary-subtle text-body py-2.5 px-3 rounded-end-3 shadow-none" 
                                        value="{{ old('nama_kategori') }}" 
-                                       placeholder="Contoh: Kordofon" required>
+                                       placeholder="Contoh: Alat Multimedia" required>
                             </div>
                         </div>
                         
@@ -71,7 +71,7 @@
                                 <input type="text" name="kode_kategori" id="kode_kategori" 
                                        class="form-control bg-body-tertiary border-secondary-subtle text-body py-2.5 px-3 rounded-end-3 shadow-none" 
                                        value="{{ old('kode_kategori') }}" 
-                                       placeholder="Contoh: K-01" required>
+                                       placeholder="Contoh: KT-01" required>
                             </div>
                         </div>
 

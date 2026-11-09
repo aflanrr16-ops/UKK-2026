@@ -81,7 +81,7 @@
                                     <input type="hidden" name="id_alat" value="{{ $selectedAlatId }}">
                                 @else
                                     <select name="id_alat" id="id_alat" class="form-select form-select-lg fs-7 rounded-3" required style="min-height: 48px;">
-                                        <option value="">-- Pilih Alat --</option>
+                                        <option value=""> Pilih Alat </option>
                                         @foreach($daftarAlat as $item)
                                             @php 
                                                 $aId = $item->id_alat ?? $item->id;

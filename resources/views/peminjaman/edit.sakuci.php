@@ -19,7 +19,7 @@
                         </div>
                         <div>
                             <h4 class="fw-bold mb-1 text-white">Edit Data Peminjaman</h4>
-                            <p class="text-white-50 small mb-0">Perbarui rincian data transaksi peminjaman inventaris sekolah</p>
+                            <p class="text-white-50 small mb-0">Perbarui rincian data transaksi peminjaman alat sekolah</p>
                         </div>
                     </div>
                     <a href="{{ route('peminjaman.index') }}" class="btn btn-light btn-sm rounded-pill px-3 fw-semibold shadow-sm d-none d-md-inline-flex align-items-center gap-1 text-dark">

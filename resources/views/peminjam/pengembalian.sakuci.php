@@ -59,10 +59,10 @@
                                 <div class="col-12">
                                     <label for="id_peminjaman" class="form-label fw-semibold fs-7 text-body-emphasis">Pilih Alat yang Ingin Dikembalikan <span class="text-danger">*</span></label>
                                     <select name="id_peminjaman" id="id_peminjaman" class="form-select form-select-lg fs-7 rounded-3 @error('id_peminjaman') is-invalid @enderror" required style="min-height: 48px;">
-                                        <option value="">-- Pilih Alat dari Daftar Pinjaman --</option>
+                                        <option value=""> Pilih Alat dari Daftar Pinjaman </option>
                                         @foreach($peminjamanAktif as $p)
                                             <option value="{{ $p->id_peminjaman ?? $p->id }}">
-                                                📦 {{ $p->alat->nama_alat ?? ($p->alat->nama ?? ($p->nama_alat ?? 'Alat ID: ' . $p->id_alat)) }} (Status: {{ ucfirst($p->status) }})
+                                                 {{ $p->alat->nama_alat ?? ($p->alat->nama ?? ($p->nama_alat ?? 'Alat ID: ' . $p->id_alat)) }} (Status: {{ ucfirst($p->status) }})
                                             </option>
                                         @endforeach
                                     </select>
@@ -90,9 +90,10 @@
                                             <i class="bi bi-shield-check"></i>
                                         </span>
                                         <select name="kondisi_barang" id="kondisi_barang" class="form-select form-select-lg fs-7 rounded-end-3 border-start-0" style="min-height: 48px;">
-                                            <option value="Baik">Baik (Normal)</option>
+                                            <option value="Baik">Baik </option>
                                             <option value="Ringan Rusak">Ada Kerusakan Ringan</option>
-                                            <option value="Rusak">Rusak / Tidak Berfungsi</option>
+                                            <option value="Berat Rusak">Ada Kerusakan Berat</option>
+                                            <option value="Hilang">Hilang</option>
                                         </select>
                                     </div>
                                 </div>

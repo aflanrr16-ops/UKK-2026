@@ -84,7 +84,7 @@
                                     <i class="bi bi-shield-lock"></i>
                                 </span>
                                 <select name="role" id="role" class="form-select fs-7 rounded-end-3 border-start-0 @error('role') is-invalid @enderror" required style="min-height: 44px;">
-                                    <option value="">-- Pilih Role Akses --</option>
+                                    <option value=""> Pilih Role Akses </option>
                                     @foreach($roles as $role)
                                         <option value="{{ $role->name }}" {{ (old('role', $userToEdit->role ?? '') == $role->name) ? 'selected' : '' }}>
                                             {{ ucfirst($role->name) }}

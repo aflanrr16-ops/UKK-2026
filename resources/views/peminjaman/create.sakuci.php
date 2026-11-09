@@ -19,7 +19,7 @@
                         </div>
                         <div>
                             <h4 class="fw-bold mb-1 text-white">Form. Peminjaman Alat</h4>
-                            <p class="text-white-50 small mb-0">Silakan lengkapi data transaksi peminjaman inventaris sekolah</p>
+                            <p class="text-white-50 small mb-0">Silakan lengkapi data transaksi peminjaman alat sekolah</p>
                         </div>
                     </div>
                     <a href="{{ route('peminjaman.index') }}" class="btn btn-light btn-sm rounded-pill px-3 fw-semibold shadow-sm d-none d-md-inline-flex align-items-center gap-1 text-dark">
@@ -40,7 +40,7 @@
                                         <i class="bi bi-person-fill text-purple me-1"></i> Pilih User / Peminjam
                                     </label>
                                     <select name="id_user" id="id_user" class="form-select rounded-3 shadow-none py-2 bg-light-subtle" required>
-                                        <option value="">-- Pilih User --</option>
+                                        <option value=""> Pilih User </option>
                                         @foreach($users as $user)
                                             <option value="{{ $user->id }}">{{ $user->nama ?? $user->name ?? $user->username }}</option>
                                         @endforeach
@@ -53,7 +53,7 @@
                                         <i class="bi bi-cpu-fill text-purple me-1"></i> Pilih Alat
                                     </label>
                                     <select name="id_alat" id="id_alat" class="form-select rounded-3 shadow-none py-2 bg-light-subtle" required>
-                                        <option value="">-- Pilih Alat --</option>
+                                        <option value=""> Pilih Alat </option>
                                         @foreach($alat as $item)
                                             <option value="{{ $item->id_alat }}">{{ $item->nama_alat ?? $item->nama }}</option>
                                         @endforeach

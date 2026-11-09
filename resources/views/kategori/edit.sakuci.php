@@ -14,7 +14,7 @@
                     <h2 class="fw-bold mb-1 text-body d-flex align-items-center gap-2">
                         <i class="bi bi-pencil-square" style="color: #A855F7;"></i> Edit Kategori
                     </h2>
-                    <p class="text-secondary small mb-0">Perbarui informasi data kategori inventaris di dalam sistem.</p>
+                    <p class="text-secondary small mb-0">Perbarui informasi data kategori alat sekolah di dalam sistem.</p>
                 </div>
                 <a href="{{ route('kategori.index') }}" class="btn btn-outline-secondary rounded-3 px-3 shadow-sm btn-sm">
                     <i class="bi bi-arrow-left me-1"></i> Kembali
@@ -57,7 +57,7 @@
                                 <input type="text" name="nama_kategori" id="nama_kategori" 
                                        class="form-control bg-body-tertiary border-secondary-subtle text-body py-2.5 px-3 rounded-end-3 shadow-none" 
                                        value="{{ old('nama_kategori', $data->nama_kategori) }}" 
-                                       placeholder="Contoh: Kordofon" required>
+                                       placeholder="Contoh: Alat Multimedia" required>
                             </div>
                         </div>
                         
@@ -72,7 +72,7 @@
                                 <input type="text" name="kode_kategori" id="kode_kategori" 
                                        class="form-control bg-body-tertiary border-secondary-subtle text-body py-2.5 px-3 rounded-end-3 shadow-none" 
                                        value="{{ old('kode_kategori', $data->kode_kategori) }}" 
-                                       placeholder="Contoh: K-01" required>
+                                       placeholder="Contoh: KT-01" required>
                             </div>
                         </div>
 

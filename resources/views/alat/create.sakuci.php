@@ -55,7 +55,7 @@
                                 <input type="text" name="nama_alat" id="nama_alat" 
                                        class="form-control bg-body-tertiary border-secondary-subtle text-body py-2" 
                                        value="{{ old('nama_alat') }}" 
-                                       placeholder="Contoh: Proyektor Epson EB-X400" required>
+                                       placeholder="Contoh: Proyektor " required>
                             </div>
                         </div>
 
@@ -88,7 +88,7 @@
                                     </span>
                                     <select name="id_kategori" id="id_kategori" 
                                             class="form-select bg-body-tertiary border-secondary-subtle text-body py-2" required>
-                                        <option value="" class="text-body">-- Pilih Kategori --</option>
+                                        <option value="" class="text-body"> Pilih Kategori </option>
                                         @foreach ($kategori as $k)
                                             <option value="{{ $k->id_kategori }}" class="text-body" {{ old('id_kategori') == $k->id_kategori ? 'selected' : '' }}>
                                                 {{ $k->nama_kategori }}

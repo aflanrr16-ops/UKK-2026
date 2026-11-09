@@ -17,7 +17,7 @@
                         </div>
                         <div>
                             <h4 class="fw-bold mb-1 text-white">Form Pengembalian Alat</h4>
-                            <p class="text-white-50 small mb-0">Catat transaksi pengembalian alat inventaris sekolah ke dalam sistem</p>
+                            <p class="text-white-50 small mb-0">Catat transaksi pengembalian alat sekolah ke dalam sistem</p>
                         </div>
                     </div>
                     <a href="{{ route('pengembalian.index') }}" class="btn btn-light btn-sm rounded-pill px-3 fw-semibold shadow-sm d-none d-md-inline-flex align-items-center gap-1 text-dark">
@@ -38,7 +38,7 @@
                                         <i class="bi bi-receipt text-purple me-1"></i> Pilih Peminjaman <span class="text-danger">*</span>
                                     </label>
                                     <select name="id_peminjaman" id="id_peminjaman" class="form-select rounded-3 shadow-none py-2 bg-light-subtle" required>
-                                        <option value="" disabled selected class="text-body">-- Pilih Data Peminjaman --</option>
+                                        <option value="" disabled selected class="text-body"> Pilih Data Peminjaman </option>
                                         @foreach($peminjaman as $p)
                                             @php
                                                 $pid = $p->id_peminjaman ?? $p->id;
@@ -68,7 +68,7 @@
                                         <i class="bi bi-clock-history text-purple me-1"></i> Terlambat (Hari)
                                     </label>
                                     <div class="form-control rounded-3 shadow-none py-2 bg-light-subtle text-muted small">
-                                        <i class="bi bi-cpu me-1"></i> Dihitung otomatis oleh sistem (PHP).
+                                        <i class=></i> Dihitung otomatis oleh sistem.
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                         <i class="bi bi-cash-stack text-purple me-1"></i> Denda (Rp)
                                     </label>
                                     <div class="form-control rounded-3 shadow-none py-2 bg-light-subtle text-muted small">
-                                        <i class="bi bi-cpu me-1"></i> Dihitung otomatis (Rp 2.000 / hari terlambat).
+                                        <i class=></i> Dihitung otomatis Rp 2.000 / hari terlambat.
                                     </div>
                                 </div>
 
