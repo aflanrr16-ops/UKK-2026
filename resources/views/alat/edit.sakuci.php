@@ -13,7 +13,7 @@
                     <h2 class="fw-bold mb-1 text-body d-flex align-items-center gap-2">
                         <i class="bi bi-pencil-square" style="color: #A855F7;"></i> Edit Alat
                     </h2>
-                    <p class="text-secondary small mb-0">Perbarui informasi data alat inventaris di dalam sistem.</p>
+                    <p class="text-secondary small mb-0">Perbarui informasi data alat sekolah di dalam sistem.</p>
                 </div>
                 <a href="{{ route('alat.index') }}" class="btn btn-outline-secondary rounded-3 px-3 shadow-sm btn-sm">
                     <i class="bi bi-arrow-left me-1"></i> Kembali
