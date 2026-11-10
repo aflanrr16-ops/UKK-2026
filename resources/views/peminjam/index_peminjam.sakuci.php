@@ -20,7 +20,7 @@
                     
                     <h2 class="fw-bold mb-2 text-white">Riwayat Peminjaman Alat</h2>
                     <p class="mb-0 text-white-50 fs-6" style="max-width: 650px;">
-                        Pantau rekapitulasi pengajuan peminjaman alat, status persetujuan, serta rincian denda Anda secara langsung.
+                        Pantau rekapitulasi pengajuan peminjaman alat, status persetujuan, serta ajukan pengembalian alat secara langsung.
                     </p>
                 </div>
                 <div>
@@ -41,11 +41,12 @@
                     <tr>
                         <th class="py-3 px-3 rounded-start-3 text-center" style="width: 60px;">#</th>
                         <th class="py-3">Nama Alat</th>
-                        <th class="py-3" style="width: 120px;">Jumlah</th>
-                        <th class="py-3" style="width: 140px;">Tgl Pinjam</th>
-                        <th class="py-3" style="width: 140px;">Tgl Kembali</th>
-                        <th class="py-3 text-center" style="width: 160px;">Status</th>
-                        <th class="py-3 px-3 rounded-end-3 text-end" style="width: 140px;">Denda</th>
+                        <th class="py-3" style="width: 110px;">Jumlah</th>
+                        <th class="py-3" style="width: 130px;">Tgl Pinjam</th>
+                        <th class="py-3" style="width: 130px;">Tgl Kembali</th>
+                        <th class="py-3 text-center" style="width: 150px;">Status</th>
+                        <th class="py-3 text-end" style="width: 120px;">Denda</th>
+                        <th class="py-3 px-3 rounded-end-3 text-center" style="width: 160px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="fs-7">
@@ -82,7 +83,7 @@
                             </span>
                         </td>
                         
-                        <!-- TANGGAL KEMBALI: Mengambil tanggal pengembalian aktual dari admin -->
+                        <!-- TANGGAL KEMBALI -->
                         <td>
                             <span class="text-body-secondary fs-8 fw-medium">
                                 @if($pengembalianData && $pengembalianData->tanggal_pengembalian)
@@ -102,7 +103,11 @@
                                 </span>
                             @elseif($peminjaman->status == 'Disetujui' || $peminjaman->status == 'Dipinjam')
                                 <span class="badge rounded-pill px-3 py-1.5 fw-semibold fs-8" style="background: rgba(168, 85, 247, 0.12); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.25);">
-                                    <i class="bi bi-tools me-1"></i> {{ $peminjaman->status == 'Disetujui' ? 'Disetujui' : 'Dipinjam' }}
+                                    <i class="bi bi-tools me-1"></i> Disetujui
+                                </span>
+                            @elseif($peminjaman->status == 'Menunggu Pengembalian')
+                                <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-3 py-1.5 fw-semibold fs-8">
+                                    <i class="bi bi-clock-history me-1"></i> Verifikasi Pengembalian
                                 </span>
                             @elseif($peminjaman->status == 'Ditolak')
                                 <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1.5 fw-semibold fs-8">
@@ -115,8 +120,8 @@
                             @endif
                         </td>
 
-                        <!-- DENDA: Mengambil nominal denda otomatis dari pengembalian admin -->
-                        <td class="px-3 text-end">
+                        <!-- DENDA -->
+                        <td class="text-end">
                             @php
                                 $dendaFinal = ($pengembalianData ? $pengembalianData->denda : null) ?? ($peminjaman->denda ?? 0);
                             @endphp
@@ -129,10 +134,29 @@
                                 <span class="text-body-tertiary fs-8 fw-semibold">Rp 0</span>
                             @endif
                         </td>
+
+                        <!-- AKSI: Tombol Ajukan Pengembalian untuk Peminjam -->
+                        <td class="px-3 text-center">
+                            @if($peminjaman->status == 'Disetujui' || $peminjaman->status == 'Dipinjam')
+                                <a href="{{ route('peminjam.ajukanPengembalian', ['id' => $peminjaman->id_peminjaman]) }}" 
+                                   class="btn btn-sm text-white fw-semibold rounded-pill px-3 py-1.5 fs-8 d-inline-flex align-items-center gap-1 shadow-sm"
+                                   style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); border: none;"
+                                   onclick="return confirm('Yakin ingin mengajukan pengembalian alat ini ke petugas?')">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                    <span>Kembalikan</span>
+                                </a>
+                            @elseif($peminjaman->status == 'Menunggu Pengembalian')
+                                <span class="text-secondary fs-8 fst-italic">Menunggu Petugas</span>
+                            @elseif($peminjaman->status == 'Selesai' || $peminjaman->status == 'Dikembalikan')
+                                <span class="text-success fs-8 fw-semibold"><i class="bi bi-check2-all"></i> Selesai</span>
+                            @else
+                                <span class="text-muted fs-8">-</span>
+                            @endif
+                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center py-5 text-secondary">
+                        <td colspan="8" class="text-center py-5 text-secondary">
                             <div class="py-3">
                                 <i class="bi bi-inbox display-5 text-muted opacity-50 mb-3 d-block"></i>
                                 <span class="fw-medium">Belum ada riwayat pengajuan peminjaman alat.</span>

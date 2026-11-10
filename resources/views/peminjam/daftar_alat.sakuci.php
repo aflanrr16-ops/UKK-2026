@@ -130,8 +130,8 @@
                                 
                                 <div class="d-flex align-items-center gap-2 mt-2">
                                     @if(isset($stokAlat))
-                                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill fs-8 px-2.5 py-1.5 fw-semibold d-inline-flex align-items-center">
-                                            <i class="bi bi-check-circle-fill me-1.5"></i> Stok: {{ $stokAlat }} Unit
+                                        <span class="badge {{ $stokAlat > 0 ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-danger-subtle text-danger border border-danger-subtle' }} rounded-pill fs-8 px-2.5 py-1.5 fw-semibold d-inline-flex align-items-center">
+                                            <i class="bi {{ $stokAlat > 0 ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }} me-1.5"></i> Stok: {{ $stokAlat }} Unit
                                         </span>
                                     @else
                                         <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill fs-8 px-2.5 py-1.5 fw-semibold d-inline-flex align-items-center">
@@ -144,12 +144,21 @@
 
                         <!-- Footer Action Button -->
                         <div class="pt-3.5 mt-3 border-top border-translucent">
-                            <a href="{{ route('peminjam.createPeminjam') . '?id_alat=' . $alatId }}" 
-                               class="btn btn-action-borrow w-100 py-2.5 rounded-3 fw-semibold d-flex align-items-center justify-content-center gap-3 shadow-sm">
-                                <i class="bi bi-handbag-fill fs-6"></i>
-                                <span>Ajukan Peminjaman</span>
-                                <i class="bi bi-arrow-right-short fs-5 ms-1"></i>
-                            </a>
+                            @if(isset($stokAlat) && $stokAlat <= 0)
+                                <!-- Jika stok 0 atau habis, tombol mati / non-aktif -->
+                                <button type="button" class="btn btn-secondary w-100 py-2.5 rounded-3 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-none" disabled style="opacity: 0.65; cursor: not-allowed;">
+                                    <i class="bi bi-x-circle-fill fs-6"></i>
+                                    <span>Stok Habis (Tidak Bisa Dipinjam)</span>
+                                </button>
+                            @else
+                                <!-- Jika stok masih ada (> 0), tombol aktif -->
+                                <a href="{{ route('peminjam.createPeminjam') . '?id_alat=' . $alatId }}" 
+                                   class="btn btn-action-borrow w-100 py-2.5 rounded-3 fw-semibold d-flex align-items-center justify-content-center gap-3 shadow-sm">
+                                    <i class="bi bi-handbag-fill fs-6"></i>
+                                    <span>Ajukan Peminjaman</span>
+                                    <i class="bi bi-arrow-right-short fs-5 ms-1"></i>
+                                </a>
+                            @endif
                         </div>
 
                     </div>

@@ -41,7 +41,7 @@
 
                     <form action="{{ route('alat.update', ['id_alat' => $datal->id_alat]) }}" method="POST">
                         @csrf
-                        @method('GET')
+                        @method('POST') 
 
                         <!-- Nama Alat Field -->
                         <div class="mb-4">
@@ -96,6 +96,22 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- DITAMBAHKAN: Input Stok Alat pada Form Edit -->
+                        <div class="mb-4">
+                            <label for="stok" class="form-label fw-semibold text-body fs-7">
+                                Jumlah Stok <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary border-secondary-subtle text-secondary">
+                                    <i class="bi bi-stack"></i>
+                                </span>
+                                <input type="number" name="stok" id="stok" 
+                                       class="form-control bg-body-tertiary border-secondary-subtle text-body py-2.5 px-3 rounded-end-3 shadow-none" 
+                                       value="{{ old('stok', $datal->stok) }}" 
+                                       min="0" placeholder="Contoh: 10" required>
                             </div>
                         </div>
 

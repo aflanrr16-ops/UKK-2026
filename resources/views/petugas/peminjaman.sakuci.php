@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', config('app.name') . ' — Verifikasi Peminjaman')
+@section('title', config('app.name') . ' — Verifikasi Peminjaman & Pengembalian')
 
 @section('content')
 <div class="container-fluid py-4 px-3 px-md-4">
@@ -20,9 +20,9 @@
                             <i class="bi bi-shield-check me-1"></i> Verifikasi Operasional
                         </span>
                     </div>
-                    <h3 class="fw-bold mb-1 text-white">Persetujuan Peminjaman Alat</h3>
+                    <h3 class="fw-bold mb-1 text-white">Persetujuan Peminjaman &amp; Pengembalian Alat</h3>
                     <p class="text-white-50 small mb-0" style="max-width: 620px;">
-                        Verifikasi dan proses pengajuan peminjaman alat serta inventaris sekolah dari siswa.
+                        Verifikasi pengajuan peminjaman baru serta periksa fisik alat untuk menyetujui pengembalian dari siswa.
                     </p>
                 </div>
                 <div>
@@ -53,14 +53,14 @@
         </div>
     @endif
 
-    <!-- Tabel Verifikasi Peminjaman -->
+    <!-- Tabel Verifikasi Peminjaman & Pengembalian -->
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-body">
         <div class="card-header bg-body border-bottom py-3 px-4">
             <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-hourglass-split text-purple fs-5"></i>
                 <div>
-                    <h6 class="card-title mb-0 fw-semibold text-body-emphasis">Antrean Verifikasi Peminjaman</h6>
-                    <span class="text-secondary small">Setujui atau tolak pengajuan agar proses peminjaman jelas</span>
+                    <h6 class="card-title mb-0 fw-semibold text-body-emphasis">Antrean Verifikasi &amp; Pengembalian Alat</h6>
+                    <span class="text-secondary small">Proses persetujuan pinjam atau verifikasi fisik pengembalian alat</span>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                             <th class="py-3 px-3">ID PEMINJAMAN</th>
                             <th class="py-3 px-3">ALAT &amp; PEMINJAM</th>
                             <th class="py-3 px-3">STATUS</th>
-                            <th class="py-3 px-4 text-center" style="width: 230px;">AKSI PETUGAS</th>
+                            <th class="py-3 px-4 text-center" style="width: 250px;">AKSI PETUGAS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,7 +91,6 @@
                             </td>
                             <td class="px-3">
                                 <div class="fw-bold text-body-emphasis small">
-                                    <!-- Ikon alat diganti dengan bi-tools -->
                                     <i class="bi bi-tools text-purple me-1"></i>
                                     {{ $item->data_alat->nama_alat ?? ($item->data_alat->nama ?? 'Alat ID: ' . $item->id_alat) }}
                                 </div>
@@ -103,14 +102,17 @@
                                 @if(strtolower($item->status) == 'pending' || strtolower($item->status) == 'menunggu')
                                     <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2.5 py-1.5 rounded-2 small fw-semibold">Pending</span>
                                 @elseif(strtolower($item->status) == 'disetujui' || strtolower($item->status) == 'dipinjam')
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1.5 rounded-2 small fw-semibold">Disetujui</span>
+                                    <span class="badge bg-purple-subtle text-purple border border-purple-subtle px-2.5 py-1.5 rounded-2 small fw-semibold" style="background: rgba(168, 85, 247, 0.12); color: #a855f7;">Disetujui</span>
+                                @elseif($item->status == 'Menunggu Pengembalian')
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle px-2.5 py-1.5 rounded-2 small fw-semibold">Menunggu Pengembalian</span>
                                 @elseif(strtolower($item->status) == 'ditolak')
                                     <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1.5 rounded-2 small fw-semibold">Ditolak</span>
                                 @else
-                                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1.5 rounded-2 small fw-semibold">{{ $item->status }}</span>
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1.5 rounded-2 small fw-semibold">{{ $item->status }}</span>
                                 @endif
                             </td>
                             <td class="px-4 text-center">
+                                <!-- 1. JIKA STATUS PENDING (Verifikasi Peminjaman Baru) -->
                                 @if(strtolower($item->status) == 'pending' || strtolower($item->status) == 'menunggu')
                                     <div class="d-inline-flex gap-2">
                                         <form action="{{ route('petugas.peminjaman.setujui', [$item->id_peminjaman]) }}" method="POST" class="m-0">
@@ -127,14 +129,32 @@
                                             </button>
                                         </form>
                                     </div>
+
+                                <!-- 2. JIKA STATUS MENUNGGU PENGEMBALIAN (Verifikasi Fisik & Kembalikan Stok) -->
+                                @elseif($item->status == 'Menunggu Pengembalian')
+                                    <form action="{{ route('petugas.pengembalian.setujui', [$item->id_peminjaman]) }}" method="POST" class="m-0"
+                                          onsubmit="return confirm('Pastikan fisik alat sudah dicek dan diterima dengan baik. Setujui pengembalian ini?');">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-success rounded-2 px-3 py-1.5 fw-semibold shadow-sm small d-inline-flex align-items-center gap-1 text-white">
+                                            <i class="bi bi-check-circle me-1"></i> Setujui Pengembalian
+                                        </button>
+                                    </form>
+
+                                <!-- 3. JIKA DITOLAK -->
                                 @elseif(strtolower($item->status) == 'ditolak')
                                     <span class="text-danger small fw-semibold d-inline-flex align-items-center gap-1">
                                         <i class="bi bi-x-circle fs-6"></i> Telah Ditolak
                                     </span>
-                                @else
+
+                                <!-- 4. JIKA SELESAI / DIKEMBALIKAN -->
+                                @elseif($item->status == 'Dikembalikan' || $item->status == 'Selesai')
                                     <span class="text-success small fw-semibold d-inline-flex align-items-center gap-1">
-                                        <i class="bi bi-check-all fs-6"></i> Telah Disetujui
+                                        <i class="bi bi-check-all fs-6"></i> Selesai (Dikembalikan)
                                     </span>
+
+                                <!-- 5. KONDISI LAIN (Disetujui / Sedang Dipinjam tapi belum ajukan kembali) -->
+                                @else
+                                    <span class="text-secondary small fst-italic">Sedang Dipinjam</span>
                                 @endif
                             </td>
                         </tr>
@@ -143,7 +163,7 @@
                             <td colspan="5" class="text-center py-5 text-secondary">
                                 <div class="d-flex flex-column align-items-center gap-2">
                                     <i class="bi bi-inbox fs-1 opacity-50 text-secondary"></i>
-                                    <span class="small fw-medium">Belum ada data pengajuan peminjaman yang perlu diverifikasi.</span>
+                                    <span class="small fw-medium">Belum ada data pengajuan peminjaman atau pengembalian yang perlu diverifikasi.</span>
                                 </div>
                             </td>
                         </tr>

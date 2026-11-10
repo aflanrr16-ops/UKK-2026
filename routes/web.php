@@ -1,5 +1,4 @@
 <?php
-
 use App\Controllers\Core\AuthController;
 use App\Controllers\Core\DashboardController;
 use App\Controllers\Core\DatabaseController;
@@ -90,6 +89,10 @@ Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
     Route::get('/peminjam/ajukan', [PeminjamanController::class, 'createPeminjam'])->name('peminjam.createPeminjam');
     Route::post('/peminjam/ajukan', [PeminjamanController::class, 'storePeminjam'])->name('peminjam.storePeminjam');
     Route::get('/riwayat-peminjaman', [PeminjamanController::class, 'indexPeminjam'])->name('peminjam.riwayat');
+    
+    // Rute peminjam mengajukan pengembalian alat
+    Route::get('/peminjaman/{id}/ajukan-pengembalian', [PeminjamanController::class, 'ajukanPengembalian'])->name('peminjam.ajukanPengembalian');
+
     Route::get('/pengembalian/ajukan', [PengembalianController::class, 'createPeminjam'])->name('peminjam.pengembalian.create');
     Route::post('/pengembalian/store', [PengembalianController::class, 'storePeminjam'])->name('peminjam.pengembalian.store');
 });
@@ -102,6 +105,11 @@ Route::group(['prefix' => 'petugas', 'middleware' => 'petugas'], function () {
     Route::get('/peminjaman', [PeminjamanController::class, 'indexPetugas'])->name('petugas.peminjaman.index');
     Route::post('/peminjaman/{id}/setujui', [PeminjamanController::class, 'setujuiPetugas'])->name('petugas.peminjaman.setujui');
     Route::post('/peminjaman/{id}/tolak', [PeminjamanController::class, 'tolakPetugas'])->name('petugas.peminjaman.tolak');
+    
     Route::get('/pengembalian', [PengembalianController::class, 'indexPetugas'])->name('petugas.pengembalian.index');
+    
+    // Rute petugas menyetujui pengembalian alat (mengembalikan stok ke database)
+    Route::post('/pengembalian/{id}/setujui', [PeminjamanController::class, 'setujuiPengembalian'])->name('petugas.pengembalian.setujui');
+    
     Route::get('/pengembalian/cetak', [PengembalianController::class, 'cetakPetugas'])->name('petugas.pengembalian.cetak');
 });

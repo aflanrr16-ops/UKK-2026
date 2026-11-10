@@ -74,11 +74,9 @@ class PengembalianController extends Controller
             'catatan'              => 'nullable|string',
         ]);
 
-        // 1. Ambil data peminjaman untuk cek tanggal jatuh tempo
         $peminjaman = Peminjaman::findOrFail($validatedData['id_peminjaman']);
         $tglJatuhTempo = $peminjaman->tanggal_kembali ?? $peminjaman->tanggal_selesai ?? date('Y-m-d');
 
-        // 2. Hitung otomatis selisih hari dan denda menggunakan PHP (DateTime)
         $tglRencana = new \DateTime($tglJatuhTempo);
         $tglAktual = new \DateTime($validatedData['tanggal_pengembalian']);
         
@@ -91,20 +89,15 @@ class PengembalianController extends Controller
         if ($tglAktual > $tglRencana) {
             $interval = $tglRencana->diff($tglAktual);
             $selisihHari = $interval->days;
-            
-            // Tentukan tarif denda per hari (Contoh: Rp 2.000 per hari, silakan ubah sesuai kebutuhan)
             $tarifDendaPerHari = 2000; 
             $denda = $selisihHari * $tarifDendaPerHari;
         }
 
-        // 3. Masukkan hasil perhitungan otomatis ke database
         $validatedData['terlambat_hari'] = $selisihHari;
         $validatedData['denda']          = $denda;
         $validatedData['kondisi_barang'] = $validatedData['kondisi_barang'] ?? 'Baik';
 
         Pengembalian::create($validatedData);
-
-        // Update status peminjaman jadi Dikembalikan
         $peminjaman->update(['status' => 'Dikembalikan']);
 
         $currentUser = User::current();
@@ -147,7 +140,6 @@ class PengembalianController extends Controller
             'catatan'              => 'nullable|string',
         ]);
 
-        // Hitung ulang otomatis saat di-update jika tanggal pengembalian diubah
         $peminjaman = Peminjaman::findOrFail($validatedData['id_peminjaman']);
         $tglJatuhTempo = $peminjaman->tanggal_kembali ?? $peminjaman->tanggal_selesai ?? date('Y-m-d');
 
@@ -252,15 +244,23 @@ class PengembalianController extends Controller
         $validatedData['denda']          = $denda;
         $validatedData['kondisi_barang'] = $validatedData['kondisi_barang'] ?? 'Baik';
 
-        Pengembalian::create($validatedData);
-        $peminjaman->update(['status' => 'Dikembalikan']);
+        // Simpan input siswa ke tabel pengembalian (agar kondisi & catatan tersimpan)
+        $existingPengembalian = Pengembalian::where('id_peminjaman', $validatedData['id_peminjaman'])->first();
+        if ($existingPengembalian) {
+            $existingPengembalian->update($validatedData);
+        } else {
+            Pengembalian::create($validatedData);
+        }
+        
+        // Ubah status peminjaman menjadi 'Menunggu Pengembalian'
+        $peminjaman->update(['status' => 'Menunggu Pengembalian']);
 
         LogAktifitas::create([
             'id_user'   => $currentUser->id,
             'aktifitas' => 'Peminjam ' . ($currentUser->username ?? 'Siswa') . ' mengajukan pengembalian alat.'
         ]);
 
-        return redirect(route('peminjam.riwayat'))->with('success', 'Pengajuan pengembalian berhasil dikirim.');
+        return redirect(route('peminjam.riwayat'))->with('success', 'Pengajuan pengembalian berhasil dikirim. Menunggu verifikasi petugas.');
     }
 
 
@@ -275,7 +275,9 @@ class PengembalianController extends Controller
             return redirect(route('login'))->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        $datap = Pengembalian::orderBy('id_pengembalian', 'desc')->paginate(10);
+        // HANYA TAMPILKAN data pengembalian yang peminjamannya sudah berstatus 'Dikembalikan'
+        $validIds = Peminjaman::where('status', 'Dikembalikan')->pluck('id_peminjaman');
+        $datap = Pengembalian::whereIn('id_peminjaman', $validIds)->orderBy('id_pengembalian', 'desc')->paginate(10);
         
         $peminjaman = Peminjaman::all();
         $users = User::all();
@@ -309,7 +311,8 @@ class PengembalianController extends Controller
             return redirect(route('login'))->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        $datap = Pengembalian::orderBy('id_pengembalian', 'desc')->get();
+        $validIds = Peminjaman::where('status', 'Dikembalikan')->pluck('id_peminjaman');
+        $datap = Pengembalian::whereIn('id_peminjaman', $validIds)->orderBy('id_pengembalian', 'desc')->get();
         
         $peminjaman = Peminjaman::all();
         $users = User::all();

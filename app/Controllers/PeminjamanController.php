@@ -16,7 +16,6 @@ class PeminjamanController
 
     public function index(Request $request)
     {
-        // DITAMBAHKAN ->with('pengembalian') agar data denda dan tanggal kembali dari pengembalian ikut terpanggil di admin
         $datap = Peminjaman::with('pengembalian')
                            ->orderBy('id_peminjaman', 'desc')
                            ->paginate(4);
@@ -39,9 +38,23 @@ class PeminjamanController
             $data['status'] = 'Pending';
         }
 
+        if (isset($data['status']) && $data['status'] === 'Disetujui') {
+            $jumlah = $data['jumlah'] ?? $data['jml'] ?? $data['qty'] ?? 1;
+            $alat = Alat::where('id_alat', $data['id_alat'])->first();
+            if ($alat) {
+                if ($alat->stok <= 0) {
+                    return redirect(route('peminjaman.index'))->with('error', 'Gagal! Stok alat ini sudah habis (0 unit).');
+                }
+                if ($alat->stok < $jumlah) {
+                    return redirect(route('peminjaman.index'))->with('error', 'Gagal! Stok tidak mencukupi (Sisa stok: ' . $alat->stok . ').');
+                }
+                $alat->stok = max(0, $alat->stok - $jumlah);
+                $alat->save();
+            }
+        }
+
         Peminjaman::create($data);
 
-        // Pencatatan Log Aktivitas Admin
         $currentUser = User::current();
         LogAktifitas::create([
             'id_user'   => $currentUser->id ?? null,
@@ -71,6 +84,20 @@ class PeminjamanController
         }
 
         $input = $request->all();
+        $statusLama = $peminjaman->status;
+        $statusBaru = $input['status'] ?? $statusLama;
+
+        // Stok bertambah jika status diubah menjadi Dikembalikan / Selesai
+        if ((strtolower($statusBaru) === 'dikembalikan' || strtolower($statusBaru) === 'selesai') && 
+            (strtolower($statusLama) !== 'dikembalikan' && strtolower($statusLama) !== 'selesai')) {
+            
+            $alat = Alat::where('id_alat', $peminjaman->id_alat)->first();
+            if ($alat) {
+                $jumlah = $peminjaman->jumlah ?? $peminjaman->jml ?? $peminjaman->qty ?? 1;
+                $alat->stok += $jumlah;
+                $alat->save();
+            }
+        }
 
         if (empty($input['id_alat'])) {
             $input['id_alat'] = $peminjaman->id_alat;
@@ -98,6 +125,15 @@ class PeminjamanController
     {
         $peminjaman = Peminjaman::where('id_peminjaman', $id)->first();
         if ($peminjaman) {
+            if ($peminjaman->status === 'Disetujui') {
+                $alat = Alat::where('id_alat', $peminjaman->id_alat)->first();
+                if ($alat) {
+                    $jumlah = $peminjaman->jumlah ?? $peminjaman->jml ?? $peminjaman->qty ?? 1;
+                    $alat->stok += $jumlah;
+                    $alat->save();
+                }
+            }
+
             $peminjaman->delete();
 
             $currentUser = User::current();
@@ -146,6 +182,22 @@ class PeminjamanController
         }
 
         $data = $request->all();
+        
+        $idAlat = $data['id_alat'] ?? null;
+        $jumlahDipinjam = $data['jumlah'] ?? $data['jml'] ?? $data['qty'] ?? 1;
+
+        if ($idAlat) {
+            $alat = Alat::where('id_alat', $idAlat)->first();
+            if ($alat) {
+                if ($alat->stok <= 0) {
+                    return redirect(route('peminjam.createPeminjam') . '?id_alat=' . $idAlat)->with('error', 'Maaf, stok alat ini sudah habis (0 unit) dan tidak dapat dipinjam.');
+                }
+                if ($alat->stok < $jumlahDipinjam) {
+                    return redirect(route('peminjam.createPeminjam') . '?id_alat=' . $idAlat)->with('error', 'Maaf, jumlah pinjaman melebihi sisa stok yang ada (Sisa stok: ' . $alat->stok . ').');
+                }
+            }
+        }
+
         $data['id_user'] = $currentUser->id;
         $data['status'] = 'Pending';
 
@@ -157,6 +209,33 @@ class PeminjamanController
         ]);
 
         return redirect(route('peminjam.riwayat'))->with('success', 'Pengajuan peminjaman berhasil dikirim dan masuk ke daftar riwayat!');
+    }
+
+    public function ajukanPengembalian(Request $request, $id)
+    {
+        $currentUser = User::current();
+        if (!$currentUser) {
+            return redirect(route('login'))->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $peminjaman = Peminjaman::where('id_peminjaman', $id)
+                                ->where('id_user', $currentUser->id)
+                                ->first();
+
+        if (!$peminjaman) {
+            return redirect(route('peminjam.riwayat'))->with('error', 'Data peminjaman tidak ditemukan.');
+        }
+
+        $peminjaman->update([
+            'status' => 'Menunggu Pengembalian'
+        ]);
+
+        LogAktifitas::create([
+            'id_user'   => $currentUser->id,
+            'aktifitas' => 'Peminjam mengajukan pengembalian alat untuk transaksi ID: ' . $id
+        ]);
+
+        return redirect(route('peminjam.riwayat'))->with('success', 'Pengajuan pengembalian berhasil dikirim. Menunggu verifikasi petugas.');
     }
 
 
@@ -200,6 +279,20 @@ class PeminjamanController
             return redirect(route('petugas.peminjaman.index'))->with('error', 'Data peminjaman tidak ditemukan.');
         }
 
+        $jumlah = $peminjaman->jumlah ?? $peminjaman->jml ?? $peminjaman->qty ?? 1;
+        $alat = Alat::where('id_alat', $peminjaman->id_alat)->first();
+        
+        if ($alat) {
+            if ($alat->stok <= 0) {
+                return redirect(route('petugas.peminjaman.index'))->with('error', 'Gagal! Stok alat sudah habis (0 unit).');
+            }
+            if ($alat->stok < $jumlah) {
+                return redirect(route('petugas.peminjaman.index'))->with('error', 'Gagal! Stok alat tidak mencukupi (Sisa stok: ' . $alat->stok . ').');
+            }
+            $alat->stok = max(0, $alat->stok - $jumlah);
+            $alat->save();
+        }
+
         $peminjaman->update([
             'status' => 'Disetujui'
         ]);
@@ -210,7 +303,7 @@ class PeminjamanController
             'aktifitas' => 'Petugas menyetujui transaksi peminjaman (ID: ' . $id . ').'
         ]);
 
-        return redirect(route('petugas.peminjaman.index'))->with('success', 'Peminjaman alat berhasil disetujui!');
+        return redirect(route('petugas.peminjaman.index'))->with('success', 'Peminjaman alat berhasil disetujui dan stok otomatis berkurang!');
     }
 
     public function tolakPetugas(Request $request, $id)
@@ -237,5 +330,69 @@ class PeminjamanController
         ]);
 
         return redirect(route('petugas.peminjaman.index'))->with('success', 'Peminjaman alat ditolak.');
+    }
+
+    public function setujuiPengembalian(Request $request, $id)
+    {
+        $peminjaman = Peminjaman::where('id_peminjaman', $id)->first();
+
+        if (!$peminjaman) {
+            return redirect(route('petugas.peminjaman.index'))->with('error', 'Data peminjaman tidak ditemukan.');
+        }
+
+        if ($peminjaman->status !== 'Menunggu Pengembalian') {
+            return redirect(route('petugas.peminjaman.index'))->with('error', 'Status peminjaman bukan pengajuan pengembalian.');
+        }
+
+        $jumlah = $peminjaman->jumlah ?? $peminjaman->jml ?? $peminjaman->qty ?? 1;
+        $alat = Alat::where('id_alat', $peminjaman->id_alat)->first();
+        
+        if ($alat) {
+            $alat->stok += $jumlah;
+            $alat->save();
+        }
+
+        $peminjaman->update([
+            'status' => 'Dikembalikan'
+        ]);
+
+        // Jika belum ada record pengembalian (misal lewat tombol cepat), buat default. Jika sudah ada (dari form siswa), biarkan inputan asli siswa (kondisi & catatan) tetap utuh!
+        if (class_exists('App\Models\Pengembalian')) {
+            $pengembalianSiswa = \App\Models\Pengembalian::where('id_peminjaman', $id)->first();
+
+            if (!$pengembalianSiswa) {
+                $tglJatuhTempo = $peminjaman->tanggal_kembali ?? $peminjaman->tanggal_selesai ?? date('Y-m-d');
+                $tglRencana = new \DateTime($tglJatuhTempo);
+                $tglAktual = new \DateTime(date('Y-m-d'));
+                
+                $tglRencana->setTime(0, 0, 0);
+                $tglAktual->setTime(0, 0, 0);
+
+                $selisihHari = 0;
+                $denda = 0;
+                if ($tglAktual > $tglRencana) {
+                    $interval = $tglRencana->diff($tglAktual);
+                    $selisihHari = $interval->days;
+                    $denda = $selisihHari * 2000;
+                }
+
+                \App\Models\Pengembalian::create([
+                    'id_peminjaman'        => $peminjaman->id_peminjaman,
+                    'tanggal_pengembalian' => date('Y-m-d'),
+                    'kondisi_barang'       => 'Baik',
+                    'terlambat_hari'       => $selisihHari,
+                    'denda'                => $denda,
+                    'catatan'              => 'Disetujui oleh petugas'
+                ]);
+            }
+        }
+
+        $currentUser = User::current();
+        LogAktifitas::create([
+            'id_user'   => $currentUser->id ?? null,
+            'aktifitas' => 'Petugas memverifikasi dan menyetujui pengembalian alat (ID: ' . $id . '). Stok alat bertambah.'
+        ]);
+
+        return redirect(route('petugas.peminjaman.index'))->with('success', 'Pengajuan pengembalian berhasil diverifikasi, stok dikembalikan, dan masuk ke laporan!');
     }
 }

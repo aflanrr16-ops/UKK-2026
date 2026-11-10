@@ -22,14 +22,13 @@
 
             <!-- Card Utama Form -->
             <div class="card border-0 shadow rounded-4 overflow-hidden">
-                <!-- BARIS 25: Aksen Garis Gradien Ungu (#A855F7) -->
+                <!-- Aksen Garis Gradien Ungu (#A855F7) -->
                 <div style="height: 6px; background: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);"></div>
 
                 <div class="card-body p-4 p-md-5">
                     
                     <!-- Header Kartu Internal -->
                     <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom border-secondary-subtle">
-                        <!-- BARIS 31: Kotak Ikon Header Ungu (#A855F7) -->
                         <div class="rounded-3 text-white d-flex align-items-center justify-content-center shadow-sm" 
                              style="background: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%); width: 48px; height: 48px; flex-shrink: 0;">
                             <i class="bi bi-plus-circle-fill fs-5"></i>
@@ -99,12 +98,28 @@
                             </div>
                         </div>
 
+                        <!-- DITAMBAHKAN: Input Stok Alat -->
+                        <div class="mb-4">
+                            <label for="stok" class="form-label fw-semibold text-body">
+                                Jumlah Stok Awal <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary border-secondary-subtle text-secondary">
+                                    <i class="bi bi-stack"></i>
+                                </span>
+                                <input type="number" name="stok" id="stok" 
+                                       class="form-control bg-body-tertiary border-secondary-subtle text-body py-2" 
+                                       value="{{ old('stok') }}" 
+                                       min="0" placeholder="Contoh: 10" required>
+                            </div>
+                        </div>
+
                         <!-- Tombol Aksi -->
                         <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top border-secondary-subtle">
                             <a href="{{ route('alat.index') }}" class="btn btn-outline-secondary px-4 py-2 rounded-3 fw-semibold">
                                 <i class="bi bi-x-circle me-1"></i> Batal
                             </a>
-                            <!-- BARIS 99: Tombol Simpan Ungu (#A855F7) -->
+                            <!-- Tombol Simpan Ungu (#A855F7) -->
                             <button type="submit" class="btn text-white px-4 py-2 rounded-3 fw-bold shadow-sm" 
                                     style="background: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%); border: none;">
                                 <i class="bi bi-check-circle-fill me-1"></i> Simpan Alat
