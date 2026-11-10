@@ -1,4 +1,13 @@
 # Sakuci Framework
+username dan password :
+untuk:admin 
+username:admin 
+password:admin123
+
+untuk:petugas
+username:petrugas
+password:petugas123
+
 
 Kerangka PHP ringan bergaya Laravel -- **Route, Model, View, Controller** -- tanpa Composer,
 tanpa dependensi eksternal. Cukup PHP OOP murni.
