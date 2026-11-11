@@ -7,8 +7,5 @@ CREATE TABLE IF NOT EXISTS `pengembalian` (
     `kondisi_barang`       VARCHAR(100) DEFAULT 'Baik',
     `catatan`              TEXT NULL,
     `created_at`           DATETIME NULL,
-    `updated_at`           DATETIME NULL,
-
-        FOREIGN KEY (`id_peminjaman`) REFERENCES `peminjaman` (`id_peminjaman`) 
-        ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `updated_at`           DATETIME NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
